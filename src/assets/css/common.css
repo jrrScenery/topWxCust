@@ -1,0 +1,12 @@
+/*reset and common start*/
+html{font-size: 625%;height: 100%;}
+body,div,span,h1,h2,h3,h4,h5,h6,p,a,ol,ul,li,dl,dt,dd,input,img,form,button,blockquote,strong{ font-weight:normal;margin:0; padding:0; list-style:none; border:0;}
+body{ font-family: '微软雅黑'; font-weight:normal; font-size: 0.13rem; height: 100%;}
+a{text-decoration:none; color:#000;border:none;padding:0;margin:0;}
+a:hover{text-decoration:none;}
+img{ border:none; width:100%;}
+input,button,a,textarea{ outline:none;}
+input::placeholder,textarea::placeholder{ color: #cccccc; font-size: 0.14rem;}
+em{font-style: normal;}
+/*reset and common end*/
+

@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0, user-scalable=no">
+    <title>交付宝</title>
+  </head>
+  <body>
+    <script type="text/javascript" src="https://cdn.staticfile.org/vue/2.5.2/vue.js"></script>
+    <!-- <script type="text/javascript" src="/vue.js"></script> -->
+    <script>Vue.config.productionTip=false</script>
+    <!-- 引入组件库 -->
+    <script type="text/javascript" src="https://cdn.staticfile.org/element-ui/2.4.3/index.js"></script>
+    <!-- <script type="text/javascript" src="/element_ui.js"></script> -->
+<!--     <script>
+      if(typeof(android)!="undefined"){
+        android.getClient("element-ui");              
+      }
+    </script> -->
+    <script type="text/javascript" src="http://cdn.bootcss.com/echarts/4.1.0/echarts.simple.min.js"></script>
+<!--     <script>
+      if(typeof(android)!="undefined"){
+        android.getClient("echarts");              
+      }
+    </script> -->
+    <script type="text/javascript" src="http://api.map.baidu.com/api?v=2.0&ak=69Ua6H7RQdqdTsUFIWCSvftpeYv4Rlnp">
+    <script>
+      if(typeof(android)!="undefined"){
+        android.getClient("map");              
+      }
+    </script>
+    </script>
+    <div id="app"></div>
+    <!-- built files will be auto injected -->
+  </body>
+</html>
+
+<style>
+  *{
+    margin: 0;
+    padding: 0;
+  }
+  html{
+    width: 100%;
+    height: 100%;
+    overflow: auto;
+  }
+  body{
+    width: 100%;
+    height: 100%;
+    background: #f7f7f7;
+    overflow:hidden;
+  }
+  body{overflow:scroll;}
+  .msgdefine{ top:50%; width: 80%; min-width: 200px;;}
+  .is-finish .el-step__line{ background:#409EFF;}
+</style>
