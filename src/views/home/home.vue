@@ -205,8 +205,9 @@ export default {
         "projData":{busy:true,loadall:false},
       }
       // this.fetchData();
-      fetch.get("?action=/system/checkSession",{}).then(res=>{
+      fetch.get("?action=checkSession",{}).then(res=>{
         console.log("55555555555");
+        console.log(res);
         this.fetchData();
       });
     }
