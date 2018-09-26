@@ -42,7 +42,7 @@ export default {
   created () {
     // this.ruleForm.userName = this.getCookie('username');
     if(this.ruleForm.checked){
-      fetch.get("?action=/system/checkSession","").then(res=>{
+      fetch.get("?action=checkSession","").then(res=>{
         console.log(res);
         var token = localStorage.getItem("token");
 
