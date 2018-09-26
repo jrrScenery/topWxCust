@@ -1,12 +1,14 @@
 <!--填写搜索的tab数据，反馈数据给父组件(即表弹出)-->
 <template> 
-  <div class="searchView">
+  <div class="reportSearchView">
     <el-form ref="form" :model="form" label-width="65px">
-      <el-form-item label="项目">
-        <el-select v-model="form.program" placeholder="请选择项目" clearable>
-          <el-option v-for="item in programArr" :label="item.PROJECT_NAME" :value="item.PROJECT_CODE" :key="item.id"></el-option>
-        </el-select>
-      </el-form-item>
+      <div class="projectItem">
+        <el-form-item label="项目">
+          <el-select v-model="form.program" placeholder="请选择项目" clearable>
+            <el-option v-for="item in programArr" :label="item.PROJECT_NAME" :value="item.PROJECT_CODE" :key="item.id"></el-option>
+          </el-select>
+        </el-form-item>
+      </div>
       <el-form-item label="时间段">
         <el-col :span="11">
           <el-date-picker type="month"  @focus="noKeyword" placeholder="开始月份" v-model="form.startTime" style="width: 100%;" value-format="yyyy-MM"></el-date-picker>
@@ -115,24 +117,26 @@ export default {
 
 
 <style scoped>
-  .searchView{width:80%;background: #ffffff; padding: 0.15rem 0.2rem 0.5rem; position: relative;}
-  .searchView >>> .el-form-item{margin-bottom: 0.1rem;}
-  .searchView >>> .el-select{width: 80%;}
-  .searchView >>> .el-select-dropdown{width: 70%}
-  .searchView >>> .el-input__inner{padding: 0 0.05rem}
-  .searchView >>> .el-select .el-input__inner:focus{border-color: #dcdfe6;}
-  .searchView >>> .el-form-item__label{text-align: left; color: #999999; font-size: 0.13rem;}
-  .searchView >>> .bInput .el-input__inner{width: 80%;}
-  .searchView >>> .bInput .el-input__inner:focus{border-color: #dcdfe6;}
-  .searchView >>> .el-select-dropdown__item.selected{color: #2698d6;}
-  .searchView >>> .el-select-dropdown__item span{color: #2698d6!important;}
-  .searchView >>> .el-input__prefix{display: none;}
-  .searchView >>> .el-input--prefix .el-input__inner{padding: 0; text-align: center;}
-  .searchView >>> .el-col-2{text-align: center;}
-  .searchView >>> .searchBtn{position: absolute; bottom: -0.15rem; left: 0; right: 0; height: 0.4rem;}
-  .searchView >>> .searchBtn .el-button{width: 50%; border: none; padding: 0; margin: 0; height: 0.4rem; border-radius: 0; color: #999999; font-size: 0.13rem;}
-  .searchView >>> .searchBtn .el-button:hover{background: #ffffff;}
-  .searchView >>> .searchBtn .searchBtnCell:hover{background: #2698d6;}
-  .searchView >>> .searchBtn .el-form-item__content{margin: 0!important; display: flex;}
-  .searchView >>> .searchBtn .searchBtnCell{background: #2698d6; color: #ffffff;}
+  .reportSearchView{width:80%;background: #ffffff; padding: 0.15rem 0.2rem 0.5rem; position: relative;}
+  .reportSearchView >>> .el-form-item{margin-bottom: 0.1rem;}
+  .reportSearchView >>> .el-select{width: 80%;}
+  .reportSearchView >>> .el-input__inner{padding: 0 0.05rem}
+  .reportSearchView >>> .el-select .el-input__inner:focus{border-color: #dcdfe6;}
+  .reportSearchView >>> .el-form-item__label{text-align: left; color: #999999; font-size: 0.13rem;}
+  .reportSearchView >>> .bInput .el-input__inner{width: 80%;}
+  .reportSearchView >>> .bInput .el-input__inner:focus{border-color: #dcdfe6;}
+  .reportSearchView >>> .el-select-dropdown__item.selected{color: #2698d6;}
+  .reportSearchView >>> .el-select-dropdown__item span{color: #2698d6!important;}
+  .reportSearchView >>> .el-input__prefix{display: none;}
+  .reportSearchView >>> .el-input--prefix .el-input__inner{padding: 0; text-align: center;}
+  .reportSearchView >>> .el-col-2{text-align: center;}
+  .reportSearchView >>> .searchBtn{position: absolute; bottom: -0.15rem; left: 0; right: 0; height: 0.4rem;}
+  .reportSearchView >>> .searchBtn .el-button{width: 50%; border: none; padding: 0; margin: 0; height: 0.4rem; border-radius: 0; color: #999999; font-size: 0.13rem;}
+  .reportSearchView >>> .searchBtn .el-button:hover{background: #ffffff;}
+  .reportSearchView >>> .searchBtn .searchBtnCell:hover{background: #2698d6;}
+  .reportSearchView >>> .searchBtn .el-form-item__content{margin: 0!important; display: flex;}
+  .reportSearchView >>> .searchBtn .searchBtnCell{background: #2698d6; color: #ffffff;}
+</style>
+<style>
+.el-select-dropdown{width: 100%}
 </style>
