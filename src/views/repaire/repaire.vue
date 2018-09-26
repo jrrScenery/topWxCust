@@ -126,11 +126,11 @@ export default {
         }
     },
     created(){
-        // fetch.get("?action=/system/checkSession",{}).then(res=>{
-        //     if(res.STATUSCODE==0){
-
-        //     }
-        // })
+        fetch.get("?action=checkSession",{}).then(res=>{
+            if(res.STATUSCODE != 0){
+                this.$router.push({name: 'login',query: { rancode: (new Date()).valueOf() }});
+            }
+        })
     },
     methods:{
         getDevName(){

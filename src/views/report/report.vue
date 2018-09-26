@@ -76,11 +76,14 @@ export default {
         }
     },
     created(){
-        // fetch.get("?action=getDict&type=NT_CUSTOMER_INDUSTRY","").then(res=>{
-        //     this.industryType = res.data;
-        //     // console.log(this.industryType)
-        // });
-        this.firstFreshCharts();
+        fetch.get("?action=checkSession",{}).then(res=>{
+            if(res.STATUSCODE != 0){
+                this.$router.push({name: 'login',query: { rancode: (new Date()).valueOf() }});
+            }else{
+                this.firstFreshCharts();
+            }
+        })
+        // this.firstFreshCharts();
     },
     methods:{
         freshCharts(params){

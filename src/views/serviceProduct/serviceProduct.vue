@@ -82,6 +82,7 @@
 </template>
 <script>
 import headerLast from '../header/headerLast'
+import fetch from '../../utils/ajax'
 export default {
     name:'serviceProduct',
     components:{
@@ -91,6 +92,13 @@ export default {
         return{
             serviceProductTit:'服务产品'
         }
+    },
+    created(){
+        fetch.get("?action=checkSession",{}).then(res=>{
+            if(res.STATUSCODE != 0){
+                this.$router.push({name: 'login',query: { rancode: (new Date()).valueOf() }});
+            }
+        })
     }
     
 }

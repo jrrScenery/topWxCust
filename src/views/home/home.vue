@@ -206,8 +206,7 @@ export default {
       }
       // this.fetchData();
       fetch.get("?action=checkSession",{}).then(res=>{
-        console.log("55555555555");
-        console.log(res);
+        // console.log("55555555555");
         this.fetchData();
       });
     }
