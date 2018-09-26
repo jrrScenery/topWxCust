@@ -4,13 +4,13 @@
     <div class="proMachineTop">
       <el-form :inline="true" :model="form" class="demo-form-inline">
         <el-form-item>
-          <el-input v-model="form.firm" placeholder="请输入厂商"></el-input>
+          <el-input v-model="form.firm" placeholder="请输入厂商" @change="firmChange"></el-input>
         </el-form-item>
         <el-form-item>
-          <el-input v-model="form.typeNum" placeholder="请输入型号"></el-input>
+          <el-input v-model="form.typeNum" placeholder="请输入型号" @change="typeNumChange"></el-input>
         </el-form-item>
         <el-form-item>
-          <el-input v-model="form.serialNum" placeholder="请输入序列号"></el-input>
+          <el-input v-model="form.serialNum" placeholder="请输入序列号" @change="serialNumChange"></el-input>
         </el-form-item>
         <el-form-item>
           <el-button @click="onSubmit">查询</el-button>
@@ -74,16 +74,24 @@ export default {
     console.log(this.promachinepage);
   },
   methods: {
+    firmChange(val){
+      this.form.firm = val;
+    },
+    typeNumChange(val){
+      this.form.typeNum = val;
+    },
+    serialNumChange(val){
+      this.form.serialNum = val;
+    },
     onSubmit () {
+      this.loadmachine(this.promachinepage>1);
       this.$emit('emitparams',this.searparams);
     },
     loadmachine(flag){
       var queryparam = {PROJECT_ID:this.projectId,PAGE_NUM:this.promachinepage,PAGE_TOTAL:this.pageSize}
-      
       queryparam.FACTORY_NAME=this.form.firm;
       queryparam.MODEL_NAME=this.form.typeNum;
       queryparam.SN=this.form.serialNum;
-      
       fetch.get("?action=GetProjectDeviceList&EMPID="+global_.empId,queryparam).then(res=>{
         //console.log(this.eventListArr);
         if(flag){

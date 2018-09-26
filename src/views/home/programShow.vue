@@ -7,25 +7,9 @@
       <div class="programCell" v-for="item in programListArr" :key="item.PROJECT_CODE">
         <div class="cellTop">
           <el-row>
-            <el-col :span="8">
+            <el-col :span="17">
               <div class="cellTopNum">{{projectInfo.PROJECT_CODE}}</div>
-            </el-col>
-            <el-col :span="9">
-              <div class="cellTopColor">
-                  <span v-if="projectInfo.BASE_COLOR == 0"></span>
-                  <span v-if="projectInfo.BASE_COLOR == 1" style="background: #ff0000"></span>
-                  <span v-if="projectInfo.BASE_COLOR == 2" style="background: #ff9900"></span>
-                  <span v-if="projectInfo.BASE_COLOR == 3" style="background: #ffff00"></span>
-                  <span v-if="projectInfo.BASE_COLOR == 4" style="background: #009900"></span>{{projectInfo.HEALTH_BASE_VALUE}}
-                  <span v-if="projectInfo.NOW_COLOR == 0"></span>
-                  <span v-if="projectInfo.NOW_COLOR == 1" style="background: #ff0000"></span>
-                  <span v-if="projectInfo.NOW_COLOR == 2" style="background: #ff9900"></span>
-                  <span v-if="projectInfo.NOW_COLOR == 3" style="background: #ffff00"></span>
-                  <span v-if="projectInfo.NOW_COLOR == 4" style="background: #009900"></span>{{projectInfo.HEALTH_CURRENT_VALUE}}
-
-                                  
-              </div>
-            </el-col>
+            </el-col>           
             <el-col :span="7">
               <div class="cellTopState">状态：<span>{{projectInfo.PROJECT_STATUS}}</span></div>
             </el-col>
@@ -34,48 +18,19 @@
         <div class="cellContent" >
           <p>{{projectInfo.PROJECT_NAME}}</p>
           <el-row>
-            <el-col :span="12"><span class="tit">业务类型：{{projectInfo.BUSINESS_TYPE}}</span></el-col>
+            <el-col :span="12"><span class="tit">销售：{{projectInfo.SALESMAN_NAME}}</span></el-col>
+            <el-col :span="12"><span class="tit">项目经理：{{projectInfo.PM_NAME}}</span></el-col>
+          </el-row>
+          <el-row>
             <el-col :span="12"><span class="tit">开始时间：{{projectInfo.START_DATE}}</span></el-col>
-          </el-row>
-          <el-row>
-            <el-col :span="12"><span class="tit">业务小类：{{projectInfo.BUSINESS_CLASS}}</span></el-col>
             <el-col :span="12"><span class="tit">结束时间：{{projectInfo.END_DATE}}</span></el-col>
-          </el-row>
-          <el-row>
-            <el-col :span="12"><span class="tit">项目级别：{{projectInfo.PROJECT_LEVEL}}</span></el-col>
-            <el-col :span="12"><span class="tit">销售姓名：{{projectInfo.SALESMAN_NAME}}</span></el-col>
-          </el-row>
-          <el-row>
-            <el-col :span="12"><span class="tit">交付类型：{{projectInfo.DELIVERY_TYPE_NAME}}</span></el-col>
-            <el-col :span="12">
-              <span class="tit">销售电话：
-              <a  @click="sendCall(projectInfo.SALESMAN_MOBILE)" v-bind:href="'tel:'+projectInfo.SALESMAN_MOBILE" style="font-size: 0.13em; color: #2698d6;">{{projectInfo.SALESMAN_MOBILE}}
-              </a>
-              </span>
-            </el-col>
-          </el-row>
-          <el-row>
-            <el-col :span="12"><span class="tit">签约类型：{{projectInfo.CONTRACT_WAY}}</span></el-col>
-            <el-col :span="12"><span class="tit">PM姓名：{{projectInfo.PM_NAME}}</span></el-col>
-          </el-row>
-          <el-row>
-            <el-col :span="12"><span class="tit">客户名称：{{projectInfo.CUSTOMER_NAME}}</span></el-col>
-            <el-col :span="12">
-              <span class="tit">PM电话：
-                <a  @click="sendCall(projectInfo.PM_MOBILE)" v-bind:href="'tel:'+projectInfo.PM_MOBILE"  style="font-size: 0.13em; color: #2698d6;">{{projectInfo.PM_MOBILE}}
-                </a>
-            </span></el-col>
-          </el-row>
-          <el-row>
-            <el-col :span="24"><span class="tit">责任交付部门：{{projectInfo.AREA_NAME}}</span></el-col>
           </el-row>
         </div>
 
       </div>
       <div class="programTable">
         <el-tabs v-model="activeName"  @tab-click="chtab" >
-          <el-tab-pane label="健康度" name="prohealth"><pro-health ></pro-health></el-tab-pane>
-          <el-tab-pane label="设备清单" name="promachine" lazy ><pro-machine @emitbusy="getEmitPage"  
+          <el-tab-pane label="设备清单" name="promachine"><pro-machine @emitbusy="getEmitPage"  
           @emitparams='getEmitparams' 
           :promachinepage="needpage.promachine.page" :onchange='needpage.promachine.onchange'></pro-machine></el-tab-pane>
           <el-tab-pane label="巡检计划" name="proplan" lazy><pro-plan ></pro-plan></el-tab-pane>
@@ -95,7 +50,6 @@
 <script>
 import global_ from '../../components/Global'
 import headerLast from '../header/headerLast'
-import proHealth from '../../components/program/proHealth'
 import proMachine from '../../components/program/proMachine'
 import proPlan from '../../components/program/proPlan'
 import proRepair from '../../components/program/proRepair'
@@ -109,7 +63,6 @@ export default {
 
   components: {
     headerLast,
-    proHealth,
     proMachine,
     proPlan,
     proRepair,
@@ -128,7 +81,7 @@ export default {
         }
       ],
       projectInfo:{},
-      activeName: 'prohealth',
+      activeName: 'promachine',
       page:1,
       pageSize:10,
       busy:false,
@@ -165,7 +118,8 @@ export default {
       this.needpage[this.activeName]["loadall"]=false
     },
     getProgramInfo(){
-      fetch.get("?action=GetProjectInfo&EMPID="+global_.empId+"&PROJECT_ID="+this.$route.query.projectId,{}).then(res=>{
+      fetch.get("?action=/project/GetProjectInfo&EMPID="+global_.empId+"&PROJECT_ID="+this.$route.query.projectId,{}).then(res=>{
+          console.log(res);
           let baseInfo = res.data;
           this.projectInfo = baseInfo;
         });

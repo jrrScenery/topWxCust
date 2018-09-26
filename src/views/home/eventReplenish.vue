@@ -72,12 +72,8 @@ export default {
     
   },
   mounted(){
-    console.log(444);
-    console.log(this.$loading,222);
   },
   created (){
-    console.log(3333);
-    console.log(this.$loading,1111111111);
   },
   methods: {
     uptest(){
@@ -110,16 +106,8 @@ export default {
             center: true,
             customClass:'msgdefine'
           });
-          var nowcaseid = vm.caseid;
-          console.log(vm.$route.query.workId+"---"+vm.$route.query.type+"==="+vm.caseid);
-          var nowworkId = vm.$route.query.workId;
-          console.log(vm.$route.query.type);
-          if(vm.$route.query.type=='process'){
-            console.log(vm.$route.query.workId);
-            setTimeout(function(){vm.$router.push({ name: 'workBenchTaskDetailInfo',query:{workId:nowworkId}})},1000);
-          }else{
-            setTimeout(function(){vm.$router.push({ name: 'eventShow',query:{caseId:nowcaseid}})},1000);
-          }
+          var nowcaseid = vm.caseid;        
+          setTimeout(function(){vm.$router.push({ name: 'casedetail',query:{caseId:nowcaseid}})},1000);
         }
         else{
           this.$message({

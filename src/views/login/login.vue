@@ -42,8 +42,8 @@ export default {
   created () {
     // this.ruleForm.userName = this.getCookie('username');
     if(this.ruleForm.checked){
-      fetch.get("?action=checkSession","").then(res=>{
-
+      fetch.get("?action=/system/checkSession","").then(res=>{
+        console.log(res);
         var token = localStorage.getItem("token");
 
         fetch.get("?action=getUserPermission",{}).then(res=>{
@@ -81,8 +81,9 @@ export default {
       }
       this.$refs[formName].validate((valid) => {
         if (valid) {
-          this.$axios.post(global_.Server+"/api/login","ACCOUNT="+this.ruleForm.userName+"&PASSWORD="+this.getBasePass()).then(res=>{
+          this.$axios.post(global_.Server+"/api/login?ACCOUNT="+this.ruleForm.userName+"&PASSWORD="+this.getBasePass()).then(res=>{
             loading.close();
+            console.log("adasdadada",res);
             if(res.status==500){
               alert("连接服务超时或密码错");
               return;
@@ -103,6 +104,7 @@ export default {
               localStorage.setItem("realName", res.data.userInfo[0].REALNAME);
               localStorage.setItem("mobile", res.data.userInfo[0].MOBILE);
               localStorage.setItem("email", res.data.userInfo[0].EMAIL);
+              localStorage.setItem("orgName", res.data.userInfo[0].ORGNAME);
               console.log(JSON.stringify(res.data.userPermission));
               localStorage.setItem("userPermission", JSON.stringify(res.data.userPermission));
 
@@ -141,6 +143,7 @@ export default {
 
       var isGps = 0;
       if(userPermission.length>0){
+        console.log("aaaaaaa");
         for(var i=0;i<userPermission.length;i++){
           if(userPermission[i].PRIVID=="topApp_GPS"){
             isGps = 1;
@@ -149,6 +152,7 @@ export default {
         }
       }
       if(isGps==1){
+        console.log("bbbbbb");
         fetch.get("?action=getDict&type=GPS_UPDATE_INTERVAL",{}).then(res=>{
           //console.log(res);
           this.interval = res.data[0].name;
@@ -162,9 +166,12 @@ export default {
             var value = "{action:location,empId:"+localStorage.getItem('empId')+",interval:"+this.interval+"}";
             android.getClient(value);
           }
+          console.log("000000000");
           this.$router.push({name: 'home',query: { rancode: (new Date()).valueOf() }});
         });
       }else{
+        console.log("11111111111");
+        console.log((new Date()).valueOf());
         this.$router.push({name: 'home',query: { rancode: (new Date()).valueOf() }});
       }
     },

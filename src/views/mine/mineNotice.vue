@@ -51,7 +51,7 @@ export default {
 
   methods: {
     getEventList(flag){
-      let url = "?action=GetTaskMessage&PAGE_NUM="+this.page+"&PAGE_TOTAL="+this.pageSize;
+      let url = "?action=/system/GetTaskMessage&PAGE_NUM="+this.page+"&PAGE_TOTAL="+this.pageSize;
       fetch.get(url,"").then(res=>{
         console.log(res);
         if(flag){

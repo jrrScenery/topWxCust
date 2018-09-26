@@ -1,38 +1,38 @@
 <!--项目评价-->
 <template>
-  <div class="content">
-    <div class="proPlanCell">
-      <el-table
-        :data="tableData"
-        stripe
-        v-loading="busy && !loadall"
-        element-loading-text="正在加载下一页"
-        v-loadmore="loadMore"
-        ref="etable"
-        @row-click="rowClick"
-        :height = "tableHeight"
-        style="width: 100%">
-        <template v-for="item in table_arr">
-          <el-table-column
-            :key="item.id"
-            :prop="item.prop"
-            :label="item.label"
-            :min-width="item.width">
-            <template slot-scope="scope">
-              <template v-if="item.prop == 'TOTAL_SCORE'">
-                <div>
-                  <i v-if="scope.row[item.prop] <= 3" style="color:#ff0000">{{scope.row[item.prop]}}</i>
-                  <i v-else>{{scope.row[item.prop]}}</i>
-                </div>
+    <div class="content">
+      <div class="proPlanCell">
+        <el-table
+          :data="tableData"
+          stripe
+          v-loading="busy && !loadall"
+          element-loading-text="正在加载下一页"
+          v-loadmore="loadMore"
+          ref="etable"
+          @row-click="rowClick"
+          :height = "tableHeight"
+          style="width: 100%">
+          <template v-for="item in table_arr">
+            <el-table-column
+              :key="item.id"
+              :prop="item.prop"
+              :label="item.label"
+              :min-width="item.width">
+              <template slot-scope="scope">
+                <template v-if="item.prop == 'TOTAL_SCORE'">
+                  <div>
+                    <i v-if="scope.row[item.prop] <= 3" style="color:#ff0000">{{scope.row[item.prop]}}</i>
+                    <i v-else>{{scope.row[item.prop]}}</i>
+                  </div>
+                </template>
+                <span v-else class="table_name">{{scope.row[item.prop]}}</span>
               </template>
-              <span v-else class="table_name">{{scope.row[item.prop]}}</span>
-            </template>
-          </el-table-column>
-        </template>
-        <template>1211</template>
-      </el-table>
+            </el-table-column>
+          </template>
+          <template>1211</template>
+        </el-table>
+      </div>
     </div>
-  </div>
 </template>
 
 <script>
@@ -106,7 +106,7 @@ export default {
       this.busy = true;
       setTimeout(() => {
         this.getEventList();
-      }, 1000);
+      }, 1000); 
     },
     getEventList () {
       var flag = this.page>1;

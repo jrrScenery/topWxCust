@@ -1,31 +1,15 @@
-<!--首页-需关注项目-->
+<!--首页-我的项目-->
 <template>
   <div class="programListView">
-    <header-base-five :title="programListTit+'('+totalData+')'" :queryData="searchData"  @searchPro="getSearParams"></header-base-five>
+    <header-last :title="programListTit+'('+totalData+')'"></header-last>
     <div style="height: 0.45rem;"></div>
     <div class="content" v-infinite-scroll="loadMore" infinite-scroll-disabled="busy" infinite-scroll-distance="10">
       <div class="programCell" v-for="item in programListArr" :key="item.id">
         <router-link :to="{name:'programShow',query:{projectId:item.PROJECT_ID}}">
           <div class="cellTop">
             <el-row>
-              <el-col :span="8">
+              <el-col :span="17">
                 <div class="cellTopNum">{{item.PROJECT_CODE}}</div>
-              </el-col>
-              <el-col :span="9"> 
-                <div class="cellTopColor">
-                 <!-- 1 #ff0000 红，2 #ff9900 橙，3 #ffff00 黄，4 #009900 绿 -->                  
-                  <span v-if="item.BASE_COLOR == 0"></span>
-                  <span v-if="item.BASE_COLOR == 1" style="background: #ff0000"></span>
-                  <span v-if="item.BASE_COLOR == 2" style="background: #ff9900"></span>
-                  <span v-if="item.BASE_COLOR == 3" style="background: #ffff00"></span>
-                  <span v-if="item.BASE_COLOR == 4" style="background: #009900"></span>{{item.HEALTH_BASE_VALUE}}
-                  <span v-if="item.NOW_COLOR == 0"></span>
-                  <span v-if="item.NOW_COLOR == 1" style="background: #ff0000"></span>
-                  <span v-if="item.NOW_COLOR == 2" style="background: #ff9900"></span>
-                  <span v-if="item.NOW_COLOR == 3" style="background: #ffff00"></span>
-                  <span v-if="item.NOW_COLOR == 4" st4yle="background: #009900"></span>{{item.HEALTH_CURRENT_VALUE}}
-
-                </div>
               </el-col>
               <el-col :span="7">
                 <div class="cellTopState">状态：<span>{{item.PROJECT_STATUS}}</span></div>
@@ -40,7 +24,7 @@
             </el-row>
             <el-row>
               <el-col :span="12"><span class="tit">开始时间：{{item.START_DATE}}</span></el-col>
-              <el-col :span="12"><span class="tit">结束时间：{{item.END_DATE}}</span></el-col>
+              <el-col :span="12"><span class="tit">预计完成时间：{{item.END_DATE}}</span></el-col>
             </el-row>
           </div>
         </router-link>
@@ -52,20 +36,20 @@
 
 <script>
 import global_ from '../../components/Global'
-import headerBaseFive from '../header/headerBaseFive'
+import headerLast from '../header/headerLast'
 import loadingtmp from '@/components/load/loading'
 import fetch from '../../utils/ajax'
 export default {
   name: 'programList',
 
   components: {
-    headerBaseFive,
+    headerLast,
     loadingtmp
   },
 
   data () {
     return {
-      programListTit: '需关注项目',
+      programListTit: '我的项目',
       programListArr: [
         /**
          {
@@ -85,10 +69,6 @@ export default {
       pageSize:10,
       busy:false,
       loadall: false,
-      isSearch: false,
-      searchData: {
-        industry:[]
-      },
       totalData:0
     }
   },
@@ -108,15 +88,8 @@ export default {
     getEventList(){
       var flag = this.page>1;
       var reqParams = {PAGE_NUM:this.page,PAGE_TOTAL:this.pageSize};
-      if(this.isSearch){
-        reqParams.BUSINESS_TYPE = this.searchData["business"]
-        reqParams.INDUSTRY_NAME = this.searchData["industry"].join(",")
-        reqParams.PROJECT_NAME = this.searchData["proName"]
-        reqParams.CUST_NAME = this.searchData["customer"]
-        reqParams.PM_NAME = this.searchData["PM"]
-        reqParams.SALE_NAME = this.searchData["sale"]
-      }
-      fetch.get("?action=GetFocusProject",reqParams).then(res=>{
+      fetch.get("?action=GetProjectList",reqParams).then(res=>{
+        console.log(res);
         this.totalData = res.total;
         if(flag){
           this.programListArr = this.programListArr.concat(res.data);
@@ -139,19 +112,6 @@ export default {
         this.getEventList();
       }, 500);
     },
-
-    // 搜索条件data
-    getSearParams (data) {
-      this.page = 1
-      this.isSearch = true;
-      this.programListArr = [];
-      this.searchData = data;
-      this.busy = true;
-      setTimeout(() => {
-        this.getEventList();
-      }, 500);
-    }
-
   },
   created () {
   },

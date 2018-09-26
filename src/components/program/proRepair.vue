@@ -6,22 +6,13 @@
   </el-input>
     <div class="content" >
       <div class="eventCell" v-for="info in proRepairObj" :key="info.CASE_ID">
-        <router-link :to="{name:'eventShow',query: {caseId:info.CASE_ID}}">
+        <router-link :to="{name:'casedetail',query: {caseId:info.CASE_ID}}">
         <div class="cellTop">
           <el-row> 
-            <el-col :span="11">
+            <el-col :span="13">
               <span class="spheathcolor"></span>{{info.CASE_NO}}
               <!-- <span class="spheathcolor" :class="'spheathcolor'+info.CASE_TYPEID" ></span>{{info.CASE_NO}} -->
-            </el-col>
-            <el-col :span="2">
-              <!-- <div class="cellTopNum"> -->
-                <span class="speventlevel" v-if="info.CASE_LEVEL=='一级'" :class="'speventlevelcolor'+1" >{{info.CASE_LEVEL}}</span>
-                <span class="speventlevel" v-if="info.CASE_LEVEL=='二级'" :class="'speventlevelcolor'+2" >{{info.CASE_LEVEL}}</span>
-                <span class="speventlevel" v-if="info.CASE_LEVEL=='三级'" :class="'speventlevelcolor'+3" >{{info.CASE_LEVEL}}</span>
-                <span class="speventlevel" v-if="info.CASE_LEVEL=='四级'" :class="'speventlevelcolor'+4" >{{info.CASE_LEVEL}}</span>
-                <span class="speventlevel" v-if="info.CASE_LEVEL=='五级'" :class="'speventlevelcolor'+5" >{{info.CASE_LEVEL}}</span>
-              <!-- </div> -->
-            </el-col>
+            </el-col>            
             <el-col :span="11">
               <div class="cellTopTime"><span>{{info.CREATE_DATE}}</span></div>
             </el-col>
@@ -82,6 +73,7 @@ export default {
       let url = "?action=GetRelateCaseOfProject&PROJECT_ID="+this.projectId;
      //url += "&PAGE_NUM="+this.page+"&PAGE_TOTAL="+this.pageSize;
       let param = {PAGE_NUM:this.prorepairpage,PAGE_TOTAL:this.pageSize,KEYWORD:this.value};
+      console.log("111",param);
       fetch.get(url,param).then(res=>{
         console.log(res.data);
         var tmpar= res.data;

@@ -80,6 +80,10 @@ export default {
         projectId: this.$route.query.projectId
     }
   },
+  created(){
+    console.log("11111111111")
+    console.log(this.$route.query.projectId);
+  },
 
   methods: {
     submitForm (formName) {
@@ -92,9 +96,9 @@ export default {
       let vm= this;
       this.$refs[formName].validate((valid) => {
         if (valid) {
-          let params = "&PROJECT_ID="+ this.projectId +"&TYPE="+this.value4 + "&NAME="+this.formData.name + "&PHONE="+this.formData.phone+  "&CONTENT="+window.encodeURI(this.formData.article);
-          fetch.get("?action=UpdateSuggest&CASE_ID="+this.caseId+params,"").then(res=>{
-
+          let params = "&PROJECT_ID="+ this.$route.query.projectId +"&TYPE="+this.value4 + "&NAME="+this.formData.name + "&PHONE="+this.formData.phone+"&EMAIL="+this.formData.email+"&CONTENT="+window.encodeURI(this.formData.article);
+          fetch.get("?action=UpdateSuggest&CASE_ID="+this.$route.query.caseId+params,"").then(res=>{
+              console.log(res);
               loading.close();
               if(res.STATUSCODE=="0"){
                 this.$message({
@@ -105,7 +109,7 @@ export default {
                 });
 
                   let nowcaseid = vm.caseId;
-                  setTimeout(function(){vm.$router.push({ name: 'eventShow',query:{caseId:nowcaseid}})},1000);
+                  setTimeout(function(){vm.$router.push({ name: 'casedetail',query:{caseId:nowcaseid}})},1000);
               }
               else{
                 this.$message({

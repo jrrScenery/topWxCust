@@ -3,7 +3,7 @@
   <div class="mineView">
     <div class="mineBg" v-for="item in userData" :key="item.id">
       <img :src="item.imgSrc" alt="">
-      <p><span>{{item.userName}}</span><span>{{item.phone}}</span></p>
+      <p><span>{{item.userName}}</span><span>{{item.phone}}</span><span>{{item.orgName}}</span></p>
     </div>
       <ul class="ul_mineView" >
         <li class="li_mineView" v-for="item in liObj" :key="item.id">
@@ -46,7 +46,7 @@ export default {
   data () {
     return {
       userData: [
-        {imgSrc: require('@/assets/images/mine_bg.jpg'), userName:localStorage['realName'], phone:localStorage['mobile']}
+        {imgSrc: require('@/assets/images/mine_bg.jpg'), userName:localStorage['realName'],orgName:localStorage['orgName'], phone:localStorage['mobile']}
       ],
       liObj: [
         {imgSrc: require('@/assets/images/mine_1.png'), text: '通知',action:'mineNotice'},
@@ -99,7 +99,7 @@ export default {
   .mineView{position: absolute; top: 0; width: 100%;}
   .mineBg{position: relative; width: 100%; height: 2.1rem;}
   .mineBg img{width: 100%; height: 100%}
-  .mineBg p{position: absolute; bottom: 0; width: 100%; height: 0.5rem; line-height: 0.5rem; color: #ffffff; background: rgba(0,0,0,0.7); font-size: 0.15rem;}
+  .mineBg p{position: absolute; bottom: 0; width: 100%; height: 0.5rem; line-height: 0.2rem; color: #ffffff; background: rgba(0,0,0,0.7); font-size: 0.15rem;}
   .mineBg p span{margin-left: 0.25rem;}
   .ul_mineView{}
   .ul_mineView .li_mineView{display: flex; justify-content: space-between; align-items: center;height: 0.5rem; background: #ffffff; border-bottom: 0.01rem solid #e5e5e5; font-size: 0.14rem; line-height: 0.5rem; padding: 0 0.2rem;}

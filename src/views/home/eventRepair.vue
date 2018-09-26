@@ -3,13 +3,10 @@
   <div class="proRepairView">
     <header-last :title="eventRepairTit"></header-last>
     <div style="height: 0.45rem;"></div>
-   <el-input placeholder="编号，厂商，型号，序列号，描述……" class="input-with-select" v-model="value">
-    <el-button @click="sear" slot="append" icon="el-icon-search"></el-button>
-  </el-input>
     <div class="content"  v-infinite-scroll="loadMore" infinite-scroll-disabled="busy" infinite-scroll-distance="10" >
 
       <div class="eventCell" v-for="info in proRepairObj" :key="info.CASE_ID">
-        <router-link :to="{name:'eventShow',query: {caseId:info.CASE_ID}}">
+        <router-link :to="{name:'casedetail',query: {caseId:info.CASE_ID}}">
         <div class="cellTop">
           <el-row>
             <el-col :span="11">
@@ -18,7 +15,7 @@
               </div>
             </el-col>
             <el-col :span="1">
-              <span class="spheathcolor" :class="'spheathcolor'+info.CASE_TYPEID" ></span>
+              <span class="spheathcolor" :class="'spheathcolor'+info.CASE_NO" ></span>
             </el-col>
             <el-col :span="12">
               <div class="cellTopTime"><span>{{info.CREATE_DATE}}</span></div>
@@ -38,7 +35,7 @@
             <el-col :span="24"><span class="tit">序列号：</span><span>{{info.SN}}</span></el-col>
           </el-row>
           <el-row>
-            <el-col :span="24"><span class="tit">说明：</span><span v-html="info.PROBLEM_DETAIL"></span></el-col>
+            <el-col :span="24"><span class="tit">说明：</span><span v-html="info.REMARK"></span></el-col>
           </el-row>
         </div>
         </router-link>
@@ -66,7 +63,6 @@ export default {
   data () {
     return {
       eventRepairTit: '相关报修',
-      value: '',
       proRepairObj: [],
 
       page: 1,
@@ -82,11 +78,12 @@ export default {
   },
   methods: {
     getEventList(flag){
-      fetch.get("?action=GetRelateCase",{CASE_ID:this.caseId,PAGE_NUM:this.page,PAGE_TOTAL:this.pageSize,KEYWORD:this.value}).then(res=>{
+      fetch.get("?action=GetRelateCase",{CASE_ID:this.caseId,PAGE_NUM:this.page,PAGE_TOTAL:this.pageSize}).then(res=>{
+        console.log(res);
         var tmpar= res.data;
         tmpar = tmpar.map(function(item){
-          if(item.PROBLEM_DETAIL){
-            item.PROBLEM_DETAIL = item.PROBLEM_DETAIL.replace(/\n/g, "<br/>");
+          if(item.REMARK){
+            item.REMARK = item.REMARK.replace(/\n/g, "<br/>");
           }
           return item;
         })
@@ -130,11 +127,8 @@ export default {
 </script>
 
 <style scoped>
-  .content{position: absolute; left: 0; right: 0; top: 1.07rem; bottom: 0; overflow: scroll;}
+  .content{position: absolute; left: 0; right: 0; top: 0.45rem; bottom: 0; overflow: scroll;}
   .proRepairView{padding: 0 0.15rem;}
-  .proRepairView >>> .el-input{padding: 0.1rem 0; border-bottom: 0.01rem solid #e1e1e1}
-  .proRepairView >>> .el-input__icon{width: 0.4rem;font-size: 0.2rem}
-  .proRepairView >>> .el-input__inner{border-color: #e1e1e1;  background: #f5f5f9}
   .eventCell{padding: 0 0.2rem 0.1rem; background: #ffffff; margin-bottom: 0.05rem;}
   .eventCell .cellTop{border-bottom: 0.01rem solid #dbdbdb; line-height: 0.37rem;}
   .eventCell .cellTop .cellTopNum{font-size: 0.14rem; color: #2698d6;}

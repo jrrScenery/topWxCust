@@ -138,4 +138,5 @@ export default {
     a { color: #42b983; } 
     #canvas { background: #ffffff; cursor: default; margin-right:0} 
     #keyword-box { margin: 10px 0; } 
+    *{touch-action: none;}
 </style>

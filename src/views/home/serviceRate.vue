@@ -1,9 +1,8 @@
-<!--首页-事件详情-服务评价编辑-->
 <template>
     <div class="serviceRateView">  
         <header-last :title="serviceRateTit"></header-last>
         <div style="height: 0.45rem;"></div>  
-        <div class="serviceInfoCell">
+        <div class="serviceInfoCell" v-if="data.length==0">
             <div class="serviceContent">
                 <el-form :model="formData" ref="formData">
                     <div class="editorView" v-for="(item,i) in evaluateval" :key="i">
@@ -75,35 +74,46 @@ export default {
                 otherResult:'',
                 engineername:''
             },
+            data:[],
             score:[],
             evaluateval:[],
             scoreOption:[],
             signImg:"",
             workId:this.$route.query.workId,
             caseId:this.$route.query.caseId,
-            evaluateId:this.$route.query.evaluateid
+            serviceId:this.$route.query.serviceId,
+            taskId:this.$route.query.taskId,
+            evaluateId:''
         }
     },
     created:function(){
-      console.log(this.$route.query.evaluateId);
         let vm= this;    
-        fetch.get("?action=GetCaseEvaluateInfo&EVALUATE_ID=" + this.evaluateId).then(res=>{
+        var reqParams = {PAGE_NUM:1,PAGE_TOTAL:3}; 
+        fetch.get("?action=/case/ServiceEvaluate&CASE_ID="+this.caseId,reqParams).then(res=>{
             console.log(res);
             if(res.STATUSCODE==0){
-                this.scoreOption = res.scoreOption;
-                let jsonres= res;
-                let tmpjsonval =[];
-                jsonres.question.forEach(function(v,i,ar){
-                  let tmpobj = {};
-                  tmpobj.question= v;
-                  tmpobj.options = jsonres.optionOption.filter(function(item){return v.questionId == item.questionId})
-                  tmpobj.chkedopts = tmpobj.options.filter(function(item){return item.checkFlg})
-                  tmpobj.aroptschked = tmpobj.chkedopts.map(function(v,i,ar){ return v.optionId});
-                  tmpobj.scoreval = vm.getScore(jsonres.scoreOption,v.questionId);
-                  tmpjsonval.push(tmpobj);
-                })
-                this.evaluateval = tmpjsonval;
-                console.log(this.evaluateval);
+                this.data = res.data;
+                if(res.data.length==0){
+                    this.evaluateId = res.evaluateId;
+                    this.scoreOption = res.scoreOption;
+                    this.scoreOption = res.scoreOption;
+                    let jsonres= res;
+                    let tmpjsonval =[];
+                    jsonres.question.forEach(function(v,i,ar){
+                    let tmpobj = {};
+                    tmpobj.question= v;
+                    tmpobj.options = jsonres.optionOption.filter(function(item){return v.questionId == item.questionId})
+                    tmpobj.chkedopts = tmpobj.options.filter(function(item){return item.checkFlg})
+                    tmpobj.aroptschked = tmpobj.chkedopts.map(function(v,i,ar){ return v.optionId});
+                    tmpobj.scoreval = vm.getScore(jsonres.scoreOption,v.questionId);
+                    tmpjsonval.push(tmpobj);
+                    })
+                    this.evaluateval = tmpjsonval;
+                    console.log(this.evaluateval);
+                }else{
+                    let nowcaseId = vm.caseId;
+                    setTimeout(function(){vm.$router.push({name: 'caseEvaluateList',query:{caseId:nowcaseId}})},1000);
+                }
             }else{
                 this.$message({
                 message:res.MESSAGE+"发生错误",
@@ -119,7 +129,6 @@ export default {
             this.formData.imgStr = imgStr;
         },
         getScore(scoreOption,questionId){
-            console.log("questionId:"+questionId);
             var score = 0;
             scoreOption.forEach(function(v,i,ar){
                 if(v.questionId == questionId){
@@ -129,10 +138,12 @@ export default {
                     }
                 }
             })
-            console.log("score:"+score)
+            console.log("score:"+score);
             return score;
         },
         getScoreOpinionId(scoreOption,questionId,scoreval){
+            console.log("questionId:"+questionId);
+            console.log("scoreval："+scoreval)
             let optionId;
             scoreOption.forEach(function(v,i,ar){
                 if(v.questionId == questionId&&v.optionScore==scoreval){
@@ -140,6 +151,7 @@ export default {
                     return false;
                 }
             })
+            console.log("optionId:"+optionId);
             return optionId;
         },
         submitForm(formName){
@@ -158,7 +170,8 @@ export default {
                     var countScore = 0;
                     var returnFlg = 0;
                     vm.evaluateval.forEach(function(v,i,ar){
-                        let options = v.options;                        
+                        let options = v.options;
+                        
                         if(v.question.questionComment2){
                             if(v.scoreval>0){
                                 totalScore+=v.scoreval;
@@ -181,9 +194,7 @@ export default {
                                 loading.close();
                                 return false;
                             }
-                        }     
-                        console.log("pppppppppppp");
-                        console.log(v.aroptschked);           
+                        }                
                         v.aroptschked.forEach(function(item,i,ar){
                             options.forEach(function(items,i,ar){
                                 if(items.optionId == item){
@@ -227,7 +238,7 @@ export default {
                     postData.append('EvaluateResult',JSON.stringify(detailArray));
                     postData.append('failFlg',failFlg);
                     postData.append('imgStr',this.formData.imgStr);
-                    console.log("mmmmmmmmm");
+                    console.log("222222222");
                     console.log(detailArray);
                     fetch.post("?action=/case/SubmitClientReview",postData).then(res=>{
                         console.log(res);
@@ -276,4 +287,5 @@ export default {
   .improveCell .el-checkbox__input.is-disabled+span.el-checkbox__label{color: #888}
   .improveCell .el-checkbox__input.is-disabled.is-checked .el-checkbox__inner::after{border-color: #666}
 </style>
+
 

@@ -82,6 +82,7 @@ export default {
     get(url, params) {
         return new Promise((resolve, reject) => {
           var token = localStorage.getItem("token");
+          console.log(token);
           axios.get(baseURL+url, {
             params: params,
             headers: {

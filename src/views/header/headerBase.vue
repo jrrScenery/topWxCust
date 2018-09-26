@@ -20,6 +20,12 @@
         <template v-else-if="searchType=='focusEvent'">
           <focus-search-view @change="updatePopBg" @search="searchData" :queryData="queryData"></focus-search-view>
         </template>
+        <template v-else-if="searchType=='caseStatus'">
+          <case-status-search-view @change="updatePopBg" @search="searchData" :queryData="queryData"></case-status-search-view>
+        </template>
+        <template v-else-if="searchType=='report'">
+          <report-search-view @change="updatePopBg" @search="searchData" :queryData="queryData"></report-search-view>
+        </template>
         <search-view v-else @change="updatePopBg" @search="searchData"  :queryData="queryData"></search-view>
       </div>
     </template>
@@ -31,13 +37,17 @@
 import searchView from '@/components/searchView'
 import focusSearchView from '@/components/focusSearchView'
 import searchComplaintView from '@/components/searchCompaintView'
+import caseStatusSearchView from '@/components/caseStatusSearchView'
+import reportSearchView from '@/components/reportSearchView'
 export default {
   name: 'headerBase',
 
   components: {
     searchView,
     focusSearchView,
-    searchComplaintView
+    searchComplaintView,
+    caseStatusSearchView,
+    reportSearchView
   },
 
   data () {
@@ -47,7 +57,7 @@ export default {
     }
   },
 
-  props: ['title','searchType','queryData'],
+  props: ['title','searchType','queryData','backUrl'],
 
   watch: {
   },
@@ -68,7 +78,11 @@ export default {
     },
 
     back: function (event) {
-      this.$router.back(-1)
+      if(this.backUrl&&this.backUrl.length>0){
+        this.$router.push({name:this.backUrl});   
+      }else{
+        this.$router.back(-1);
+      }
     }
 
   }
@@ -80,5 +94,5 @@ export default {
   h2{display: flex; background: #2698d6;font-size: 0.16rem;}
   .headerLeft,.headerRight{display: flex; flex-direction: column; justify-content: center; align-items: center; width: 0.45rem; height: 0.45rem; font-size: 0.14rem;}
   .headerLeft i{font-size: 0.2rem;}
-  .popBg{background: rgba(0,0,0,0.5); position: fixed; top: 0.45rem; bottom: 0; z-index: 999; padding: 0 0.25rem;}
+  .popBg{background: rgba(0,0,0,0.5); position: fixed;width: 100%; top: 0.45rem; bottom: 0; z-index: 999; padding: 0 0.25rem;}
 </style>

@@ -15,7 +15,7 @@
             <template><loadingtmp :busy="busy" :loadall="loadall"></loadingtmp></template>
           </el-table-column>
         </template>
-      </el-table>
+      </el-table> 
     </div>
     <loadingtmp :busy="busy" :loadall="loadall"></loadingtmp>
   </div>

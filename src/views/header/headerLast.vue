@@ -27,10 +27,15 @@ export default {
   methods: {
 
     back: function (event) {
-      console.log("in back");
+      console.log(this.backUrl);
       if(this.backUrl&&this.backUrl.length>0){
         console.log("route backurl");
-        this.$router.push({name:this.backUrl,query:{date1:this.date1,date2:this.date2}});       
+        console.log(this.date1);
+        if(this.backUrl == 'casedetail'){
+          this.$router.push({name:this.backUrl,query:{caseId:this.date1}});
+        }else{
+          this.$router.push({name:this.backUrl,query:{date1:this.date1,date2:this.date2}});       
+        }
       }else{
         this.$router.back(-1);
       }
