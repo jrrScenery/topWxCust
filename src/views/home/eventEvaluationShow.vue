@@ -30,8 +30,8 @@
                         </el-form-item>
                     </div>
                     <div style="margin:0.1rem">客户签名</div>
-                    <div v-if="formData.imgStr">
-                        <img style="height:1.5rem;" v-bind:src="formData.imgStr" alt="">
+                    <div v-if="formData.imgObject.imgStr">
+                        <img style="height:1.5rem;" v-bind:src="formData.imgObject.imgStr" alt="">
                     </div>
                     <div v-else><img style="height:0.5rem;" src="" alt=""></div>
                     <add-signature :title="addSignatureTit" :queryData="searchData" @searchPro="signature"></add-signature>
@@ -41,7 +41,7 @@
                         </el-form-item>
                     </ul>
                     <div style="height: 0.6rem;"></div>
-                    <el-form-item class="serviceSubmitBtn">
+                    <el-form-item class="serviceSubmitBtn" v-if="!signImg">
                         <el-button @click="submitForm('formData')">提交</el-button>
                     </el-form-item>
                 </el-form>
@@ -70,7 +70,7 @@ export default {
                 optionOption:[],
                 question:[],
                 scoreOption:[],
-                imgStr:'',
+                imgObject:'',
                 aroptschked:[],
                 otherResult:'',
                 engineername:''
@@ -89,6 +89,8 @@ export default {
         let vm= this;    
         fetch.get("?action=GetCaseEvaluateInfo&EVALUATE_ID=" + this.evaluateId).then(res=>{
             console.log(res);
+            this.formData.imgObject = res.imgObject;
+            this.signImg = res.imgObject.imgStr;
             if(res.STATUSCODE==0){
                 this.scoreOption = res.scoreOption;
                 let jsonres= res;
@@ -116,23 +118,24 @@ export default {
     },
     methods:{           
         signature(imgStr){
-            this.formData.imgStr = imgStr;
+            this.formData.imgObject.imgStr = imgStr;
         },
         getScore(scoreOption,questionId){
-            console.log("questionId:"+questionId);
             var score = 0;
             scoreOption.forEach(function(v,i,ar){
                 if(v.questionId == questionId){
                     if(v.checkFlg==1){
-                        if(score<v.questionScore)
-                        score = v.questionScore;
+                        if(score<v.optionScore)
+                        score = v.optionScore;
                     }
                 }
             })
-            console.log("score:"+score)
             return score;
         },
         getScoreOpinionId(scoreOption,questionId,scoreval){
+            console.log("bbbbbbbbb");
+            console.log("questionId:"+questionId);
+            console.log("scoreval："+scoreval)
             let optionId;
             scoreOption.forEach(function(v,i,ar){
                 if(v.questionId == questionId&&v.optionScore==scoreval){
@@ -140,6 +143,7 @@ export default {
                     return false;
                 }
             })
+            console.log("optionId:"+optionId);
             return optionId;
         },
         submitForm(formName){
@@ -209,7 +213,7 @@ export default {
                         loading.close();
                         return;
                     }
-                    if(!vm.formData.imgStr){
+                    if(!vm.formData.imgObject.imgStr){
                         vm.$message({
                             message:'请签名',
                             type: 'warning',
@@ -226,7 +230,7 @@ export default {
                     postData.append('totalScore',avgScore);
                     postData.append('EvaluateResult',JSON.stringify(detailArray));
                     postData.append('failFlg',failFlg);
-                    postData.append('imgStr',this.formData.imgStr);
+                    postData.append('imgStr',this.formData.imgObject.imgStr);
                     console.log("mmmmmmmmm");
                     console.log(detailArray);
                     fetch.post("?action=/case/SubmitClientReview",postData).then(res=>{

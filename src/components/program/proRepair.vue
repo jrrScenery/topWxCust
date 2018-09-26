@@ -48,9 +48,10 @@ import fetch from '../../utils/ajax'
 
 export default {
   name: 'proRepair',
-  props:{
-    prorepairpage: Number
-  },
+  // props:{ 
+  //   prorepairpage: Number
+  // },
+  props:['prorepairpage'],
   components: {
     loadingtmp
   },
@@ -66,7 +67,8 @@ export default {
     }
   },
   created () {
-  },
+    console.log("prorepairpage:"+this.prorepairpage);
+  }, 
   methods: {
 
     loadrepair(flag){
