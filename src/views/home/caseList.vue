@@ -40,7 +40,7 @@
                   <el-col :span="24"><span class="tit">SN：</span><span>{{info.SN}}</span></el-col>
                 </el-row>
                 <el-row>
-                  <el-col :span="24"><span class="tit">说明：</span><span>{{info.PROBLEM_DETAIL}}</span></el-col>
+                  <el-col :span="24"><span class="tit">故障说明：</span><span>{{info.PROBLEM_DETAIL}}</span></el-col>
                 </el-row>
               </div>
               </router-link>

@@ -43,7 +43,7 @@
                     </ul>
                 </div>
                 <div class="ITcellRight">
-                    <img src="../../assets/images/svice_img1.jpg" alt="">
+                    <img src="../../assets/images/svice_img2.jpg" alt="">
                 </div>
             </div>
             <div class="prodCell">
@@ -74,7 +74,7 @@
                     </div>
                 </div>
                 <div class="ITcellRight2">
-                    <img src="../../assets/images/svice_img1.jpg" alt="">
+                    <img src="../../assets/images/svice_img3.jpg" alt="">
                 </div>
             </div>
         </div>

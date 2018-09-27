@@ -45,7 +45,7 @@
                         <span>{{caseBaseDetail.taskItem}}</span>
                     </li>
                     <li>                
-                        <span>概要说明：</span>
+                        <span>故障说明：</span>
                         <span>{{caseBaseDetail.desc}}</span>
                     </li>             
                 </ul>

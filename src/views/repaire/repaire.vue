@@ -1,6 +1,6 @@
 <template>
     <div class="repaireView">
-        <header-base-four :title="repaireTit"></header-base-four>
+        <header-last :title="repaireTit"></header-last>
         <div class="repaireContent">
             <el-form :model="formData" label-width="0.9rem" ref="formData">
                 <el-form-item label="序列号：">
@@ -19,7 +19,7 @@
                     <el-form-item label="厂商：" class="formborder">
                         <el-input v-model="formData.factoryNm" :value="formData.factoryId" placeholder="通过型号自动带出" disabled></el-input>
                     </el-form-item>
-                    <el-form-item label="所在城市：">
+                    <el-form-item label="所在城市：" label-width="0.9rem">
                         <el-cascader
                             :options="options"
                             v-model="formData.city"
@@ -89,14 +89,14 @@
     </div>
 </template>
 <script>
-import headerBaseFour from '../header/headerBaseFour'
+import headerLast from '../header/headerLast'
 import '../../utils/1.js'
 // import func from './vue-temp/vue-editor-bridge';
 import fetch from '../../utils/ajax'
 export default {
     name:'repaire',
     components:{
-        headerBaseFour
+        headerLast
     },
     data(){
         return{
@@ -291,6 +291,7 @@ export default {
 .repaireContent >>> .el-input__inner::placeholder{font-size: 0.13rem; color: #acacac}
 .repaireContent >>> .el-input.is-disabled .el-input__inner{background: #ffffff;color: #e5e5e5}
 .repaireContent >>> .el-cascader{width: 85%;}
+/* .repaireContent >>> .el-cascader-menu{min-width: 80px;} */
 .repaireContent >>> .el-select{width: 85%;}
 .repaireText{margin: 0!important;}
 .repaireText >>> .el-form-item__content{margin: 0!important; line-height: 0.3rem;}
@@ -302,5 +303,9 @@ export default {
 .repaireSubmitBtn >>> .el-form-item__content{margin: 0!important;}
 .repaireSubmitBtn >>> .el-form-item__content .el-button{width: 100%; border: 0.01rem solid #2698d6; background: #2698d6; border-radius: 0; font-size: 0.16rem; color: #ffffff; height: 0.5rem; position: relative; bottom: 0;}
 </style>
+<style>
+.el-cascader-menu{min-width: 120px;}
+</style>
+
 
 
