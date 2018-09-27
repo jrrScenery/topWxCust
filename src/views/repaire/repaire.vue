@@ -29,9 +29,6 @@
                     </el-form-item>
                 </div>
                 <div v-else>
-                    <!-- <el-form-item label="序列号：">
-                        <el-input v-model="formData.num" placeholder="请输入序列号"></el-input>
-                    </el-form-item> -->
                     <el-form-item label="型号：">
                         <el-autocomplete class="el-input"
                                 v-model="formData.modelName" 
@@ -54,20 +51,6 @@
                         </el-cascader>            
                     </el-form-item>
                 </div>
-                <!-- <el-form-item label="型号：">
-                    <el-input v-model="formData.modelName" placeholder="请输入型号"></el-input>
-                </el-form-item>
-                <el-form-item label="厂商：">
-                    <el-input v-model="formData.factoryNm" placeholder="请输入厂商"></el-input>
-                </el-form-item> -->
-                <!-- <el-form-item label="所在城市：">
-                    <el-cascader
-                        :options="options"
-                        v-model="formData.city"
-                        filterable
-                        placeholder="请选择所在城市">
-                    </el-cascader>            
-                </el-form-item> -->
                 <el-form-item label="影响程度：">
                     <el-select v-model="formData.degree" placeholder="请选择">
                         <el-option v-for="item in degree" :label="item.value" :value="item.id" :key="item.id"></el-option>
@@ -289,7 +272,7 @@ export default {
 .repaireContent >>> .el-form-item__label{font-size: 0.13rem; color: #acacac; padding: 0 0 0 0.25rem; text-align: left}
 .repaireContent >>> .el-input__inner{border: none; color: #333333;}
 .repaireContent >>> .el-input__inner::placeholder{font-size: 0.13rem; color: #acacac}
-.repaireContent >>> .el-input.is-disabled .el-input__inner{background: #ffffff;color: #e5e5e5}
+.repaireContent >>> .el-input.is-disabled .el-input__inner{background: #ffffff;color: #acacac}
 .repaireContent >>> .el-cascader{width: 85%;}
 /* .repaireContent >>> .el-cascader-menu{min-width: 80px;} */
 .repaireContent >>> .el-select{width: 85%;}

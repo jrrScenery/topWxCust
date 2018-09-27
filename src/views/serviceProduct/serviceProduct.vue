@@ -47,12 +47,15 @@
                 </div>
             </div>
             <div class="prodCell">
-                <div class="ITcellLeft2" style="display:flex">
+                <div class="ITcellLeft2">
+                    <img src="../../assets/images/svice_img3.jpg" alt="">
+                </div>
+                <div class="ITcellRight2" style="display:flex">
                     <div>
                         <p>IT运维服务</p>
                         <ul>
-                            <li><span>My DC</span></li>
-                            <li><span>云运维</span></li>
+                            <li><span style="color:#666666">My DC</span></li>
+                            <li><span  style="color:#666666">云运维</span></li>
                             <router-link :to="{name:'ITBusinessOperation'}">
                                 <li><span>业务运维服务</span></li>
                             </router-link>
@@ -69,13 +72,13 @@
                             <router-link :to="{name:'ITBaseOperationService'}">
                                 <li><span>基础运维服务</span></li>
                             </router-link>
-                            <li><span>维修服务业务</span></li>
+                            <li><span style="color:#666666">维修服务业务</span></li>
                         </ul>
                     </div>
                 </div>
-                <div class="ITcellRight2">
+                <!-- <div class="ITcellLeft2">
                     <img src="../../assets/images/svice_img3.jpg" alt="">
-                </div>
+                </div> -->
             </div>
         </div>
     </div>
@@ -109,24 +112,24 @@ export default {
 .prodCell{display: flex; margin: 0.1rem 0rem;}
 .prodCell .cellLeft{width: 50%;}
 .prodCell .cellLeft img{width: 100%; height: 100%;}
-.prodCell .cellRight{margin-left: 0.2rem;}
+.prodCell .cellRight{margin-left: 0.15rem;}
 .prodCell .cellRight p{font-size: 0.15rem; color: #262626; margin-bottom: 0.1rem;}
 .prodCell .cellRight li{color: #666666; font-size: 0.12rem; line-height: 0.2rem;}
-.prodCell .cellRight li span{margin-right: 0.15rem;color: #2698d6}
+.prodCell .cellRight li span{margin-right: 0.1rem;color: #2698d6}
 
-.prodCell .ITcellLeft{padding-left: 0.2rem;width: 35%;background-color:#2698d6;}
+.prodCell .ITcellLeft{padding-left: 0.15rem;width: 35%;background-color:#2698d6;}
 .prodCell .ITcellLeft p{font-size: 0.15rem; color: #ffffff; margin-bottom: 0.1rem;}
 .prodCell .ITcellLeft li{color: #ffffff; font-size: 0.12rem; line-height: 0.2rem;}
-.prodCell .ITcellLeft li span{margin-right: 0.15rem;color: #ffffff}
+.prodCell .ITcellLeft li span{margin-right: 0.1rem;color: #ffffff}
 .prodCell .ITcellRight{width: 65%;}
 .prodCell .ITcellRight img{width: 100%; height: 100%;}
 
-.prodCell .ITcellLeft2{margin-left: 0.2rem;width: 55%}
-.prodCell .ITcellLeft2 p{font-size: 0.15rem; color: #262626; margin-bottom: 0.1rem;}
-.prodCell .ITcellLeft2 li{color: #666666; font-size: 0.12rem; line-height: 0.2rem;}
-.prodCell .ITcellLeft2 li span{margin-right: 0.15rem;color: #2698d6}
-.prodCell .ITcellRight2{width: 45%;}
-.prodCell .ITcellRight2 img{width: 100%; height: 100%;}
+.prodCell .ITcellRight2{margin-left: 0.15rem;width: 50%}
+.prodCell .ITcellRight2 p{font-size: 0.15rem; color: #262626; margin-bottom: 0.1rem;}
+.prodCell .ITcellRight2 li{color: #666666; font-size: 0.12rem; line-height: 0.2rem;}
+.prodCell .ITcellRight2 li span{margin-right: 0.1rem;color: #2698d6}
+.prodCell .ITcellLeft2{width: 50%;}
+.prodCell .ITcellLeft2 img{width: 100%; height: 100%;}
 </style>
 
 
