@@ -108,7 +108,7 @@ export default {
               console.log(JSON.stringify(res.data.userPermission));
               localStorage.setItem("userPermission", JSON.stringify(res.data.userPermission));
 
-              
+              /*
               let ua = navigator.userAgent.toLowerCase();
               if (/(iPhone|iPad|iPod|iOS)/i.test(ua)) {
                 var info={action:"login",empId:localStorage.getItem('empId'),token:token}
@@ -118,7 +118,7 @@ export default {
                   var value = "{action:login,empId:"+localStorage.getItem('empId')+",token:"+ token + "}";
                   android.getClient(value);                  
                 }
-              }
+              }*/
 
               let userPermission = res.data.userPermission;
               this.updateUserPermission(userPermission);
@@ -139,8 +139,10 @@ export default {
       })
     },
 
+    //更新终端位置信息
     updateUserPermission(userPermission){
 
+      /*
       var isGps = 0;
       if(userPermission.length>0){
         console.log("aaaaaaa");
@@ -166,14 +168,13 @@ export default {
             var value = "{action:location,empId:"+localStorage.getItem('empId')+",interval:"+this.interval+"}";
             android.getClient(value);
           }
-          console.log("000000000");
-          this.$router.push({name: 'home',query: { rancode: (new Date()).valueOf() }});
         });
       }else{
-        console.log("11111111111");
         console.log((new Date()).valueOf());
-        this.$router.push({name: 'home',query: { rancode: (new Date()).valueOf() }});
-      }
+      }*/
+
+      this.$router.push({name: 'home',query: { rancode: (new Date()).valueOf() }});
+
     },
     // 设置cookie
     setCookie (c_name, c_pwd, exdays) {
