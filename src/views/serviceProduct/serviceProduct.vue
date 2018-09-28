@@ -1,6 +1,6 @@
 <template>
     <div class="serviceProductView">
-        <header-last :title="serviceProductTit"></header-last>
+        <header-repaire :title="serviceProductTit"></header-repaire>
         <div class="prodContent">
             <div class="prodCell">
                 <div class="cellLeft">
@@ -84,12 +84,12 @@
     </div>
 </template>
 <script>
-import headerLast from '../header/headerLast'
+import headerRepaire from '../header/headerRepaire'
 import fetch from '../../utils/ajax'
 export default {
     name:'serviceProduct',
     components:{
-        headerLast
+        headerRepaire
     },
     data(){
         return{

@@ -1,6 +1,6 @@
 <template>
     <div class="reportView">
-        <header-base :title="reportTit" :searchType="searchType" :queryData="searchData"  @searchPro="getSearParams"></header-base>
+        <header-report :title="reportTit" :searchType="searchType" :queryData="searchData"  @searchPro="getSearParams"></header-report>
         <!-- <div class="searchInput">
             <el-input placeholder="搜索">
                 <el-button slot="append" icon="el-icon-search"></el-button>
@@ -35,12 +35,12 @@
     </div>
 </template>
 <script>
-import headerBase from '../header/headerBase'
+import headerReport from '../header/headerReport'
 import fetch from '../../utils/ajax'
 export default {
     name:'report',
     components:{
-        headerBase
+        headerReport
     },
     data(){
         return{

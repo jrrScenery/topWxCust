@@ -1,9 +1,16 @@
 <template>
     <div class="repaireView">
-        <header-last :title="repaireTit"></header-last>
+        <header-repaire :title="repaireTit"></header-repaire>
         <div class="repaireContent">
+            <div class="attention">
+                {{attentionhello}}<br>
+                {{attentioninfo1}}
+                <a @click="sendCall(attentioncall1)" v-bind:href="'tel:'+attentioncall1" style="color: #2698d6;"> {{attentioncall1}} </a>,
+                <a @click="sendCall(attentioncall2)" v-bind:href="'tel:'+attentioncall2" style="color: #2698d6;"> {{attentioncall2}} </a>
+                {{attentioninfo2}}
+            </div>
             <el-form :model="formData" label-width="0.9rem" ref="formData">
-                <el-form-item label="序列号：">
+                <el-form-item label="序列号：" style="border-top: 0.01rem solid #e5e5e5; margin: 0;">
                     <el-autocomplete class="el-input"
                               v-model="formData.num" 
                               :fetch-suggestions="querySearchSn"
@@ -23,8 +30,8 @@
                         <el-cascader
                             :options="options"
                             v-model="formData.city"
-                            filterable
-                            placeholder="请选择所在城市">
+                            placeholder="请选择所在城市"
+                            change-on-select>
                         </el-cascader>            
                     </el-form-item>
                 </div>
@@ -32,7 +39,7 @@
                     <el-form-item label="型号：">
                         <el-autocomplete class="el-input"
                                 v-model="formData.modelName" 
-                                :value="formData.devId"
+                                :value="formData.modelName"
                                 :fetch-suggestions="querySearchAsync"
                                 placeholder="请输入型号" 
                                 :trigger-on-focus="false"
@@ -46,11 +53,13 @@
                         <el-cascader
                             :options="options"
                             v-model="formData.city"
-                            filterable
                             placeholder="请选择所在城市">
                         </el-cascader>            
                     </el-form-item>
                 </div>
+                <el-form-item label="具体地址：">
+                    <el-input v-model="formData.address" placeholder="请输入具体地址"></el-input>
+                </el-form-item>
                 <el-form-item label="影响程度：">
                     <el-select v-model="formData.degree" placeholder="请选择">
                         <el-option v-for="item in degree" :label="item.value" :value="item.id" :key="item.id"></el-option>
@@ -72,14 +81,14 @@
     </div>
 </template>
 <script>
-import headerLast from '../header/headerLast'
+import headerRepaire from '../header/headerRepaire'
 import '../../utils/1.js'
 // import func from './vue-temp/vue-editor-bridge';
 import fetch from '../../utils/ajax'
 export default {
     name:'repaire',
     components:{
-        headerLast
+        headerRepaire
     },
     data(){
         return{
@@ -89,6 +98,7 @@ export default {
                 modelName:'',
                 factoryNm:'',
                 city:[],
+                address:'',
                 degree:'',
                 range:'',
                 desc:''
@@ -106,6 +116,13 @@ export default {
                 {"id" : "3","value" : "整个业务范围"}
             ],
             snArray:[],
+            caseLevel:'',
+            caseLevelName:'',
+            attentionhello: "尊敬的客户您好！",
+            attentioncall1: "400-6106661",
+            attentioncall2: "800-8106661",
+            attentioninfo1: "神州信息Web/APP/微信报障方式支持5*9（9:00-18:00），非工作时间请拨打服务热线报障：",
+            attentioninfo2: "（密码：7653），感谢您的支持！",
         }
     },
     created(){
@@ -123,6 +140,7 @@ export default {
                         this.formData.factoryNm = this.deviceArray[i].factoryNm;
                         this.formData.factoryId = this.deviceArray[i].factoryId;
                         this.formData.devId = this.deviceArray[i].modelId;
+                        this.formData.modelName = this.deviceArray[i].modelName;
                     }
                 } 
             }
@@ -139,12 +157,9 @@ export default {
                         this.formData.city[1] = (String)(this.snArray[i].AREA);
                     }
                 } 
-                console.log("mmmmmmm");
-                console.log(this.formData);
             }
         },
         querySearchSn(queryString, cb){
-            console.log("111"+this.formData.num)
             fetch.get("?action=/system/QueryModelBySN&SN="+this.formData.num,'').then(res=>{
                 console.log(res);
                 this.snArray = res.data;
@@ -179,7 +194,7 @@ export default {
                 }
                 
                 let results = queryString ? deviceArray.filter(this.createStateFilter(queryString)) : deviceArray;
-        
+                console.log(results);
                 clearTimeout(this.timeout);
                 this.timeout = setTimeout(() => {
                     cb(results);
@@ -188,7 +203,6 @@ export default {
             // let deviceArray = this.deviceArray;
         },
         createStateFilter(queryString) {
-            console.log(queryString);
             return (devId) => {
                 return (devId.value.toLowerCase().indexOf(queryString.toLowerCase()) !== -1);
             };
@@ -202,11 +216,10 @@ export default {
             });
             let vm= this;
             this.$refs[formName].validate((valid) => {
-                console.log(valid);
                 if (valid) {
-                    console.log(vm.formData);
+                    vm.getCaseLevel();
                     if(!vm.check(loading)) return;
-                    let params ="&SN_ID="+vm.formData.num+"&SERVICE_SITE="+vm.formData.city[vm.formData.city.length - 1]+"&FACTORY_NAME="+vm.formData.factoryNm+"&MODEL_NAME="+vm.formData.modelName+"&IMPACT_DEGREE="+vm.formData.degree+"&IMPACT_SPHERE="+vm.formData.range+"&REMARK="+window.encodeURI(this.formData.desc);
+                    let params ="&SN_ID="+vm.formData.num+"&SERVICE_SITE="+vm.formData.city[vm.formData.city.length - 1]+"&ADDRESS="+vm.formData.address+"&CASE_LEVEL="+vm.caseLevel+"&FACTORY_NAME="+vm.formData.factoryNm+"&FACTORY_ID="+vm.formData.factoryId+"&MODEL_NAME="+vm.formData.modelName+"&MODEL_ID="+vm.formData.devId+"&IMPACT_DEGREE="+vm.formData.degree+"&IMPACT_SPHERE="+vm.formData.range+"&REMARK="+window.encodeURI(this.formData.desc);
                     console.log(params);
                     fetch.get("?action=DeclareCase"+params,"").then(res=>{
                         console.log(res);
@@ -223,6 +236,7 @@ export default {
                                 modelName:'',
                                 factoryNm:'',
                                 city:[],
+                                address:'',
                                 degree:'',
                                 range:'',
                                 desc:''
@@ -239,7 +253,68 @@ export default {
                 }
             })
         },
+        getCaseLevel(){
+            let caselevelId = this.formData.degree;
+            let casescopeId = this.formData.range;
+            if(caselevelId!=''&&casescopeId!=''){
+                if((caselevelId==1)&&((casescopeId==1)||(casescopeId==2))){
+                    this.caseLevel = "4";
+				    this.caseLevelName="四级";
+                }else if((caselevelId==1)&&(casescopeId==3)){
+                    this.caseLevel = "3";
+				    this.caseLevelName="三级";
+                }else if((caselevelId==2)&&(casescopeId==1)){
+                    this.caseLevel = "3";
+				    this.caseLevelName="三级";
+                }else if((caselevelId==2)&&(casescopeId==2)){
+                    this.caseLevel = "3";
+				    this.caseLevelName="三级";
+                }else if((caselevelId==2)&&(casescopeId==3)){
+                    this.caseLevel = "2";
+				    this.caseLevelName="二级";
+                }else if((caselevelId==3)&&(casescopeId==1)){
+                    this.caseLevel = "3";
+				    this.caseLevelName="三级";
+                }else if((caselevelId==3)&&(casescopeId==2)){
+                    this.caseLevel = "2";
+				    this.caseLevelName="二级";
+                }else if((caselevelId==3)&&(casescopeId==3)){
+                    this.caseLevel = "2";
+				    this.caseLevelName="二级";
+                }else if((caselevelId==4)&&(casescopeId==1)){
+                    this.caseLevel = "2";
+				    this.caseLevelName="二级";
+                }else if((caselevelId==4)&&(casescopeId==2)){
+                    this.caseLevel = "1";
+				    this.caseLevelName="一级";
+                }else if((caselevelId==4)&&(casescopeId==3)){
+                    this.caseLevel = "1";
+				    this.caseLevelName="一级";
+                }
+            }
+        },
         check(loading){
+            console.log(this.formData.city);
+            if(this.formData.num==''){
+                this.$message({
+                    message:'请输入序列号!',
+                    type: 'warning',
+                    center: true,
+                    customClass:'msgdefine'
+                });
+                loading.close();
+                return false
+            }
+            if(this.formData.modelName==''){
+                this.$message({
+                    message:'请输入型号!',
+                    type: 'warning',
+                    center: true,
+                    customClass:'msgdefine'
+                });
+                loading.close();
+                return false
+            }
             if(this.formData.city.length==0){
                 this.$message({
                     message:'请选择所在城市!',
@@ -250,9 +325,29 @@ export default {
                 loading.close();
                 return false
             }
+            if(this.formData.degree==''){
+                this.$message({
+                    message:'请输入影响程度!',
+                    type: 'warning',
+                    center: true,
+                    customClass:'msgdefine'
+                });
+                loading.close();
+                return false
+            }
+            if(this.formData.range==''){
+                this.$message({
+                    message:'请输入影响范围!',
+                    type: 'warning',
+                    center: true,
+                    customClass:'msgdefine'
+                });
+                loading.close();
+                return false
+            }
             if(this.formData.desc==''){
                 this.$message({
-                    message:'请输入概要说明!',
+                    message:'请输入故障说明!',
                     type: 'warning',
                     center: true,
                     customClass:'msgdefine'
@@ -266,8 +361,9 @@ export default {
 }
 </script>
 <style scoped>
-.repaireView{width: 100%}
+.repaireView{width: 100%;}
 .repaireContent{background: #ffffff; position: relative; margin-bottom: 0.2rem;}
+.attention{color: red;padding: 0.1rem;}
 .repaireContent >>> .el-form-item{border-bottom: 0.01rem solid #e5e5e5; margin: 0;}
 .repaireContent >>> .el-form-item__label{font-size: 0.13rem; color: #acacac; padding: 0 0 0 0.25rem; text-align: left}
 .repaireContent >>> .el-input__inner{border: none; color: #333333;}
@@ -287,7 +383,7 @@ export default {
 .repaireSubmitBtn >>> .el-form-item__content .el-button{width: 100%; border: 0.01rem solid #2698d6; background: #2698d6; border-radius: 0; font-size: 0.16rem; color: #ffffff; height: 0.5rem; position: relative; bottom: 0;}
 </style>
 <style>
-.el-cascader-menu{min-width: 120px;}
+.el-cascader-menu{min-width: 110px;}
 </style>
 
 

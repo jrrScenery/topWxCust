@@ -26,7 +26,7 @@
             v-for="item in caseData" 
             :key="item.CASE_ID"
             v-loading="loadalls['caseData']['busy'] && !loadalls['caseData']['loadall']">
-        <router-link :to="{name:'casedetail',query:{caseId:item.CASE_ID,projectId:item.PROJECT_ID}}">
+        <router-link :to="{name:'casedetail',query:{caseId:item.CASE_ID,projectId:item.PROJECT_ID,ifClose:item.IF_CLOSE}}">
           <div class="cellTop">
             <el-row>
               <el-col :span="13">

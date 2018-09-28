@@ -20,12 +20,16 @@
                     </router-link>
                 </el-col>
                 <el-col :span="6">
-                    <router-link :to="{name:'serviceRate',query:{caseId:this.caseId}}">
+                    <router-link v-if="this.ifClose=='Y'" :to="{name:'serviceRate',query:{caseId:this.caseId,ifEvaluate:this.ifEvaluate,ifClose:this.ifClose}}">
                         <div>
                             <img src="../../assets/images/eventBaseInfo_3.png" style="width: 0.15rem; height: 0.135rem;" alt="">
                             <span>服务评价</span>
                         </div>
                     </router-link>
+                    <div v-else @click="clickService">
+                        <img src="../../assets/images/eventBaseInfo_3.png" style="width: 0.15rem; height: 0.135rem;" alt="">
+                        <span>服务评价</span>
+                    </div>
                 </el-col>
                 <el-col :span="6">
                     <router-link :to="{name:'eventFeedback',query:{caseId:this.caseId,projectId:this.projectId}}">
@@ -64,9 +68,25 @@ export default {
             activeName: 'first',
             caseId: this.$route.query.caseId,
             projectId: this.$route.query.projectId,
+            ifEvaluate: this.$route.query.ifEvaluate,
+            ifClose: this.$route.query.ifClose
         }
     },
     created(){
+        if(this.ifClose==undefined){
+            this.ifClose = "Y"
+        }
+        console.log("ifClose:",this.ifClose)
+    },
+    methods:{
+        clickService(){
+            this.$message({
+                message:'执行中状态不可评价！',
+                type: 'warning',
+                center: true,
+                customClass: 'msgdefine'
+            });
+        },
     }
 }
 </script>

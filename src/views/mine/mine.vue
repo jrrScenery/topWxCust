@@ -49,7 +49,7 @@ export default {
         {imgSrc: require('@/assets/images/mine_bg.jpg'), userName:localStorage['realName'],orgName:localStorage['orgName'], phone:localStorage['mobile']}
       ],
       liObj: [
-        {imgSrc: require('@/assets/images/mine_1.png'), text: '通知',action:'mineNotice'},
+        {imgSrc: require('@/assets/images/mine_1.png'), text: '通知与待办',action:'mineNotice'},
         // {imgSrc: require('@/assets/images/mine_2.png'), text: '我的报修',action:''}, 暂时注释
         {imgSrc: require('@/assets/images/mine_3.png'), text: '我的意见反馈',action:'Feedback'},
         {imgSrc: require('@/assets/images/mine_4.png'), text: '退出当前账户',action:'logout'}

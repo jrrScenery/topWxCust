@@ -177,7 +177,11 @@ export default new Router({
     {
       path: '/mine/mineNotice',
       name: 'mineNotice',
-      component: resolve => require(['@/views/mine/mineNotice'], resolve)
+      component: resolve => require(['@/views/mine/mineNotice'], resolve),
+      meta: {
+        isUseCache: false,
+        keepAlive: true
+      }
     },
     {
       path: '/mine/mineFeedback',

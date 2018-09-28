@@ -9,7 +9,7 @@
           <el-tab-pane :label="item.label+'('+totalData[item.numname]+')'" :name="item.name" :key="item.id">
             <div style="overflow:auto">
             <div class="eventCell" v-for="info in item.caseListArr" :key="info.id">
-              <router-link :to="{name:'casedetail',query:{caseId:info.CASE_ID,projectId:info.PROJECT_ID}}">
+              <router-link :to="{name:'casedetail',query:{caseId:info.CASE_ID,projectId:info.PROJECT_ID,ifClose:info.IF_CLOSE,ifEvaluate:info.IF_EVALUATE}}">
               <div class="cellTop">
                 <el-row>
                   <el-col :span="1">
@@ -79,19 +79,25 @@ export default {
         },
         {
           name: 'second',
-          label: '已关闭',
+          label: '待评价',
           caseListArr: [],
-          numname:"closeNum"
+          numname:"unevaluateNum"
         },
         {
           name: 'third',
+          label: '已评价',
+          caseListArr: [],
+          numname:"evaluateNum"
+        },
+        {
+          name: 'forth',
           label: '全部',
           caseListArr: [],
           numname:"allNum"
         }
       ],
       searchType: 'caseStatus',
-      activeName: this.$route.query.isSearch?"third":'first',
+      activeName: this.$route.query.isSearch?"forth":'first',
       searchpage:1,
       isSearch:this.$route.query.isSearch,
       page:1,
@@ -105,9 +111,10 @@ export default {
         startTime: this.$route.query.startDate,
         endTime: this.$route.query.endDate,
       },
-      objpages:{"first":{page:1,loadall:false, IF_CLOSE:'N',idx:0,isSearch:0},"second":{page:1,loadall:false,IF_CLOSE:'Y',idx:1,isSearch:0},
-      "third":{page:1,loadall:false,IF_CLOSE:'',idx:2,isSearch:0}},
-      totalData:{"unCloseNum":0,"closeNum":0,"allNum":0}
+      objpages:{"first":{page:1,loadall:false, IF_CLOSE:'N',IF_EVALUATE:'',idx:0,isSearch:0},"second":{page:1,loadall:false,IF_CLOSE:'Y',IF_EVALUATE:'N',idx:1,isSearch:0},
+      "third":{page:1,loadall:false,IF_CLOSE:'Y',IF_EVALUATE:'Y',idx:2,isSearch:0},
+      "forth":{page:1,loadall:false,IF_CLOSE:'',IF_EVALUATE:'',idx:3,isSearch:0}},
+      totalData:{"unCloseNum":0,"unevaluateNum":0,"evaluateNum":0,"allNum":0}
     }
   },
   created () {
@@ -127,6 +134,9 @@ export default {
       this.objpages["third"]["page"] = 1;
       this.objpages["third"]["loadall"]= false;
       this.opinionTab[2].caseListArr = [];
+      this.objpages["forth"]["page"] = 1;
+      this.objpages["forth"]["loadall"]= false;
+      this.opinionTab[3].caseListArr = [];
       this.loadMore();
     }
     this.$route.meta.isUseCache = false;
@@ -169,7 +179,7 @@ export default {
       var flag = this.objpages[this.activeName]["page"]>1;
       let objnowpage = this.objpages[this.activeName];     
       let strurl = "?action=GetCaseList";
-      let params = {CASE_TYPEID:"1,2",PAGE_NUM: objnowpage.page, PAGE_TOTAL: this.pageSize, IF_CLOSE: objnowpage.IF_CLOSE}
+      let params = {CASE_TYPEID:"1,2",PAGE_NUM: objnowpage.page, PAGE_TOTAL: this.pageSize, IF_CLOSE: objnowpage.IF_CLOSE,IF_EVALUATE:objnowpage.IF_EVALUATE}
       if(this.isSearch){
         console.log("vvvvvvvvvvvv");
         console.log(this.searchData);
@@ -182,10 +192,8 @@ export default {
         params.CREATE_DATE_END = this.searchData.endTime;
       }
       console.log(params);
-
-
       fetch.get(strurl,params).then(res => {
-          console.log(res);
+          console.log("res:",res);
         if('0'== res.STATUSCODE){
           
           let obj = this.opinionTab[objnowpage.idx].caseListArr;
@@ -212,12 +220,12 @@ export default {
 
     getSearParams (searchData) {
       console.log(searchData);
-      this.activeName="third";
-      this.objpages["third"]["page"] = 1;
-      this.objpages["third"]["loadall"]= false;
-      this.opinionTab[2].caseListArr = [];
+      this.activeName="forth";
+      this.objpages["forth"]["page"] = 1;
+      this.objpages["forth"]["loadall"]= false;
+      this.opinionTab[3].caseListArr = [];
       this.loadall = false;
-      this.objpages["third"]["isSearch"] = 1;
+      this.objpages["forth"]["isSearch"] = 1;
       this.isSearch=1;
       this.searchData = searchData;
       this.loadMore();
@@ -229,6 +237,10 @@ export default {
       this.objpages["second"]["isSearch"]=0
       this.objpages["second"]["loadall"]=false
       this.opinionTab[1].caseListArr = [];
+
+      this.objpages["third"]["isSearch"]=0
+      this.objpages["third"]["loadall"]=false
+      this.opinionTab[2].caseListArr = [];
     }
   }
 }
@@ -241,7 +253,7 @@ export default {
   .content >>> .el-tabs__header{margin-bottom: 0.45rem; background: #ffffff}
   .content >>> .el-tabs__nav{width: 100%;position: fixed;background:#ffffff; top: 0.45rem;}
   .content >>> .el-tabs__active-bar{background: #2698d6}
-  .content >>> .el-tabs__nav .el-tabs__item{width: 33.33333333%; text-align: center; padding: 0; color: #999999}
+  .content >>> .el-tabs__nav .el-tabs__item{width: 25%; text-align: center; padding: 0; color: #999999}
   .content >>> .el-tabs__nav .el-tabs__item.is-active{color: #2698d6}
   .eventCell{padding: 0 0.2rem 0.1rem; background: #ffffff; margin-bottom: 0.05rem;}
   .eventCell .cellTop{border-bottom: 0.01rem solid #dbdbdb; line-height: 0.37rem;}

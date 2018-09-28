@@ -4,7 +4,9 @@
     <el-collapse v-model="activeName" v-for="items in eventProgressObj" :key="items.name">
       <el-collapse-item :name="items.inx">
         <template slot="title">
-          <img class="titleImg" :src="items.imgSrc" alt="">{{items.title}}
+          <img class="titleImg" :src="items.imgSrc" alt="">
+          <div style="line-height:0.05rem;padding-top:0.1rem">{{items.time}}</div> 
+          <div>{{items.title}}</div>          
         </template>
         <template>
           <!--<img v-if="items.name === '3'" src="../../assets/images/eventBaseInfo_1.jpg" alt="" width="376" height="92">-->
@@ -60,7 +62,7 @@ export default {
       let tempstep = -1;
       logData.forEach(function(v,i,ar){
         if(   0 == temparr.length || (v.CASE_STEP!= temparr[temparr.length-1]["name"] && v.CASE_STEP!=null)  ){
-          temparr.push({"title":v.CASE_STEP_NAME,"realname":v.PROCESSOR_REALNAME,"inx":i,"name":v.CASE_STEP,imgSrc:require('@/assets/images/eventProgress_1.png'),desc:[]});
+          temparr.push({"title":v.CASE_STEP_NAME,"time":v.CREATE_DATE,"realname":v.PROCESSOR_REALNAME,"inx":i,"name":v.CASE_STEP,imgSrc:require('@/assets/images/eventProgress_1.png'),desc:[]});
         }
         temparr[temparr.length-1]["desc"].push({info:v.PROCESSING_LOG,time:v.CREATE_DATE,realname:v.PROCESSOR_REALNAME});
       })

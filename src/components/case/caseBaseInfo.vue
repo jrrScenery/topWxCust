@@ -1,7 +1,7 @@
 <template>
     <div class="caseBaseInfoView">
         <div class="caseDetailCell">
-            <div class="caseDetailTit">事件基本信息</div>
+            <div class="caseDetailTit">基本信息</div>
             <div class="content">
                 <ul class="tableTd">
                     <li>
@@ -37,16 +37,8 @@
                         <span>{{caseBaseDetail.SN}}</span>
                     </li>
                     <li>                
-                        <span>工单编号：</span>
-                        <span>{{caseBaseDetail.workId}}</span>
-                    </li>
-                    <li>                
-                        <span>标准任务项：</span>
-                        <span>{{caseBaseDetail.taskItem}}</span>
-                    </li>
-                    <li>                
                         <span>故障说明：</span>
-                        <span>{{caseBaseDetail.desc}}</span>
+                        <span>{{caseBaseDetail.PROBLEM_DETAIL}}</span>
                     </li>             
                 </ul>
             </div>
@@ -64,11 +56,9 @@ export default {
         }
     },
     created(){
-        console.log("============");
-        console.log(this.$route.query.caseId);
         let url = "?action=GetCaseInfo&CASE_ID="+this.$route.query.caseId;
         fetch.get(url,"").then(res=>{
-            console.log(res);
+            console.log("res:",res);
             this.caseBaseDetail = res.data;
         })
     }

@@ -2,7 +2,7 @@
     <div class="serviceRateView">  
         <header-last :title="serviceRateTit"></header-last>
         <div style="height: 0.45rem;"></div>  
-        <div class="serviceInfoCell" v-if="data.length==0">
+        <div class="serviceInfoCell">
             <div class="serviceContent">
                 <el-form :model="formData" ref="formData">
                     <div class="editorView" v-for="(item,i) in evaluateval" :key="i">
@@ -74,7 +74,7 @@ export default {
                 otherResult:'',
                 engineername:''
             },
-            data:[],
+            // data:[],
             score:[],
             evaluateval:[],
             scoreOption:[],
@@ -83,17 +83,20 @@ export default {
             caseId:this.$route.query.caseId,
             serviceId:this.$route.query.serviceId,
             taskId:this.$route.query.taskId,
-            evaluateId:''
+            evaluateId:'',
+            ifEvaluate: this.$route.query.ifEvaluate,
+            ifClose:this.$route.query.ifClose
         }
     },
     created:function(){
+        console.log("ifClose:",this.$route.query.ifClose);
         let vm= this;    
         var reqParams = {PAGE_NUM:1,PAGE_TOTAL:3}; 
         fetch.get("?action=/case/ServiceEvaluate&CASE_ID="+this.caseId,reqParams).then(res=>{
-            console.log(res);
+            console.log("res:",res);
             if(res.STATUSCODE==0){
                 this.data = res.data;
-                if(res.data.length==0){
+                if(this.$route.query.ifEvaluate=='N'){
                     this.evaluateId = res.evaluateId;
                     this.scoreOption = res.scoreOption;
                     this.scoreOption = res.scoreOption;
@@ -109,10 +112,11 @@ export default {
                     tmpjsonval.push(tmpobj);
                     })
                     this.evaluateval = tmpjsonval;
-                    console.log(this.evaluateval);
+                    console.log(this.evaluateval);                
                 }else{
                     let nowcaseId = vm.caseId;
-                    setTimeout(function(){vm.$router.push({name: 'caseEvaluateList',query:{caseId:nowcaseId}})},1000);
+                    let ifClose = vm.ifClose;
+                    setTimeout(function(){vm.$router.push({name: 'caseEvaluateList',query:{caseId:nowcaseId,ifClose:ifClose}})},1000);
                 }
             }else{
                 this.$message({
@@ -133,8 +137,8 @@ export default {
             scoreOption.forEach(function(v,i,ar){
                 if(v.questionId == questionId){
                     if(v.checkFlg==1){
-                        if(score<v.questionScore)
-                        score = v.questionScore;
+                        if(score<v.optionScore)
+                        score = v.optionScore;
                     }
                 }
             })
@@ -234,18 +238,20 @@ export default {
                     let postData = new URLSearchParams;
                     postData.append('evaluateStatus',2);
                     postData.append('evaluateId',vm.evaluateId);
+                    postData.append('caseId',vm.caseId);
                     postData.append('totalScore',avgScore);
                     postData.append('EvaluateResult',JSON.stringify(detailArray));
                     postData.append('failFlg',failFlg);
                     postData.append('imgStr',this.formData.imgStr);
-                    console.log("222222222");
+                    console.log("222222222",vm.evaluateId);
                     console.log(detailArray);
                     fetch.post("?action=/case/SubmitClientReview",postData).then(res=>{
                         console.log(res);
                         loading.close();
                         if(res.STATUSCODE=="0"){
                             let nowcaseId = vm.caseId;
-                            setTimeout(function(){vm.$router.push({name: 'caseEvaluateList',query:{caseId:nowcaseId}})},1000);
+                            let ifClose = vm.ifClose;
+                            setTimeout(function(){vm.$router.push({name: 'casedetail',query:{caseId:nowcaseId,ifClose:ifClose}})},500);
                         }else{
                             this.$message({
                                 message:res.MESSAGE+"发生错误",

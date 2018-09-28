@@ -74,9 +74,10 @@ export default {
   mounted () {
   },
   created () {
+    console.log(this.$route.query.complantId)
     let url = "?action=GetComplaintsInfo&COMPLANT_ID="+this.$route.query.complantId;
     fetch.get(url,"").then(res=>{
-      console.log(res.data);
+      console.log("res,",res);
       this.mineFeedbackShowObj[0].cellObj[0].rightCon = res.data.TASK_CODE;
       this.mineFeedbackShowObj[0].cellObj[1].rightCon = res.data.TASK_FROM;
       this.mineFeedbackShowObj[0].cellObj[2].rightCon = res.data.TASK_TYPE;

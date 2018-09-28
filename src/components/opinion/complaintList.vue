@@ -111,7 +111,7 @@ export default {
 
       var reqParams = {PAGE_NUM:this.page,PAGE_TOTAL:this.pageSize,TYPE: this.type};
       fetch.get("?action=GetComplaintsList",reqParams).then(res=>{
-        console.log(res);
+        console.log("res:",res);
         var tmpar= res.data;
         tmpar = tmpar.map(function(item){
           item.COMPLAINT_COMMENT = item.COMPLAINT_COMMENT.replace(/\n/g, "<br/>");
