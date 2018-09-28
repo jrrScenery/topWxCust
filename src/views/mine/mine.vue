@@ -66,8 +66,9 @@ export default {
         cancelButtonText: '取消',
         type: 'warning'
       }).then(() => {
-        let url = "?action=logOut";
         localStorage.removeItem("token");
+
+        /*
         let ua = navigator.userAgent.toLowerCase();
         //let isiOS = !!ua.match(/\(i[^;]+;( U;)? CPU.+Mac OS X/); //判断iPhone|iPad|iPod|iOS
         if (/(iPhone|iPad|iPod|iOS)/i.test(ua)) {
@@ -76,8 +77,9 @@ export default {
         }else if(typeof(android)!="undefined"){
           var value = "{action:logout}";
           android.getClient(value);
-        }
+        }*/
 
+        // let url = "?action=logOut";
         // fetch.get(url,"").then(res=>{
           this.$router.push({name:'login',params:{}});
         // });
