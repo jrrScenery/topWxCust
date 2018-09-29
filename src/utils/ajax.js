@@ -82,7 +82,6 @@ export default {
     get(url, params) {
         return new Promise((resolve, reject) => {
           var token = localStorage.getItem("token");
-          console.log(token);
           axios.get(baseURL+url, {
             params: params,
             headers: {
@@ -90,7 +89,6 @@ export default {
             },
           },
           {emulateJSON: true}).then(res => {
-              console.log(params);
             if(res.data.STATUSCODE==-1||res.data.STATUSCODE=='-1'){
                 router.push({name: 'login'});
                 return;

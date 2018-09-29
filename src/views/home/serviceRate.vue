@@ -84,40 +84,44 @@ export default {
             serviceId:this.$route.query.serviceId,
             taskId:this.$route.query.taskId,
             evaluateId:'',
+            messageId:'',
             ifEvaluate: this.$route.query.ifEvaluate,
             ifClose:this.$route.query.ifClose
         }
     },
     created:function(){
-        console.log("ifClose:",this.$route.query.ifClose);
+        console.log(this.$route.query.messageId);
+        if(this.$route.query.messageId!=undefined){
+            this.messageId = this.$route.query.messageId
+        }
         let vm= this;    
         var reqParams = {PAGE_NUM:1,PAGE_TOTAL:3}; 
         fetch.get("?action=/case/ServiceEvaluate&CASE_ID="+this.caseId,reqParams).then(res=>{
             console.log("res:",res);
             if(res.STATUSCODE==0){
                 this.data = res.data;
-                if(this.$route.query.ifEvaluate=='N'){
-                    this.evaluateId = res.evaluateId;
-                    this.scoreOption = res.scoreOption;
-                    this.scoreOption = res.scoreOption;
-                    let jsonres= res;
-                    let tmpjsonval =[];
-                    jsonres.question.forEach(function(v,i,ar){
-                    let tmpobj = {};
-                    tmpobj.question= v;
-                    tmpobj.options = jsonres.optionOption.filter(function(item){return v.questionId == item.questionId})
-                    tmpobj.chkedopts = tmpobj.options.filter(function(item){return item.checkFlg})
-                    tmpobj.aroptschked = tmpobj.chkedopts.map(function(v,i,ar){ return v.optionId});
-                    tmpobj.scoreval = vm.getScore(jsonres.scoreOption,v.questionId);
-                    tmpjsonval.push(tmpobj);
-                    })
-                    this.evaluateval = tmpjsonval;
-                    console.log(this.evaluateval);                
-                }else{
-                    let nowcaseId = vm.caseId;
-                    let ifClose = vm.ifClose;
-                    setTimeout(function(){vm.$router.push({name: 'caseEvaluateList',query:{caseId:nowcaseId,ifClose:ifClose}})},1000);
-                }
+                // if(this.$route.query.ifEvaluate=='N'){
+                this.evaluateId = res.evaluateId;
+                this.scoreOption = res.scoreOption;
+                this.scoreOption = res.scoreOption;
+                let jsonres= res;
+                let tmpjsonval =[];
+                jsonres.question.forEach(function(v,i,ar){
+                let tmpobj = {};
+                tmpobj.question= v;
+                tmpobj.options = jsonres.optionOption.filter(function(item){return v.questionId == item.questionId})
+                tmpobj.chkedopts = tmpobj.options.filter(function(item){return item.checkFlg})
+                tmpobj.aroptschked = tmpobj.chkedopts.map(function(v,i,ar){ return v.optionId});
+                tmpobj.scoreval = vm.getScore(jsonres.scoreOption,v.questionId);
+                tmpjsonval.push(tmpobj);
+                })
+                this.evaluateval = tmpjsonval;
+                console.log(this.evaluateval);                
+                // }else{
+                //     let nowcaseId = vm.caseId;
+                //     let ifClose = vm.ifClose;
+                //     setTimeout(function(){vm.$router.push({name: 'caseEvaluateList',query:{caseId:nowcaseId,ifClose:ifClose,ifEvaluate:'Y'}})},1000);
+                // }
             }else{
                 this.$message({
                 message:res.MESSAGE+"发生错误",
@@ -239,12 +243,13 @@ export default {
                     postData.append('evaluateStatus',2);
                     postData.append('evaluateId',vm.evaluateId);
                     postData.append('caseId',vm.caseId);
+                    postData.append('messageId',vm.messageId);
                     postData.append('totalScore',avgScore);
                     postData.append('EvaluateResult',JSON.stringify(detailArray));
                     postData.append('failFlg',failFlg);
                     postData.append('imgStr',this.formData.imgStr);
                     console.log("222222222",vm.evaluateId);
-                    console.log(detailArray);
+                    console.log("messageId:",vm.messageId);
                     fetch.post("?action=/case/SubmitClientReview",postData).then(res=>{
                         console.log(res);
                         loading.close();

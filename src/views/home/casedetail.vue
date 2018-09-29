@@ -20,7 +20,13 @@
                     </router-link>
                 </el-col>
                 <el-col :span="6">
-                    <router-link v-if="this.ifClose=='Y'" :to="{name:'serviceRate',query:{caseId:this.caseId,ifEvaluate:this.ifEvaluate,ifClose:this.ifClose}}">
+                    <router-link v-if="this.ifClose=='Y' && this.ifEvaluate=='N'" :to="{name:'serviceRate',query:{caseId:this.caseId,ifEvaluate:this.ifEvaluate,ifClose:this.ifClose}}">
+                        <div>
+                            <img src="../../assets/images/eventBaseInfo_3.png" style="width: 0.15rem; height: 0.135rem;" alt="">
+                            <span>服务评价</span>
+                        </div>
+                    </router-link>
+                    <router-link v-if="this.ifClose=='Y' && this.ifEvaluate=='Y'" :to="{name:'caseEvaluateList',query:{caseId:this.caseId,ifEvaluate:this.ifEvaluate,ifClose:this.ifClose}}">
                         <div>
                             <img src="../../assets/images/eventBaseInfo_3.png" style="width: 0.15rem; height: 0.135rem;" alt="">
                             <span>服务评价</span>
@@ -55,6 +61,7 @@
 import headerLast from '../header/headerLast'
 import caseBaseInfo from '../../components/case/caseBaseInfo'
 import caseProgress from '../../components/case/caseProgress'
+import fetch from '../../utils/ajax'
 export default {
     name:'casedetail',
     components:{
@@ -73,10 +80,12 @@ export default {
         }
     },
     created(){
-        if(this.ifClose==undefined){
-            this.ifClose = "Y"
-        }
-        console.log("ifClose:",this.ifClose)
+        let url = "?action=GetCaseInfo&CASE_ID="+this.$route.query.caseId;
+        fetch.get(url,"").then(res=>{
+            console.log("res:",res);
+            this.ifClose = res.data.IF_CLOSE;
+            this.ifEvaluate = res.data.IF_EVALUATE;
+        })
     },
     methods:{
         clickService(){

@@ -123,7 +123,7 @@ export default new Router({
     {
       path: '/home/casedetail',
       name: 'casedetail',
-      component: resolve => require(['@/views//home/casedetail'], resolve)
+      component: resolve => require(['@/views//home/casedetail'], resolve)    
     },
     {
       path: '/home/serviceRate',

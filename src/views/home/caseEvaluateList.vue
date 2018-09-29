@@ -94,8 +94,6 @@ export default {
     }
   },
   created () {
-    console.log(this.$route.query.caseId);
-    console.log(this.$route.query.ifClose);
     this.getEventList()
   },
   mounted(){

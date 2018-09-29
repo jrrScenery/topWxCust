@@ -9,17 +9,21 @@
           <el-tab-pane :label="item.label+'('+totalData[item.numname]+')'" :name="item.name" :key="item.id">
             <div style="overflow:auto">             
               <ul>
-                <li v-for="info in item.eventListArr" :key="info.id" v-if="info.TOPAPP_LINK!=null">
+                <li v-for="info in item.eventListArr" :key="info.id" v-if="info.CASE_ID!=''">
                   <div class="div_Img">
                     <img src="../../assets/images/mineNotice_ring.png" alt="">
                     <p>{{info.SEND_NAME}}</p>
                   </div>
-                  <router-link :to="{name:'serviceRate',query:{}}"  class="article">
+                  <router-link v-if="info.STATUS==0" :to="{name:'serviceRate',query:{caseId:info.CASE_ID,messageId:info.TASK_MESSAGE_ID}}"  class="article">
+                      <div class="title"><span class="tit_l">{{info.BIZ_NAME}}</span><span class="tit_r">{{info.CREATE_ON}}</span></div>
+                      <div class="desc">{{info.TITLE}}</div>
+                  </router-link>
+                  <router-link v-else :to="{name:'caseEvaluateList',query:{caseId:info.CASE_ID}}"  class="article">
                       <div class="title"><span class="tit_l">{{info.BIZ_NAME}}</span><span class="tit_r">{{info.CREATE_ON}}</span></div>
                       <div class="desc">{{info.TITLE}}</div>
                   </router-link>
                 </li>
-                <li v-for="info in item.eventListArr" :key="info.id" v-if="info.TOPAPP_LINK==null">
+                <li v-for="info in item.eventListArr" :key="info.id" v-if="info.CASE_ID==''">
                   <div class="div_Img">
                     <img src="../../assets/images/mineNotice_ring.png" alt="">
                     <!--<img src="../../assets/images/mineNotice_ring1.png" alt="">-->
@@ -86,12 +90,17 @@ export default {
       busy:false,
       loadall: false,
       formData: [],
-      objpages:{"first":{page:1,loadall:false,idx:0,isSearch:0},"second":{page:1,loadall:false,idx:1,isSearch:0},
-      "third":{page:1,loadall:false,idx:2,isSearch:0}},
+      objpages:{"first":{page:1,loadall:false,idx:0,isSearch:0,type:1},"second":{page:1,loadall:false,idx:1,isSearch:0,type:2},
+      "third":{page:1,loadall:false,idx:2,isSearch:0,type:''}},
       totalData:{"noticeNum":0,"todoNum":0,"allNum":0}
     }
   },
   activated(){ 
+    fetch.get("?action=checkSession",{}).then(res=>{
+        if(res.STATUSCODE != 0){
+            this.$router.push({name: 'login',query: { rancode: (new Date()).valueOf() }});
+        }
+    })
     if(!this.$route.meta.isUseCache){
       this.busy= false;
       this.loadall= false;
@@ -116,6 +125,7 @@ export default {
     tabClick (e) {
       var objnowpage = this.objpages[this.activeName];
       if(this.isSearch != objnowpage.isSearch ){
+        this.loadall = false
         objnowpage.page= 1
         objnowpage.loadall = false
         objnowpage.eventListArr= []
@@ -124,56 +134,62 @@ export default {
         return ;
       }
       if(objnowpage.page==1 && !objnowpage.loadall){
+        // this.loadall = false
         this.loadMore();
       }
     },
-    returnList (flag, res, obj,idx) {
-      if(flag){ 
-        if(idx==0){
-          var noticeObj = [];
-          var m=0;
-          for(var i=0;i<res.data.length;i++){
-            if(res.data[i].TOPAPP_LINK!=null){
-              noticeObj[m++] = res.data[i];
-            }
-          }
-          obj = obj.concat(noticeObj);
-        }else if(idx==1){
-          var noticeObj = [];
-          var m=0;
-          for(var i=0;i<res.data.length;i++){
-            if(res.data[i].TOPAPP_LINK==null){
-              noticeObj[m++] = res.data[i];
-            }
-          }
-          obj = obj.concat(noticeObj);
-        }else{
-          obj = obj.concat(res.data);
-        }
+    returnList (flag, res, obj) {
+      if(flag){
+        obj = obj.concat(res.data);
       }else{
-        // obj = res.data;
-        if(idx==0){
-          var noticeObj = [];
-          var m=0;
-          for(var i=0;i<res.data.length;i++){
-            if(res.data[i].TOPAPP_LINK!=null){
-              noticeObj[m++] = res.data[i];
-            }
-          }
-          obj = noticeObj;
-        }else if(idx==1){
-          var noticeObj = [];
-          var m=0;
-          for(var i=0;i<res.data.length;i++){
-            if(res.data[i].TOPAPP_LINK==null){
-              noticeObj[m++] = res.data[i];
-            }
-          }
-          obj = noticeObj;
-        }else{
-          obj = res.data;
-        }
+        obj = res.data;
       }
+      // if(flag){ 
+      //   if(idx==0){
+      //     var noticeObj = [];
+      //     var m=0;
+      //     for(var i=0;i<res.data.length;i++){
+      //       if(res.data[i].TOPAPP_LINK!=null){
+      //         noticeObj[m++] = res.data[i];
+      //       }
+      //     }
+      //     obj = obj.concat(noticeObj);
+      //   }else if(idx==1){
+      //     var noticeObj = [];
+      //     var m=0;
+      //     for(var i=0;i<res.data.length;i++){
+      //       if(res.data[i].TOPAPP_LINK==null){
+      //         noticeObj[m++] = res.data[i];
+      //       }
+      //     }
+      //     obj = obj.concat(noticeObj);
+      //   }else{
+      //     obj = obj.concat(res.data);
+      //   }
+      // }else{
+      //   // obj = res.data;
+      //   if(idx==0){
+      //     var noticeObj = [];
+      //     var m=0;
+      //     for(var i=0;i<res.data.length;i++){
+      //       if(res.data[i].TOPAPP_LINK!=null){
+      //         noticeObj[m++] = res.data[i];
+      //       }
+      //     }
+      //     obj = noticeObj;
+      //   }else if(idx==1){
+      //     var noticeObj = [];
+      //     var m=0;
+      //     for(var i=0;i<res.data.length;i++){
+      //       if(res.data[i].TOPAPP_LINK==null){
+      //         noticeObj[m++] = res.data[i];
+      //       }
+      //     }
+      //     obj = noticeObj;
+      //   }else{
+      //     obj = res.data;
+      //   }
+      // }
       if(0 == res.data.length||res.data.length<this.pageSize){
         this.busy = false;
         this.loadall = true;
@@ -189,18 +205,44 @@ export default {
     getEventList(){
       var flag = this.objpages[this.activeName]["page"]>1;
       let objnowpage = this.objpages[this.activeName];   
-      let url = "?action=/system/GetTaskMessage&PAGE_NUM="+this.page+"&PAGE_TOTAL="+this.pageSize;
+      let url = "?action=/system/GetTaskMessage&PAGE_NUM="+this.page+"&PAGE_TOTAL="+this.pageSize+"&TYPE="+objnowpage.type;
       let urlparam={};
       if(this.formData){
         urlparam.TITLE = this.formData.title;
         urlparam.SEND_NAME = this.formData.sendName
       }
+      console.log(url);
       fetch.get(url,urlparam).then(res=>{
         console.log("res:",res)
-        // this.totalData= res.totalData;
+        this.totalData= res.totalData;
         let obj = this.mineNoticeTab[objnowpage.idx].eventListArr;
-        this.mineNoticeTab[objnowpage.idx].eventListArr = this.returnList(flag, res, obj,objnowpage.idx)
-        console.log();
+        this.mineNoticeTab[objnowpage.idx].eventListArr = this.returnList(flag, res, obj)
+        let nowEventListArr = this.mineNoticeTab[objnowpage.idx].eventListArr;
+        let caseArr = [];
+        let j=0;
+        let caseIdArr = [];
+        for(var i=0;i<nowEventListArr.length;i++){
+          if(nowEventListArr[i].TOPAPP_LINK == null){
+            nowEventListArr[i].CASE_ID = '';
+          }else if(nowEventListArr[i].BIZ_TYPE=="case.case.evaluate.wxcust"&&nowEventListArr[i].TOPAPP_LINK.indexOf('caseId')==0){
+            caseArr[j] = nowEventListArr[i].TOPAPP_LINK.split("&");
+            caseIdArr[j] = caseArr[j][0].split("=");
+            nowEventListArr[i].CASE_ID = caseIdArr[j][1]
+            j++;          
+          }else{
+            nowEventListArr[i].CASE_ID = '';
+          }
+        }
+        //  console.log("nowEventListArr"+nowEventListArr); 
+        // let caseIdArr = [];
+        // let k = 0;
+        // for(var m=0;m<caseArr.length;m++){
+        //   caseIdArr[k++] = caseArr[m][0].split("=");
+        // }
+        // for(var i=0;i<nowEventListArr.length;i++){
+        //   nowEventListArr[i].CASE_ID = caseIdArr[n][1]
+        // }
+        // console.log(nowEventListArr);
       });
     },
     loadMore(){
@@ -219,7 +261,7 @@ export default {
       this.mineNoticeTab[2].eventListArr = [];
       this.objpages["third"]["isSearch"] = 1;
       this.isSearch=1;
-      this.searchData = searchData;
+      this.formData = formData;
       
       this.loadMore();
 

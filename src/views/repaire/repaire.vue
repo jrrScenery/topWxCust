@@ -231,6 +231,7 @@ export default {
                                 center: true,
                                 customClass: 'msgdefine'
                             });
+                            // this.$router.push({name: 'home',query: { rancode: (new Date()).valueOf() }});
                             this.formData = {
                                 num:'',
                                 modelName:'',
