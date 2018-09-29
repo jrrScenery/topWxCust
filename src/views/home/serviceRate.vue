@@ -10,7 +10,8 @@
                             <div class="star">
                                 <span class="starTit">{{i+1}}.{{item.question.questionComment}}</span>
                                 <el-rate v-if="item.question.questionComment2"
-                                        v-model="item.scoreval">
+                                        v-model="item.scoreval"
+                                        :colors="['#666666', '#999999', '#FF9900']">
                                 </el-rate>
                             </div>
                         </el-form-item>
@@ -85,8 +86,6 @@ export default {
             taskId:this.$route.query.taskId,
             evaluateId:'',
             messageId:'',
-            ifEvaluate: this.$route.query.ifEvaluate,
-            ifClose:this.$route.query.ifClose
         }
     },
     created:function(){
@@ -100,7 +99,6 @@ export default {
             console.log("res:",res);
             if(res.STATUSCODE==0){
                 this.data = res.data;
-                // if(this.$route.query.ifEvaluate=='N'){
                 this.evaluateId = res.evaluateId;
                 this.scoreOption = res.scoreOption;
                 this.scoreOption = res.scoreOption;
@@ -116,12 +114,7 @@ export default {
                 tmpjsonval.push(tmpobj);
                 })
                 this.evaluateval = tmpjsonval;
-                console.log(this.evaluateval);                
-                // }else{
-                //     let nowcaseId = vm.caseId;
-                //     let ifClose = vm.ifClose;
-                //     setTimeout(function(){vm.$router.push({name: 'caseEvaluateList',query:{caseId:nowcaseId,ifClose:ifClose,ifEvaluate:'Y'}})},1000);
-                // }
+                console.log(this.evaluateval);         
             }else{
                 this.$message({
                 message:res.MESSAGE+"发生错误",
@@ -255,8 +248,7 @@ export default {
                         loading.close();
                         if(res.STATUSCODE=="0"){
                             let nowcaseId = vm.caseId;
-                            let ifClose = vm.ifClose;
-                            setTimeout(function(){vm.$router.push({name: 'casedetail',query:{caseId:nowcaseId,ifClose:ifClose}})},500);
+                            setTimeout(function(){vm.$router.push({name: 'casedetail',query:{caseId:nowcaseId}})},500);
                         }else{
                             this.$message({
                                 message:res.MESSAGE+"发生错误",

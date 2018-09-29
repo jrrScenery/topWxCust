@@ -53,7 +53,8 @@
                         <el-cascader
                             :options="options"
                             v-model="formData.city"
-                            placeholder="请选择所在城市">
+                            filterable
+                            placeholder="请选择或搜索所在城市">
                         </el-cascader>            
                     </el-form-item>
                 </div>

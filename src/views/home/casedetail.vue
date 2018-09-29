@@ -20,13 +20,13 @@
                     </router-link>
                 </el-col>
                 <el-col :span="6">
-                    <router-link v-if="this.ifClose=='Y' && this.ifEvaluate=='N'" :to="{name:'serviceRate',query:{caseId:this.caseId,ifEvaluate:this.ifEvaluate,ifClose:this.ifClose}}">
+                    <router-link v-if="this.ifClose=='Y' && this.ifEvaluate=='N'" :to="{name:'serviceRate',query:{caseId:this.caseId,messageId:this.messageId}}">
                         <div>
                             <img src="../../assets/images/eventBaseInfo_3.png" style="width: 0.15rem; height: 0.135rem;" alt="">
                             <span>服务评价</span>
                         </div>
                     </router-link>
-                    <router-link v-if="this.ifClose=='Y' && this.ifEvaluate=='Y'" :to="{name:'caseEvaluateList',query:{caseId:this.caseId,ifEvaluate:this.ifEvaluate,ifClose:this.ifClose}}">
+                    <router-link v-if="this.ifClose=='Y' && this.ifEvaluate=='Y'" :to="{name:'caseEvaluateList',query:{caseId:this.caseId}}">
                         <div>
                             <img src="../../assets/images/eventBaseInfo_3.png" style="width: 0.15rem; height: 0.135rem;" alt="">
                             <span>服务评价</span>
@@ -76,7 +76,8 @@ export default {
             caseId: this.$route.query.caseId,
             projectId: this.$route.query.projectId,
             ifEvaluate: this.$route.query.ifEvaluate,
-            ifClose: this.$route.query.ifClose
+            ifClose: this.$route.query.ifClose,
+            messageId:this.$route.query.messageId
         }
     },
     created(){
@@ -89,6 +90,7 @@ export default {
     },
     methods:{
         clickService(){
+            console.log(this.ifEvaluate);
             this.$message({
                 message:'执行中状态不可评价！',
                 type: 'warning',

@@ -14,7 +14,7 @@
                     <img src="../../assets/images/mineNotice_ring.png" alt="">
                     <p>{{info.SEND_NAME}}</p>
                   </div>
-                  <router-link v-if="info.STATUS==0" :to="{name:'serviceRate',query:{caseId:info.CASE_ID,messageId:info.TASK_MESSAGE_ID}}"  class="article">
+                  <router-link v-if="info.STATUS==0" :to="{name:'casedetail',query:{caseId:info.CASE_ID,messageId:info.TASK_MESSAGE_ID}}"  class="article">
                       <div class="title"><span class="tit_l">{{info.BIZ_NAME}}</span><span class="tit_r">{{info.CREATE_ON}}</span></div>
                       <div class="desc">{{info.TITLE}}</div>
                   </router-link>

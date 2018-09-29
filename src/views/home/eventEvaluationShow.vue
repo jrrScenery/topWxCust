@@ -33,8 +33,7 @@
                         <li class="lisign">
                             <span>客户签字</span>
                             <div class="sign">
-
-                            <img :src="imgStr">
+                                <img :src="imgStr">
                             </div>
                         </li>
                         <li>

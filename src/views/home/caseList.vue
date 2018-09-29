@@ -125,6 +125,7 @@ export default {
       this.busy= false;
       this.loadall= false;
       this.page =1;
+      this.isSearch = 0;
       this.objpages["first"]["page"] = 1;
       this.objpages["first"]["loadall"]=false
       this.opinionTab[0].caseListArr = [];
@@ -137,6 +138,12 @@ export default {
       this.objpages["forth"]["page"] = 1;
       this.objpages["forth"]["loadall"]= false;
       this.opinionTab[3].caseListArr = [];
+      this.searchData={
+        custid:  this.$route.query.custid,
+        type:this.$route.query.type? this.$route.query.type.split(','):["1","2"],
+        startTime: this.$route.query.startDate,
+        endTime: this.$route.query.endDate,
+      },
       this.loadMore();
     }
     this.$route.meta.isUseCache = false;
@@ -181,8 +188,6 @@ export default {
       let strurl = "?action=GetCaseList";
       let params = {CASE_TYPEID:"1,2",PAGE_NUM: objnowpage.page, PAGE_TOTAL: this.pageSize, IF_CLOSE: objnowpage.IF_CLOSE,IF_EVALUATE:objnowpage.IF_EVALUATE}
       if(this.isSearch){
-        console.log("vvvvvvvvvvvv");
-        console.log(this.searchData);
         if(this.searchData.custid){params.CUST_ID = this.searchData.custid;}
         params.CASE_TYPEID = this.searchData["type"].join(",");
         params.PROJECT_NAME = this.searchData.proName;
@@ -219,7 +224,6 @@ export default {
     },
 
     getSearParams (searchData) {
-      console.log(searchData);
       this.activeName="forth";
       this.objpages["forth"]["page"] = 1;
       this.objpages["forth"]["loadall"]= false;
