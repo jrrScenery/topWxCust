@@ -28,67 +28,7 @@ export default new Router({
           path: '/serviceProduct',
           name: 'serviceProduct',
           component: resolve => require(['@/views/serviceProduct/serviceProduct'], resolve)
-        },    
-        // {
-        //   path: '/sdcOperation',
-        //   name: 'sdcOperation',
-        //   component: resolve => require(['@/views/serviceProduct/sdcOperation'], resolve)
-        // }, 
-        // {
-        //   path: '/sdcValueService',
-        //   name: 'sdcValueService',
-        //   component: resolve => require(['@/views/serviceProduct/sdcValueService'], resolve)
-        // },
-        // {
-        //   path: '/sdcCloudService',
-        //   name: 'sdcCloudService',
-        //   component: resolve => require(['@/views/serviceProduct/sdcCloudService'], resolve)
-        // },
-        // {
-        //   path: '/sdcGuarantee',
-        //   name: 'sdcGuarantee',
-        //   component: resolve => require(['@/views/serviceProduct/sdcGuarantee'], resolve)
-        // },
-        // {
-        //   path: '/HROService',
-        //   name: 'HROService',
-        //   component: resolve => require(['@/views/serviceProduct/HROService'], resolve)
-        // },
-        // {
-        //   path: '/MSService',
-        //   name: 'MSService',
-        //   component: resolve => require(['@/views/serviceProduct/MSService'], resolve)
-        // },
-        // {
-        //   path: '/PSService',
-        //   name: 'PSService',
-        //   component: resolve => require(['@/views/serviceProduct/PSService'], resolve)
-        // },
-        // {
-        //   path: '/ITOService',
-        //   name: 'ITOService',
-        //   component: resolve => require(['@/views/serviceProduct/ITOService'], resolve)
-        // },
-        // {
-        //   path: '/ITBusinessOperation',
-        //   name: 'ITBusinessOperation',
-        //   component: resolve => require(['@/views/serviceProduct/ITBusinessOperation'], resolve)
-        // },
-        // {
-        //   path: '/ITProfessional',
-        //   name: 'ITProfessional',
-        //   component: resolve => require(['@/views/serviceProduct/ITProfessional'], resolve)
-        // },
-        // {
-        //   path: '/ITSoftWareService',
-        //   name: 'ITSoftWareService',
-        //   component: resolve => require(['@/views/serviceProduct/ITSoftWareService'], resolve)
-        // },
-        // {
-        //   path: '/ITBaseOperationService',
-        //   name: 'ITBaseOperationService',
-        //   component: resolve => require(['@/views/serviceProduct/ITBaseOperationService'], resolve)
-        // },
+        },           
         {
           path: '/repaire',
           name: 'repaire',
@@ -110,7 +50,17 @@ export default new Router({
       path: '/login',
       name: 'login',
       component: resolve => require(['@/views/login/login'], resolve)
-    },    
+    },   
+    // {
+    //   path: '/forgetPass/forgetPass',
+    //   name: 'forgetPass',
+    //   component: resolve => require(['@/views/forgetPass/forgetPass'], resolve)
+    // },    
+    {
+      path: '/forgetPass/checkNumLogin',
+      name: 'checkNumLogin',
+      component: resolve => require(['@/views/forgetPass/checkNumLogin'], resolve)
+    }, 
     {
       path: '/home/caseList',
       name: 'caseList',

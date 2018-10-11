@@ -189,24 +189,20 @@ export default {
     history.pushState(null, null, document.url);
     window.onpopstate = () => {
       history.go(1)
-    }
-　　
+    }　
   },
   mounted:function(){
   },
   activated(){
-    console.log(this.$route.meta.isUseCache);
     if(!this.$route.meta.isUseCache){
-      console.log();
       this.caseData = [];
       this.projData = [];
       this.loadalls = {
         "caseData":{busy:true,loadall:false},
         "projData":{busy:true,loadall:false},
       }
-      // this.fetchData();
       fetch.get("?action=checkSession",{}).then(res=>{
-        // console.log("55555555555");
+        // console.log("55555555555",res);
         this.fetchData();
       });
     }
