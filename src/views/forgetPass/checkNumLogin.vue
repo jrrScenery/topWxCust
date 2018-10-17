@@ -1,3 +1,4 @@
+<!--暂时未用-->
 <template>
     <div class="checkNumLoginView">
         <header-last :title="checkNumLoginTit"></header-last>

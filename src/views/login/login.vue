@@ -19,12 +19,12 @@
           <el-form-item prop="pass" style="position: relative;margin-left:0.2rem">
             <div @click="dialogVisible = true">忘记密码</div>
           </el-form-item> 
-          <el-form-item prop="pass" style="position: relative;margin-left:0.2rem">
-            <div @click="checkNumLogin">验证码登录</div>
-          </el-form-item> 
           <!-- <el-form-item prop="pass" style="position: relative;margin-left:0.2rem">
             <div @click="checkNumLogin">验证码登录</div>
           </el-form-item>  -->
+          <el-form-item prop="pass" style="position: relative;margin-left:0.2rem">
+            <div @click="dialogVisible1 = true">验证码登录</div>
+          </el-form-item> 
         </div>   
         <div class="forgetPassdialog">
           <el-dialog
@@ -47,7 +47,31 @@
               <el-button type="primary" class="onsubmit" @click="resetPassWord('ruleForm')">重置</el-button>
             </el-form-item>
           </el-dialog>
-        </div>     
+        </div>  
+
+        <div class="forgetPassdialog">
+          <el-dialog
+            title="验证码登录"
+            :visible.sync="dialogVisible1"
+            width="80%">
+            <el-form-item label="手机号：" label-width="0.8rem">
+              <el-input placeholder="请输入手机号" v-model="ruleForm.mobileNo"></el-input>
+            </el-form-item>
+            <div style="display:flex">
+              <el-form-item label="验证码：" label-width="0.8rem">
+                  <el-input v-model="ruleForm.checkNum" placeholder="请输入验证码"></el-input>
+              </el-form-item>
+              <el-form-item>
+                  <el-button type="primary" size="mini" round @click="fetchCheckNum">获取</el-button>
+              </el-form-item>
+          </div>
+            <el-form-item class="submit">
+              <el-button @click="dialogVisible1 = false">取消</el-button>
+              <el-button type="primary" class="onsubmit" @click="chekNumLoginSubmit('ruleForm')">登录</el-button>
+            </el-form-item>
+          </el-dialog>
+        </div> 
+
         <el-form-item class="loginButton">
           <el-button @click="submitForm('ruleForm')">登录</el-button>
         </el-form-item>
@@ -74,6 +98,7 @@ export default {
       },
       loginErr: false,
       dialogVisible:false,
+      dialogVisible1:false,
       chekNumFlag:false,
       errMeg: ''
     }
@@ -146,6 +171,54 @@ export default {
                       });
                   }
               })
+          }
+      })
+    },
+
+    chekNumLoginSubmit(formData){
+      const loading = this.$loading({
+          lock: true,
+          text: '提交中...',
+          spinner: 'el-icon-loading',
+          background: 'rgba(255, 255, 255, 0.3)'
+      });
+      let vm= this;
+      this.$refs[formData].validate((valid) => {
+          if (valid) {
+          if(!vm.check(loading)) return;
+          this.dialogVisible1 = false;
+          this.$axios.get(global_.Server+"/api/loginByCode?CODE="+this.ruleForm.checkNum+"&MOBILE="+this.ruleForm.mobileNo,'').then(res=>{
+              console.log("res:",res);
+              loading.close();            
+              if(res.status==500){
+              alert("连接服务超时或密码错");
+              return;
+              }
+              if(res.data.STATUSCODE=="0"){                       
+                  global_.userInfo = res.data.userInfo;
+                  global_.userPermission = res.data.userPermission;
+                  global_.userRole = res.data.userRole;
+                  global_.empId = res.data.userInfo[0].EMPID;
+
+                  let token = res.data.token;
+                  localStorage.setItem("token", token);
+
+                  localStorage.setItem("empId", res.data.userInfo[0].EMPID);
+                  localStorage.setItem("realName", res.data.userInfo[0].REALNAME);
+                  localStorage.setItem("mobile", res.data.userInfo[0].MOBILE);
+                  localStorage.setItem("email", res.data.userInfo[0].EMAIL);
+                  localStorage.setItem("orgName", res.data.userInfo[0].ORGNAME);
+                  localStorage.setItem("userPermission", JSON.stringify(res.data.userPermission));
+                  this.$router.push({name: 'home',query: { rancode: (new Date()).valueOf() }});
+              }else{
+                  this.$message({
+                      message:res.data.MESSAGE,
+                      type: 'error',
+                      center: true,
+                      customClass: 'msgdefine'
+                  });
+              }
+          })
           }
       })
     },
@@ -310,9 +383,9 @@ export default {
         }
       })
     },
-    checkNumLogin(){
-      this.$router.push({name: 'checkNumLogin', query: {}})
-    },
+    // checkNumLogin(){
+    //   this.$router.push({name: 'checkNumLogin', query: {}})
+    // },
     //更新终端位置信息
     updateUserPermission(userPermission){
       /*

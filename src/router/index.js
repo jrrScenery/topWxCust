@@ -56,11 +56,11 @@ export default new Router({
     //   name: 'forgetPass',
     //   component: resolve => require(['@/views/forgetPass/forgetPass'], resolve)
     // },    
-    {
-      path: '/forgetPass/checkNumLogin',
-      name: 'checkNumLogin',
-      component: resolve => require(['@/views/forgetPass/checkNumLogin'], resolve)
-    }, 
+    // {
+    //   path: '/forgetPass/checkNumLogin',
+    //   name: 'checkNumLogin',
+    //   component: resolve => require(['@/views/forgetPass/checkNumLogin'], resolve)
+    // }, 
     {
       path: '/home/caseList',
       name: 'caseList',
