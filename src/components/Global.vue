@@ -5,8 +5,8 @@
 // const Server='http://139.129.207.35:8084'
 // const Server='http://192.168.0.100:8081'
 // const Server='http://111.203.122.61:8081'
-// const Server='http://139.129.207.35/topWxCustProxy'
-const Server='http://172.16.3.61:8081/topWxCustServer'
+const Server='http://139.129.207.35/topWxCustProxy'
+// const Server='http://172.16.3.61:8081/topWxCustServer'
 
 const proxyServer=Server+'/api/proxy';
 let empId = "";

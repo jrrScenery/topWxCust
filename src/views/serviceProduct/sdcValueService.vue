@@ -18,19 +18,22 @@
                     <el-col :span="24">金牌管家服务满足 ISO27001 审计要求，确保客户信息安全可靠；</el-col>
                     <el-col :span="24">金牌管家服务自带工具，客户无需额外采购，按月付费，随买随用；</el-col>
                     <el-col :span="24">金牌管家服务提供灵活多样的服务选择，包括多种优惠套餐和服务级别，满足多样需求；</el-col>
-                    <el-col :span="24">>随时掌控全局，支持手机 App、电脑 WEB 等随时了解设备运行状况；</el-col>
+                    <el-col :span="24">随时掌控全局，支持手机 App、电脑 WEB 等随时了解设备运行状况；</el-col>
                 </el-row>
             </div>
         </div>
+        <footer-home></footer-home>
     </div>
 </template>
 
 <script>
 import headerLast from '../header/headerLast'
+import footerHome from '../footer/footerHome'
 export default {
     name:'sdcValueService',
     components:{
-        headerLast
+        headerLast,
+        footerHome
     },
     data(){
         return{
@@ -42,7 +45,7 @@ export default {
 
 <style scoped>
 .sdcValueServiceView{width: 100%;height: 100%;background: #ffffff}
-.sdcValueServiceCell{overflow: scroll;margin-bottom: 0.1rem;margin-top: 0.45rem}
+.sdcValueServiceCell{overflow: scroll;margin-bottom: 0.45rem;margin-top: 0.45rem}
 .sdcValueServiceCell .sdcValueServiceAdv{position: relative; line-height: 0.35rem; margin-left: 0.15rem; font-size: 0.14rem; color: #2698d6;}
 .sdcValueServiceCell .sdcValueServiceAdv::before{position: absolute; top: 0.1rem; left: -0.1rem; width: 0.05rem; height: 0.15rem; content: ''; background: #2698d6;}
 .sdcValueServiceCell .sdcValueServiceAdv::after{position: absolute; bottom: 0.1rem; right: 0; width: 80%; height: 0.01rem; content: ''; background: #e5e5e5;}

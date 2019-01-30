@@ -1,0 +1,41 @@
+@font-face {font-family: "iconfont";
+  src: url('iconfont.eot?t=1548732455577'); /* IE9 */
+  src: url('iconfont.eot?t=1548732455577#iefix') format('embedded-opentype'), /* IE6-IE8 */
+  url('data:application/x-font-woff2;charset=utf-8;base64,d09GMgABAAAAAAQIAAsAAAAACPgAAAO6AAEAAAAAAAAAAAAAAAAAAAAAAAAAAAAAHEIGVgCDHAqFMIRRATYCJAMQCwoABCAFhG0HShvFB8iusCljvpgtirIQBWR2efPHfR8chuD5d+3tvpnMb5oUkGRPLTsiVbaAqi6VAGA/6FaRsN1loVCtcPN/bugn8SMuF7KZ6aTIQQj6jotp3VbRjWFsfWrHdIusNeOBuHfvrwFegGneBR5lbUtwLZNttHsgavd/c6jURSqOk/+5HN9dU2x+yxIJdY6NR70omhxQQHsDBRZggZRIQtJDvNVl3oYAo0wBrtM1MAFhFH2RAJnpmghhCQNVUS40ESnYGSNbAjrc9j4AcOi9X/5QFoSBJ4jQ7xoadCrQ8vLnht3QwWS0ixvOBrD7wActAAUZFTrmBQaJFoGM/J0gbQBN8/CLX3l/bjwE0VYU2vjLA59HICm6IgWJrUkfv7AEkVJgw8OfRRegUM4ODdLBf6REV5V48sCQ1UhVOdSIxOeImLt3L5/nzM4L2N7du3kcwr1aXhbu3MkFPth6M4ip4+0cBHbxLpxZjoWY/u7znXge9+hHN38n5qKmo25zEVTloPefBLmX4HLh+rV2Yw+qcuH+1w50Nw5y21m3fhFz8/l3BzncHkAug9tXYy9J8ph8+Uw28Pil2tJ1aCcKLrrSMvn0KZPd+rJ4rj4+NUHy7qPCXBxWlkB9YrGF//lzlozrAxdDQ2xjUIWdYNTZ17CL+5b3Lb0n3UnnftmdjnF/PWj996KONbydp/9eYLodXZYlRPm53d2j/olQlhvtF8SmRN1Kia7OEk78ursT/SghqyzaT4LV1svPDXl5vrLf7jJjyI121sBOIyo2aldP7u6mxWYEijRLH3vs9brxsII2Hcc2czSPtsQFznhwARB+cfaTPPq9wM+B49SJZ2DzZ/kMvd2ZjLnohv/aKgB+9jn4w3tB0Fz4xoWy8NcQNmxQilg3qliSWAK1WJkVjDtdjmHAD5GBLEdDuHJBZBOaEwJ4kpSCT6tBFLEFAlYrRGjtYDTr3m9lowJJnAw0OUNAZPDBk+YdfBk+Iop4CIE83yEiIwgEYyKIP9GqC3TUTonIiIKlNazLjq2aZob88jGiLZkijYs92hShnh7GpUUl6XQ3sQkdYo23rJUxpmKVOhbuIvcR03SwS51FIrOiBcbcuuJitehBRbJjAdKNIkQMocAkazCdzGFTnf4Myrx+DKFZYhLRClyZcwpBefThsVJFShog3Qq7Ee5SxnuWacowjErNU1EOC9YFNsI0Eg7MLZ62iJAxRRY6xFx1irGZ2lRRNL3KusMDgKGvVYEnvigJSJ6Lzppua8qDiZVhnizatm5rAAAA') format('woff2'),
+  url('iconfont.woff?t=1548732455577') format('woff'),
+  url('iconfont.ttf?t=1548732455577') format('truetype'), /* chrome, firefox, opera, Safari, Android, iOS 4.2+ */
+  url('iconfont.svg?t=1548732455577#iconfont') format('svg'); /* iOS 4.1- */
+}
+
+.iconfont {
+  font-family: "iconfont" !important;
+  font-size: 16px;
+  font-style: normal;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+[class^="iconscan"],
+[class*=" iconscan"]/*这里有空格*/
+ {
+  font-family: "iconfont" !important;
+
+  font-size: 16px;
+
+  font-style: normal;
+
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+.iconscan-saoyisao3:before {
+  content: "\e891";
+}
+
+.iconscan-saoyisao5:before {
+  content: "\e62a";
+}
+
+.iconscan-scanning:before {
+  content: "\e61c";
+}
+

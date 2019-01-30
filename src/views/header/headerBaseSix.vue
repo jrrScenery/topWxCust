@@ -48,8 +48,8 @@ export default {
     },
 
     back: function (event) {
-      this.$router.push({name:'mine'});   
-      // this.$router.back(-1)
+      // this.$router.push({name:'mine'});   
+      this.$router.back(-1)
     }
 
   }

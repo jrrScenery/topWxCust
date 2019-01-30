@@ -1,7 +1,7 @@
 <!--终极头部-->
 <template>
   <header class="headerView">
-    <div class="headerLeft "></div>
+    <div class="headerLeft" v-on:click="back"><i class="el-icon-arrow-left"></i></div>
     <h2>{{title}}</h2>
     <div class="headerRight"></div>
   </header>
@@ -25,21 +25,23 @@ export default {
   },
 
   methods: {
-
     back: function (event) {
-      console.log(this.backUrl);
-      if(this.backUrl&&this.backUrl.length>0){
-        console.log("route backurl");
-        console.log(this.date1);
-        if(this.backUrl == 'casedetail'){
-          this.$router.push({name:this.backUrl,query:{caseId:this.date1}});
-        }else{
-          this.$router.push({name:this.backUrl,query:{date1:this.date1,date2:this.date2}});       
-        }
-      }else{
-        this.$router.back(-1);
-      }
+      this.$router.back(-1)
     }
+    // back: function (event) {
+    //   console.log(this.backUrl);
+    //   if(this.backUrl&&this.backUrl.length>0){
+    //     console.log("route backurl");
+    //     console.log(this.date1);
+    //     if(this.backUrl == 'casedetail'){
+    //       this.$router.push({name:this.backUrl,query:{caseId:this.date1}});
+    //     }else{
+    //       this.$router.push({name:this.backUrl,query:{date1:this.date1,date2:this.date2}});       
+    //     }
+    //   }else{
+    //     this.$router.back(-1);
+    //   }
+    // }
   }
 }
 </script>

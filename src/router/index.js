@@ -25,20 +25,14 @@ export default new Router({
           }
         },   
         {
-          path: '/serviceProduct',
-          name: 'serviceProduct',
-          component: resolve => require(['@/views/serviceProduct/serviceProduct'], resolve)
-        },           
-        {
-          path: '/repaire',
-          name: 'repaire',
-          component: resolve => require(['@/views/repaire/repaire'], resolve)
-        },
-        {
-          path: '/report',
-          name: 'report',
-          component: resolve => require(['@/views/report/report'], resolve)
-        },       
+          path: '/event',
+          name: 'workBenchMyEvent',
+          component: resolve => require(['@/views/event/workBenchMyEvent'], resolve),
+          meta: {
+            isUseCache: false,
+            keepAlive: true
+          }
+        },                  
         {
           path: '/mine',
           name: 'mine',
@@ -96,6 +90,21 @@ export default new Router({
       component: resolve => require(['@/views/home/eventReplenish'], resolve)
     },
     {
+      path: '/home/eventEvaluation',
+      name: 'eventEvaluation',
+      component: resolve => require(['@/views/home/eventEvaluation'], resolve)
+    },
+    {
+      path: '/home/eventPeople',
+      name: 'eventPeople',
+      component: resolve => require(['@/views/home/eventPeople'], resolve)
+    },
+    {
+      path: '/home/eventSLAInfo',
+      name: 'eventSLAInfo',
+      component: resolve => require(['@/views/home/eventSLAInfo'], resolve)
+    },
+    {
       path: '/home/eventEvaluationShow',
       name: 'eventEvaluationShow',
       component: resolve => require(['@/views/home/eventEvaluationShow'], resolve)
@@ -125,6 +134,21 @@ export default new Router({
       component: resolve => require(['@/views/home/opinion'], resolve)
     },
     {
+      path: '/repaire/onceRepaire',
+      name: 'onceRepaire',
+      component: resolve => require(['@/views/repaire/onceRepaire'], resolve)
+    },
+    {
+      path: '/repaire/scanRepaire',
+      name: 'scanRepaire',
+      component: resolve => require(['@/views/repaire/scanRepaire'], resolve)
+    },
+    {
+      path: '/repaire/repaire',
+      name: 'repaire',
+      component: resolve => require(['@/views/repaire/repaire'], resolve)
+    },
+    {
       path: '/mine/mineNotice',
       name: 'mineNotice',
       component: resolve => require(['@/views/mine/mineNotice'], resolve),
@@ -132,6 +156,11 @@ export default new Router({
         isUseCache: false,
         keepAlive: true
       }
+    },
+    {
+      path: '/home/eventShow',
+      name: 'eventShow',
+      component: resolve => require(['@/views//home/eventShow'], resolve)
     },
     {
       path: '/mine/mineFeedback',
@@ -158,6 +187,11 @@ export default new Router({
       name: 'projectEvaluateList',
       component: resolve => require(['@/views/home/projectEvaluateList'], resolve)
     },
+    {
+      path: '/serviceProduct',
+      name: 'serviceProduct',
+      component: resolve => require(['@/views/serviceProduct/serviceProduct'], resolve)
+    },  
     {
       path: '/serviceProduct/sdcOperation',
       name: 'sdcOperation',
@@ -217,6 +251,33 @@ export default new Router({
       path: '/serviceProduct/ITBaseOperationService',
       name: 'ITBaseOperationService',
       component: resolve => require(['@/views/serviceProduct/ITBaseOperationService'], resolve)
+    },
+    {
+      path: '/report',
+      name: 'report',
+      component: resolve => require(['@/views/report/report'], resolve)
+    }, 
+    {
+      path: '/mine/baseInfo',
+      name: 'baseInfo',
+      component: resolve => require(['@/views//mine/baseInfo'], resolve)
+    },
+    {
+      path: '/mine/baseInfoEdit',
+      name: 'baseInfoEdit',
+      component: resolve => require(['@/views//mine/baseInfoEdit'], resolve)
+    },
+    //设置-反馈建议（App）
+    {
+      path: '/mine/mineAppFeedBack',
+      name: 'mineAppFeedBack',
+      component: resolve => require(['@/views//mine/mineAppFeedBack'], resolve)
+    },
+    //设置-修改密码
+    {
+      path: '/mine/changePwd',
+      name: 'changePwd',
+      component: resolve => require(['@/views//mine/changePwd'], resolve)
     },
   ],
   scrollBehavior (to, from, savedPosition) {

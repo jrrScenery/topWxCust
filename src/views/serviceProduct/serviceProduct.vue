@@ -1,6 +1,7 @@
 <template>
     <div class="serviceProductView">
         <header-repaire :title="serviceProductTit"></header-repaire>
+        <div style="height:0.45rem"></div>
         <div class="prodContent">
             <div class="prodCell">
                 <div class="cellLeft">
@@ -81,15 +82,18 @@
                 </div> -->
             </div>
         </div>
+        <footer-home></footer-home>
     </div>
 </template>
 <script>
 import headerRepaire from '../header/headerRepaire'
 import fetch from '../../utils/ajax'
+import footerHome from '../footer/footerHome'
 export default {
     name:'serviceProduct',
     components:{
-        headerRepaire
+        headerRepaire,
+        footerHome
     },
     data(){
         return{

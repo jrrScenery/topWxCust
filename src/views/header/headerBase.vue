@@ -78,12 +78,16 @@ export default {
     },
 
     back: function (event) {
-      if(this.backUrl&&this.backUrl.length>0){
-        this.$router.push({name:this.backUrl});   
-      }else{
-        this.$router.back(-1);
-      }
+      this.$router.back(-1)
     }
+    // back: function (event) {
+    //   console.log("ddddddddd",event);
+    //   if(this.backUrl&&this.backUrl.length>0){
+    //     this.$router.push({name:this.backUrl});   
+    //   }else{
+    //     this.$router.back(-1);
+    //   }
+    // }
 
   }
 }

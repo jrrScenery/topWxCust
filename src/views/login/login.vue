@@ -35,7 +35,7 @@
               <el-input placeholder="请输入手机号" v-model="ruleForm.mobileNo"></el-input>
             </el-form-item>
             <div style="display:flex">
-              <el-form-item label="验证码：" label-width="0.8rem">
+              <el-form-item label="验证码：" label-width="0.8rem" style="width:100%">
                   <el-input v-model="ruleForm.checkNum" placeholder="请输入验证码"></el-input>
               </el-form-item>
               <el-form-item>
@@ -58,13 +58,13 @@
               <el-input placeholder="请输入手机号" v-model="ruleForm.mobileNo"></el-input>
             </el-form-item>
             <div style="display:flex">
-              <el-form-item label="验证码：" label-width="0.8rem">
+              <el-form-item label="验证码：" label-width="0.8rem" style="width:100%">
                   <el-input v-model="ruleForm.checkNum" placeholder="请输入验证码"></el-input>
               </el-form-item>
               <el-form-item>
                   <el-button type="primary" size="mini" round @click="fetchCheckNum">获取</el-button>
               </el-form-item>
-          </div>
+            </div>
             <el-form-item class="submit">
               <el-button @click="dialogVisible1 = false">取消</el-button>
               <el-button type="primary" class="onsubmit" @click="chekNumLoginSubmit('ruleForm')">登录</el-button>

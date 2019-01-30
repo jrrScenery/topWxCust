@@ -2,7 +2,7 @@
 <template>
   <div class="headerView">
     <header>
-      <div class="headerLeft"></div>
+      <div class="headerLeft" v-on:click="back"><i class="el-icon-arrow-left"></i></div>
       <h2>{{title}}</h2>
       <div class="headerRight" @click.stop="popBg=!popBg">{{headerRight}}</div>
     </header>
@@ -51,6 +51,16 @@ export default {
     searchData (data) {
       this.$emit('searchPro', data)
     },
+    back: function (event) {
+      this.$router.back(-1)
+    }
+    // back: function (event) {
+    //   if(this.backUrl&&this.backUrl.length>0){
+    //     this.$router.push({name:this.backUrl});   
+    //   }else{
+    //     this.$router.back(-1);
+    //   }
+    // }
   }
 }
 </script>

@@ -24,10 +24,8 @@ export default {
     return {
       footerArr: [
         {elType: 1, index: 'home', text: '首页', className: 'el-icon-footer_1'},
-        {elType: 2, index: 'serviceProduct', text: '服务产品', className: 'el-icon-footer_2'},
-        {elType: 3, index: 'repaire', text: '报修', imgSrc: require('@/assets/images/footer_3.png')},
-        {elType: 4, index: 'report', text: '报表', className: 'el-icon-footer_4'},//
-        {elType: 5, index: 'mine', text: '我的', className: 'el-icon-footer_5'}
+        {elType: 2, index: 'event', text: '事件', className: 'el-icon-bell'},
+        {elType: 5, index: 'mine', text: '设置', className: 'el-icon-footer_5'}
       ],
       title: [],
       defaultActive: 'home'
@@ -90,7 +88,7 @@ export default {
   .footerSelect{display: flex;position: fixed; bottom: 0; left: 0; right: 0; z-index: 999; width: 100%; height: 0.45rem; box-shadow: 0 -0.01rem 0.02rem 0 #d9d9d9}
   .footerSelect .el-menu-item, .el-submenu__title{height: 0.45rem!important;}
   .footerSelect .el-menu--horizontal{width: 100%; padding: 0 0.1rem;}
-  .footerSelect .el-menu--horizontal>.el-menu-item{display: flex; flex-direction: column; align-content: space-around; justify-content: space-around; border: none;width: 20%; text-align: center; padding: 0; color: #8a8a8a!important; background: #ffffff!important; font-size: 0.1rem;}
+  .footerSelect .el-menu--horizontal>.el-menu-item{display: flex; flex-direction: column; align-content: space-around; justify-content: space-around; border: none;width: 33.3%; text-align: center; padding: 0; color: #8a8a8a!important; background: #ffffff!important; font-size: 0.1rem;}
   .footerSelect .el-menu--horizontal>.el-menu-item span{line-height: 0.2rem!important;}
   .footerSelect .el-menu--horizontal>.el-menu-item.is-active{border: none; color: #2698d6!important; background: #ffffff!important;}
   .footerSelect .el-menu--horizontal>.el-menu-item i{display: inline-block; width: 0.22rem; height: 0.22rem; margin: auto; font-size: 0.24rem!important;}

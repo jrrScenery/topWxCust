@@ -2,33 +2,27 @@
 <template >
   <div class="mineView">
     <div class="mineBg" v-for="item in userData" :key="item.id">
-      <img :src="item.imgSrc" alt="">
-      <p><span>{{item.userName}}</span><span>{{item.phone}}</span><span>{{item.orgName}}</span></p>
+      <img v-if="item.imgSrc" :src="item.imgSrc" alt="">
+      <img v-else src="../../assets/images/photo.png" alt="">
+      <span>{{item.userName}}</span>
     </div>
       <ul class="ul_mineView" >
         <li class="li_mineView" v-for="item in liObj" :key="item.id">
-          <template v-if="item.action == 'logout'">
-            <img :src="item.imgSrc" alt="">
-            <span v-on:click="onLogout">{{item.text}}</span>
+          <template v-if="item.action == 'baseInfo'">
+            <span v-on:click="baseInfo">{{item.text}}</span>
             <i class="el-icon-arrow-right"></i>
           </template>
-           <template v-else-if="item.action == 'mineNotice'">
-            <img :src="item.imgSrc" alt="">
-            <span v-on:click="mineNotice">{{item.text}}</span>
-            <i class="el-icon-arrow-right"></i>
-          </template>
-          <template v-else-if="item.action == 'Feedback'">
-            <img :src="item.imgSrc" alt="">
+          <template v-if="item.action == 'Feedback'">
             <span v-on:click="Feedback">{{item.text}}</span>
             <i class="el-icon-arrow-right"></i>
           </template>
-          <template v-else>
-            <img :src="item.imgSrc" alt="">
-            <span>{{item.text}}</span>
+          <template v-if="item.action == 'ChangePd'">
+            <span v-on:click="ChangePd">{{item.text}}</span>
             <i class="el-icon-arrow-right"></i>
           </template>
         </li>
       </ul>
+      <div style="text-align:center;width:100%"><el-button class="btn" v-on:click="onLogout"><span>退出当前账户</span></el-button></div>
   </div>
 </template>
 
@@ -46,13 +40,12 @@ export default {
   data () {
     return {
       userData: [
-        {imgSrc: require('@/assets/images/mine_bg.jpg'), userName:localStorage['realName'],orgName:localStorage['orgName'], phone:localStorage['mobile']}
+        {imgSrc: "", userName:localStorage['realName'], phone:localStorage['mobile']}
       ],
-      liObj: [
-        {imgSrc: require('@/assets/images/mine_1.png'), text: '通知与待办',action:'mineNotice'},
-        // {imgSrc: require('@/assets/images/mine_2.png'), text: '我的报修',action:''}, 暂时注释
-        {imgSrc: require('@/assets/images/mine_3.png'), text: '我的意见反馈',action:'Feedback'},
-        {imgSrc: require('@/assets/images/mine_4.png'), text: '退出当前账户',action:'logout'}
+      liObj: [  
+        {imgSrc: "", text: '基本信息',action:'baseInfo'},
+        {imgSrc: "", text: '反馈建议',action:'Feedback'},
+        {imgSrc:"", text: '修改密码',action:'ChangePd'}, 
       ]
     }
   },
@@ -66,9 +59,9 @@ export default {
         cancelButtonText: '取消',
         type: 'warning'
       }).then(() => {
+        let url = "?action=logOut";
         localStorage.removeItem("token");
-
-        /*
+        localStorage.clear();
         let ua = navigator.userAgent.toLowerCase();
         //let isiOS = !!ua.match(/\(i[^;]+;( U;)? CPU.+Mac OS X/); //判断iPhone|iPad|iPod|iOS
         if (/(iPhone|iPad|iPod|iOS)/i.test(ua)) {
@@ -77,9 +70,8 @@ export default {
         }else if(typeof(android)!="undefined"){
           var value = "{action:logout}";
           android.getClient(value);
-        }*/
+        }
 
-        // let url = "?action=logOut";
         // fetch.get(url,"").then(res=>{
           this.$router.push({name:'login',params:{}});
         // });
@@ -87,11 +79,14 @@ export default {
 
       });
     },
-    mineNotice(){
-       this.$router.push({name:'mineNotice',params:{}});
+    baseInfo(){
+      this.$router.push({name:'baseInfo',params:{}});
     },
-    Feedback(){//:to="{name:'mineFeedbackShow',query:{complantId:scope.row['COMPLANT_ID'],myid:1}}"
-       this.$router.push({name:'tabshowTest',query:{TYPE:'my'}});
+    ChangePd(){
+       this.$router.push({name:'changePwd',params:{}});
+    },
+    Feedback(){
+       this.$router.push({name:'mineAppFeedBack',query:{TYPE:'my'}});
     }
   }
 }
@@ -99,15 +94,21 @@ export default {
 
 <style scoped>
   .mineView{position: absolute; top: 0; width: 100%;}
-  .mineBg{position: relative; width: 100%; height: 2.1rem;}
-  .mineBg img{width: 100%; height: 100%}
-  .mineBg p{position: absolute; bottom: 0; width: 100%; height: 0.5rem; line-height: 0.2rem; color: #ffffff; background: rgba(0,0,0,0.7); font-size: 0.15rem;}
-  .mineBg p span{margin-left: 0.25rem;}
-  .ul_mineView{}
+  .mineBg{position: relative; width: 100%; height: 1.3rem;background-color: #ffffff;
+  border-bottom:0.01rem solid #e5e5e5;margin-top:0.45rem}
+  /* .mineBg img{width: 100%; height: 100%} */
+  .mineBg img{width: 0.8rem; height: 0.8rem; border-radius: 50%; margin: 0.3rem 0.15rem 0.15rem 0.2rem;}
+  .mineBg span{position: absolute; bottom: 0; width: 50%; height: 0.5rem; line-height: 0.5rem; font-size: 0.15rem;
+  float: left;margin: 0.3rem 0.15rem 0.3rem 0.2rem;}
+  /* .mineBg p span{margin-left: 0.25rem;} */
+  /* .ul_mineView{} */
   .ul_mineView .li_mineView{display: flex; justify-content: space-between; align-items: center;height: 0.5rem; background: #ffffff; border-bottom: 0.01rem solid #e5e5e5; font-size: 0.14rem; line-height: 0.5rem; padding: 0 0.2rem;}
   .ul_mineView .li_mineView:nth-child(4){margin-top: 0.1rem; border-top: 0.01rem solid #e5e5e5;}
   .ul_mineView .li_mineView img{width: 0.24rem; height: 0.24rem; margin-right: 0.15rem;}
-  .ul_mineView .li_mineView span{width: 100%; text-align: left; color: #262626}
+  .ul_mineView .li_mineView span{width: 100%; text-align: left; color: #262626;font-size:0.15rem}
+  .mineView .btn{margin-top: 0.5rem;background-color:#199dff; color:#ffffff;float:center;border-radius: 5px;
+  width:80%}
+  .mineView .btn span{font-size:0.15rem}
 </style>
 
 <style>

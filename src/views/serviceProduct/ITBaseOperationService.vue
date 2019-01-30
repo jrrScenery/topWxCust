@@ -26,15 +26,18 @@
                 </el-row>
             </div>
         </div>
+        <footer-home></footer-home>
     </div>
 </template>
 
 <script>
 import headerLast from '../header/headerLast'
+import footerHome from '../footer/footerHome'
 export default {
     name:'ITBaseOperationService',
     components:{
-        headerLast
+        headerLast,
+        footerHome
     },
     data(){
         return{
@@ -46,7 +49,7 @@ export default {
 
 <style scoped>
 .ITBaseOperationServiceView{width: 100%;height: 100%;background: #ffffff}
-.ITBaseOperationServiceCell{overflow: scroll;margin-bottom: 0.1rem;margin-top: 0.45rem}
+.ITBaseOperationServiceCell{overflow: scroll;margin-bottom: 0.45rem;margin-top: 0.45rem}
 .ITBaseOperationServiceCell .ITBaseOperationServiceAdv{position: relative; line-height: 0.35rem; margin-left: 0.15rem; font-size: 0.14rem; color: #2698d6;}
 .ITBaseOperationServiceCell .ITBaseOperationServiceAdv::before{position: absolute; top: 0.1rem; left: -0.1rem; width: 0.05rem; height: 0.15rem; content: ''; background: #2698d6;}
 .ITBaseOperationServiceCell .ITBaseOperationServiceAdv::after{position: absolute; bottom: 0.1rem; right: 0; width: 80%; height: 0.01rem; content: ''; background: #e5e5e5;}

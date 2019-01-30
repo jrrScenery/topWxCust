@@ -1,6 +1,7 @@
 <template>
     <div class="repaireView">
         <header-repaire :title="repaireTit"></header-repaire>
+        <div style="height:0.45rem"></div>
         <div class="repaireContent">
             <div class="attention">
                 {{attentionhello}}<br>
@@ -79,21 +80,23 @@
                 </el-form-item>
             </el-form>
         </div>
+        <footer-home></footer-home>
     </div>
 </template>
 <script>
 import headerRepaire from '../header/headerRepaire'
 import '../../utils/1.js'
-// import func from './vue-temp/vue-editor-bridge';
 import fetch from '../../utils/ajax'
+import footerHome from '../footer/footerHome'
 export default {
     name:'repaire',
     components:{
-        headerRepaire
+        headerRepaire,
+        footerHome
     },
     data(){
         return{
-            repaireTit:'报修',
+            repaireTit:'在线报修',
             formData:{
                 num:'',
                 modelName:'',
@@ -364,7 +367,7 @@ export default {
 </script>
 <style scoped>
 .repaireView{width: 100%;}
-.repaireContent{background: #ffffff; position: relative; margin-bottom: 0.2rem;}
+.repaireContent{background: #ffffff; position: relative; margin-bottom: 0.45rem;}
 .attention{color: red;padding: 0.1rem;}
 .repaireContent >>> .el-form-item{border-bottom: 0.01rem solid #e5e5e5; margin: 0;}
 .repaireContent >>> .el-form-item__label{font-size: 0.13rem; color: #acacac; padding: 0 0 0 0.25rem; text-align: left}
