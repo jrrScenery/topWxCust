@@ -1,7 +1,7 @@
 <!--工作台-所有事件-->
 <template>
   <div class="workBenchMyEventView">
-    <header-base :title="caseListTit" :searchType="searchType" :queryData="searchData" @searchPro="getSearParams" backUrl='home'></header-base>
+    <header-event :title="caseListTit" :queryData="searchData" @searchPro="getSearParams"></header-event>
     <div style="height: 0.45rem;"></div>
     <div class="content" v-infinite-scroll="loadMore" infinite-scroll-disabled="busy" infinite-scroll-distance="10">
       <el-tabs v-model="activeName" @tab-click="tabClick">
@@ -55,21 +55,21 @@
 </template>
 
 <script>
-import headerBase from '../header/headerBase'
+import headerEvent from '../header/headerEvent'
 import loadingtmp from '@/components/load/loading'
 import global_ from '../../components/Global'
 import fetch from '../../utils/ajax'
 export default {
-  name: 'caseList',
+  name: 'event',
 
   components: {
-    headerBase,
+    headerEvent,
     loadingtmp
   },
 
   data () {
     return {
-      caseListTit: '我的报修',
+      caseListTit: '我的事件',
       opinionTab: [
         {
           name: 'first',
@@ -96,7 +96,6 @@ export default {
           numname:"allNum"
         }
       ],
-      searchType: 'caseStatus',
       activeName: this.$route.query.isSearch?"forth":'first',
       searchpage:1,
       isSearch:this.$route.query.isSearch,
