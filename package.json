@@ -18,8 +18,10 @@
     "echarts": "^4.1.0",
     "element-ui": "^2.3.8",
     "js-base64": "^2.4.8",
+    "moment": "^2.24.0",
     "vue": "^2.5.2",
     "vue-axios": "^2.1.1",
+    "vue-fullcalendar": "^1.0.9",
     "vue-infinite-scroll": "^2.0.2",
     "vue-router": "^3.0.1",
     "vuex": "^3.0.1"

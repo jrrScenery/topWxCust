@@ -2,9 +2,11 @@ import Vue from 'vue'
 import Router from 'vue-router'
 import index from '@/views/index'
 import infiniteScroll from 'vue-infinite-scroll'
+import fullCalendar from 'vue-fullcalendar'
 
 Vue.use(Router)
 Vue.use(infiniteScroll)
+Vue.component('full-calendar', fullCalendar)
 
 export default new Router({
   mode: 'history',
@@ -127,6 +129,11 @@ export default new Router({
       path: '/home/tabshowTest',
       name: 'tabshowTest',
       component: resolve => require(['@/views/home/tabshowTest'], resolve)
+    },
+    {
+      path: '/home/projectCalendar',
+      name: 'projectCalendar',
+      component: resolve => require(['@/views/home/projectCalendar'], resolve)
     },
     {
       path: '/home/opinion',
