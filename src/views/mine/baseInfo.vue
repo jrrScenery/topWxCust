@@ -1,6 +1,6 @@
 <template>
     <div class="baseInfoView">
-        <header-base-Info :title="baseInfoTit"></header-base-Info>
+        <header-base-Info :title="baseInfoTit" backUrl='mine'></header-base-Info>
         <div style="height: 0.45rem;"></div>
         <div class="baseInfoContent">
             <div class="cell">

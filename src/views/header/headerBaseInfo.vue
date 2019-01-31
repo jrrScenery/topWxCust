@@ -29,7 +29,8 @@ export default {
         this.$router.push({name:'baseInfoEdit',params:{}});
     },
     back: function (event) {
-      this.$router.back(-1)
+      this.$router.push({name:this.backUrl});
+      // this.$router.back(-1)
     }
   }
 }

@@ -1,19 +1,4 @@
 <template>
-  <!-- <el-container> -->
-    <!-- <el-header height="45px">
-      <el-form :inline="true" class="demo-form-inline" size="small">
-        <el-form-item>
-          <el-button type="primary" @click="updateOptions">changeOptions</el-button>
-        </el-form-item>
-        <el-form-item>
-          <el-button type="primary" @click="changeResources">changeResources</el-button>
-        </el-form-item>
-        <el-form-item>
-          <el-button type="primary" @click="changeEvents">changeEvents</el-button>
-        </el-form-item>
-      </el-form>
-    </el-header> -->
-    <!-- <el-main> -->
   <div class="CalendarView">
     <header-last :title="calendarTit"></header-last>
 	<div style="height: 0.45rem;"></div>
@@ -28,20 +13,7 @@
         </full-calendar>
     </div>
   </div>
-      <!-- <div class="external-events">
-        <h4>Draggable Events</h4>
-        <vue-draggable class="fc-event" :event="{id: 4, title: 'My Event 1'}">My Event 1</vue-draggable>
-        <vue-draggable class="fc-event" :event="{id: 5, title: 'My Event 2'}">My Event 2</vue-draggable>
-        <vue-draggable class="fc-event" :event="{id: 6, title: 'My Event 3'}">My Event 3</vue-draggable>
-        <vue-draggable class="fc-event" :event="{id: 7, title: 'My Event 4'}">My Event 4</vue-draggable>
-        <vue-draggable class="fc-event" :event="{id: 8, title: 'My Event 5'}">My Event 5</vue-draggable>
-      </div> -->
-    <!-- </el-main> -->
-  <!-- </el-container> -->
 </template>
-
-<!-- Add "scoped" attribute to limit CSS to this component only -->
-
 
 <script>
 import headerLast from '../header/headerLast'

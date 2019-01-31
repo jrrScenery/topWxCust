@@ -28,8 +28,8 @@ export default new Router({
         },   
         {
           path: '/event',
-          name: 'workBenchMyEvent',
-          component: resolve => require(['@/views/event/workBenchMyEvent'], resolve),
+          name: 'event',
+          component: resolve => require(['@/views/event/event'], resolve),
           meta: {
             isUseCache: false,
             keepAlive: true
@@ -57,15 +57,6 @@ export default new Router({
     //   name: 'checkNumLogin',
     //   component: resolve => require(['@/views/forgetPass/checkNumLogin'], resolve)
     // }, 
-    {
-      path: '/home/caseList',
-      name: 'caseList',
-      component: resolve => require(['@/views/home/caseList'], resolve),
-      meta: {
-        isUseCache: false,
-        keepAlive: true
-      }
-    },
     {
       path: '/home/casedetail',
       name: 'casedetail',
@@ -163,11 +154,6 @@ export default new Router({
         isUseCache: false,
         keepAlive: true
       }
-    },
-    {
-      path: '/home/eventShow',
-      name: 'eventShow',
-      component: resolve => require(['@/views//home/eventShow'], resolve)
     },
     {
       path: '/mine/mineFeedback',

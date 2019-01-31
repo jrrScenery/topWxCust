@@ -1,6 +1,6 @@
 <template>
     <div class="baseInfoView">
-        <header-last :title="baseInfoTit"></header-last>
+        <header-last :title="baseInfoTit" backUrl='baseInfo'></header-last>
         <div style="height: 0.45rem;"></div>
         <div class="baseInfoContent">
             <el-form :model="formData" label-width="0.9rem" ref="formData">

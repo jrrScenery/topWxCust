@@ -1,7 +1,7 @@
 <!--首页-事件详情-服务评价编辑-->
 <template>
     <div class="serviceRateView">  
-        <header-last :title="serviceRateTit"></header-last>
+        <header-last :title="serviceRateTit" backUrl='caseEvaluateList' :date1='this.$route.query.caseId'></header-last>
         <div style="height: 0.45rem;"></div>  
         <div class="serviceInfoCell">
             <div class="serviceContent">

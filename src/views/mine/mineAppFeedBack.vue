@@ -1,6 +1,6 @@
 <template>
     <div class="mineAppFeedBackView">
-        <header-last :title="mineAppFeedBackTit"></header-last>
+        <header-last :title="mineAppFeedBackTit" backUrl='mine'></header-last>
         <div style="height: 0.45rem;"></div>
         <div class="mineAppFeedBackContent">
             <el-form :model="formData" label-width="0.8rem" ref="formData">

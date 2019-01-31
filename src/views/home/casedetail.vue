@@ -1,7 +1,7 @@
 <!--首页- case详情-->
 <template>
     <div class="casedetailView">
-        <header-last :title="casedetailTit" backUrl='caseList'></header-last>
+        <header-last :title="casedetailTit" backUrl='event'></header-last>
         <div style="height: 0.45rem;"></div>
         <div class="casedetailTabs">
             <el-tabs v-model="activeName">

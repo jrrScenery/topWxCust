@@ -1,7 +1,7 @@
 <!--首页-事件详情-补充说明-->
 <template>
   <div class="eventReplenishView">
-    <header-last :title="eventReplenishTit"></header-last>
+    <header-last :title="eventReplenishTit" backUrl='casedetail' :date1="this.$route.query.caseId"></header-last>
     <div style="height: 0.45rem;"></div>
     <div class="content">
       <ul>

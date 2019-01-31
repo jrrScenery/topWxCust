@@ -1,7 +1,7 @@
 <!--首页-事件详情-意见反馈-->
 <template>
   <div class="eventFeedbackView">
-    <header-last :title="eventFeedbackTit"></header-last>
+    <header-last :title="eventFeedbackTit" backUrl='casedetail' :date1="this.$route.query.caseId"></header-last>
     <div style="height: 0.45rem;"></div>
     <div class="content">
       <el-form :model="formData" label-width="0.8rem" ref="formData">
