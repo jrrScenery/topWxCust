@@ -1,6 +1,6 @@
 <template>
     <div class="serviceRateView">  
-        <header-last :title="serviceRateTit"></header-last>
+        <header-last :title="serviceRateTit" backUrl='casedetail' :date1="this.$route.query.caseId"></header-last>
         <div style="height: 0.45rem;"></div>  
         <div class="serviceInfoCell">
             <div class="serviceContent">

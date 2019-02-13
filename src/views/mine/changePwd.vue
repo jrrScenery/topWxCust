@@ -1,6 +1,6 @@
 <template>
     <div class="changePwdView">
-        <header-last :title="changePwdTit"></header-last>
+        <header-last :title="changePwdTit" backUrl='mine'></header-last>
         <div style="height: 0.45rem;"></div>
         <div class="changePwdContent">
             <el-form :model="formData" label-width="0.9rem" ref="formData">

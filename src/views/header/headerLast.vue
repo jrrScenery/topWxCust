@@ -26,21 +26,22 @@ export default {
 
   methods: {
     back: function (event) {
-      this.$router.back(-1)
+      console.log("backUrl",this.backUrl)
+      if(this.backUrl&&this.backUrl.length>0){
+        if(this.backUrl == 'casedetail'){
+          this.$router.push({name:this.backUrl,query:{caseId:this.date1}});   
+        }else if(this.backUrl == 'caseEvaluateList'){
+          this.$router.push({name:this.backUrl,query:{caseId:this.date1}}); 
+        }else{
+          this.$router.push({name:this.backUrl});   
+        }
+      }else{
+        this.$router.back(-1);
+      }
     }
     // back: function (event) {
-    //   console.log("pppppppppppp",this.backUrl);
-    //   if(this.backUrl&&this.backUrl.length>0){
-    //     console.log("route backurl");
-    //     console.log(this.date1);
-    //     if(this.backUrl == 'casedetail'){
-    //       this.$router.push({name:this.backUrl,query:{caseId:this.date1}});
-    //     }else{
-    //       this.$router.push({name:this.backUrl,query:{date1:this.date1,date2:this.date2}});       
-    //     }
-    //   }else{
-    //     this.$router.back(-1);
-    //   }
+    //   console.log("event:",event)
+    //   this.$router.back(-1)
     // }
   }
 }

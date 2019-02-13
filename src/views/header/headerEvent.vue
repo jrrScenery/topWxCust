@@ -8,20 +8,21 @@
     </header>
     <template v-if="popBg">
       <div class="popBg">
-        <search-view @change="updatePopBg" @search="searchData"  :queryData="queryData"></search-view>
+        <template>
+          <case-status-search-view @change="updatePopBg" @search="searchData" :queryData="queryData"></case-status-search-view>
+        </template>
       </div>
     </template>
   </div>
 </template>
 
 <script>
-
-import searchView from '@/components/searchView'
+import caseStatusSearchView from '@/components/caseStatusSearchView'
 export default {
-  name: 'headerMyEvent',
+  name: 'headerEvent',
 
   components: {
-    searchView
+    caseStatusSearchView
   },
 
   data () {
@@ -31,7 +32,7 @@ export default {
     }
   },
 
-  props: ['title','searchType','queryData','backUrl'],
+  props: ['title','searchType','queryData'],
 
   watch: {
   },
@@ -50,18 +51,6 @@ export default {
     searchData (data) {
       this.$emit('searchPro', data)
     },
-    back: function (event) {
-      this.$router.back(-1)
-    }
-    // back: function (event) {
-    //   console.log("ddddddddd",event);
-    //   if(this.backUrl&&this.backUrl.length>0){
-    //     this.$router.push({name:this.backUrl});   
-    //   }else{
-    //     this.$router.back(-1);
-    //   }
-    // }
-
   }
 }
 </script>

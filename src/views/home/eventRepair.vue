@@ -1,7 +1,7 @@
 <!--相关报修-->
 <template>
   <div class="proRepairView">
-    <header-last :title="eventRepairTit"></header-last>
+    <header-last :title="eventRepairTit" backUrl='casedetail' :date1="this.$route.query.caseId"></header-last>
     <div style="height: 0.45rem;"></div>
     <div class="content"  v-infinite-scroll="loadMore" infinite-scroll-disabled="busy" infinite-scroll-distance="10" >
 
