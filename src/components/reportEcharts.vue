@@ -177,241 +177,311 @@ export default {
     },
 
     drawLineOne () {
-      let myChartBox = document.getElementById('myChartOne')
-      myChartBox.style.width = window.innerWidth - 30  + 'px'
-      this.myChartOne = echarts.init(myChartBox)
-      this.myChartOne.setOption({
-        color: ['#3398DB'],
-        grid: {
-          top: '5%',
-          left: '0',
-          right: '0',
-          bottom: '2%',
-          containLabel: true
-        },
-        xAxis: [
-          {
-            type: 'category',
-            data: this.oneDataX,
-            axisTick: {
-              alignWithLabel: true
-            }
-          }
-        ],
-        yAxis: [
-          {
-            type: 'value'
-          }
-        ],
-        series: [
-          {
-            name: '直接访问',
-            type: 'bar',
-            barWidth: '50%',
-            data: this.oneData,
-            label: {
-              normal: {
-                show: true,
-                position: 'inside'
+      if ( this.oneData.length != 0 ) {
+        let myChartBox = document.getElementById('myChartOne')
+        myChartBox.removeAttribute('_echarts_instance_');
+        myChartBox.style.width = window.innerWidth - 30  + 'px'
+        myChartBox.style.height = window.innerWidth/2 +50  + 'px'
+        this.myChartOne = echarts.init(myChartBox)
+        this.myChartOne.setOption({
+          color: ['#3398DB'],
+          grid: {
+            top: '5%',
+            left: '0',
+            right: '0',
+            bottom: '2%',
+            containLabel: true
+          },
+          xAxis: [
+            {
+              type: 'category',
+              data: this.oneDataX,
+              axisTick: {
+                alignWithLabel: true
               }
             }
-          }
-        ]
-      })
+          ],
+          yAxis: [
+            {
+              type: 'value',
+              boundaryGap: [1,4]
+            }
+          ],
+          series: [
+            {
+              name: '直接访问',
+              type: 'bar',
+              barWidth: '50%',
+              data: this.oneData,
+              label: {
+                normal: {
+                  show: true,
+                  position: 'inside'
+                }
+              }
+            }
+          ]
+        })
+      }
+      else {
+        let myChartBox = document.getElementById('myChartOne')
+        myChartBox.innerText = "当前时间段内无项目记录"
+        myChartBox.style.cssText = "width: '100%', height: '0.5rem'"
+      }
     },
     drawLineTwo () {
-      let myChartBox = document.getElementById('myChartTwo')
-      myChartBox.style.width = window.innerWidth - 10  + 'px'
-      myChartBox.style.height = window.innerWidth/2 +50  + 'px'
-      this.myChartTwo = echarts.init(myChartBox)
-      this.myChartTwo.setOption({
-        legend: {
-            orient: 'vertical',
-            data: this.factoryDataX
-        },
-        series: [
-          {
-            name: '访问来源1',
-            type: 'pie',
-            radius: '55%',
-            center: ['50%', '60%'],
-            data: this.factoryData,
-            labelLine: {
-              normal: {
-                show: true
-              }
-            },
-            itemStyle: {
-              normal:{
-                label:{
-                  show:true,
-                  formatter: '{b} : {c} \n ({d}%)'
-                },
-                labelLine:{
-                  show:true
+      if ( this.factoryData.length == 1 && this.factoryData[0].name == "其他" && this.factoryData[0].value == null ) {
+        let myChartBox = document.getElementById('myChartTwo')
+        myChartBox.textContent = "当前时间段内无项目记录"
+        myChartBox.style.cssText = "width: '100%', height: '0.5rem'"
+      }
+      else if ( this.factoryData.length != 0 ) {
+        let myChartBox = document.getElementById('myChartTwo')
+        myChartBox.removeAttribute('_echarts_instance_');
+        myChartBox.style.width = window.innerWidth - 10  + 'px'
+        myChartBox.style.height = window.innerWidth/2 +50  + 'px'
+        this.myChartTwo = echarts.init(myChartBox)
+        this.myChartTwo.setOption({
+          legend: {
+              orient: 'vertical',
+              data: this.factoryDataX
+          },
+          series: [
+            {
+              name: '访问来源1',
+              type: 'pie',
+              radius: '55%',
+              center: ['50%', '60%'],
+              data: this.factoryData,
+              labelLine: {
+                normal: {
+                  show: true
+                }
+              },
+              itemStyle: {
+                normal:{
+                  label:{
+                    show:true,
+                    formatter: '{b} : {c} \n ({d}%)'
+                  },
+                  labelLine:{
+                    show:true
+                  }
                 }
               }
             }
-          }
-        ]
-      })
+          ]
+        })
+      } 
+      else {
+        let myChartBox = document.getElementById('myChartTwo')
+        myChartBox.innerText = "当前时间段内无项目记录"
+        myChartBox.style.cssText = "width: '100%', height: '0.5rem'"
+      }
     },
     drawLineFive () {
-      let myChartBox = document.getElementById('myChartFive')
-      myChartBox.style.width = window.innerWidth - 30  + 'px'
-      this.myChartFive = echarts.init(myChartBox)
-      this.myChartFive.setOption({
-        series: [
-          {
-            name: '访问来源',
-            type: 'pie',
-            radius: '55%',
-            center: ['50%', '60%'],
-            data: this.deviceTypeData,
-            labelLine: {
-              normal: {
-                show: true
-              }
-            },
-            itemStyle: {
-              normal:{
-                label:{
-                  show:true,
-                  formatter: '{b} : {c} \n ({d}%)'
-                },
-                labelLine:{
-                  show:true
+      if ( this.deviceTypeData.length == 1 && this.deviceTypeData[0].name == "其他" && this.deviceTypeData[0].value == null ) {
+        let myChartBox = document.getElementById('myChartFive')
+        myChartBox.innerText = "当前时间段内无项目记录"
+        myChartBox.style.cssText = "width: '100%', height: '0.5rem'"
+      }
+      else if ( this.deviceTypeData.length != 0 ) {
+        let myChartBox = document.getElementById('myChartFive')
+        myChartBox.removeAttribute('_echarts_instance_');
+        myChartBox.style.width = window.innerWidth - 30  + 'px'
+        myChartBox.style.height = window.innerWidth/2 +50  + 'px'
+        this.myChartFive = echarts.init(myChartBox)
+        this.myChartFive.setOption({
+          series: [
+            {
+              name: '访问来源',
+              type: 'pie',
+              radius: '55%',
+              center: ['50%', '60%'],
+              data: this.deviceTypeData,
+              labelLine: {
+                normal: {
+                  show: true
+                }
+              },
+              itemStyle: {
+                normal:{
+                  label:{
+                    show:true,
+                    formatter: '{b} : {c} \n ({d}%)'
+                  },
+                  labelLine:{
+                    show:true
+                  }
                 }
               }
             }
-          }
-        ]
-      })
+          ]
+        })
+      }
+      else{
+        let myChartBox = document.getElementById('myChartFive')
+        myChartBox.innerText = "当前时间段内无项目记录"
+        myChartBox.style.cssText = "width: '100%', height: '0.5rem'"
+      }
     },
     drawLineFour () {
-      let myChartBox = document.getElementById('myChartFour')
-      myChartBox.style.width = window.innerWidth - 30  + 'px'
-      this.myChartFour = echarts.init(myChartBox)
-      this.myChartFour.setOption({
-        grid: {
-          top: '5%',
-          left: '0',
-          right: '4%',
-          bottom: '2%',
-          containLabel: true
-        },
-        xAxis: {
-          type: 'value',
-          boundaryGap: [0, 0.01]
-        },
-        yAxis: {
-          type: 'category',
-          data: this.deviceModelXData
-        },
-        series: [
-          {
-            name: '2011年',
-            type: 'bar',
-            data: this.deviceModelYData,
-            itemStyle: {
-              normal:{
-                label:{
-                  show:true,
-                  formatter: '{c}'
-                },
-                labelLine:{
-                  show:true
+      if ( this.deviceModelXData.length == 1 && this.deviceModelXData[0] == "其他" ) {
+        let myChartBox = document.getElementById('myChartFour')
+        myChartBox.innerText = "当前时间段内无项目记录"
+        myChartBox.style.cssText = "width: '100%', height: '0.5rem'"
+      }
+      else if ( this.deviceModelXData.length != 0 ){
+        let myChartBox = document.getElementById('myChartFour')
+        myChartBox.removeAttribute('_echarts_instance_'); 
+        myChartBox.style.width = window.innerWidth - 30  + 'px'
+        myChartBox.style.height = window.innerWidth/2 +50  + 'px'
+        this.myChartFour = echarts.init(myChartBox)
+        this.myChartFour.setOption({
+          grid: {
+            top: '5%',
+            left: '0',
+            right: '4%',
+            bottom: '2%',
+            containLabel: true
+          },
+          xAxis: {
+            type: 'value',
+            boundaryGap: [1,4]
+          },
+          yAxis: {
+            type: 'category',
+            data: this.deviceModelXData
+          },
+          series: [
+            {
+              name: '2011年',
+              type: 'bar',
+              data: this.deviceModelYData,
+              itemStyle: {
+                normal:{
+                  label:{
+                    show:true,
+                    formatter: '{c}'
+                  },
+                  labelLine:{
+                    show:true
+                  }
                 }
               }
-            }
-          },
-        ]
-      })
+            },
+          ]
+        })
+      }
+      else {
+        let myChartBox = document.getElementById('myChartFour')
+        myChartBox.innerText = "当前时间段内无项目记录"
+        myChartBox.style.cssText = "width: '100%', height: '0.5rem'"
+      }
     },
     drawLineThree () {
-      let myChartBox = document.getElementById('myChartThree')
-      myChartBox.style.width = window.innerWidth - 30  + 'px'
-      this.myChartThree = echarts.init(myChartBox)
-      this.myChartThree.setOption({
-        series: [
-          {
-            name: '访问来源',
-            type: 'pie',
-            radius: ['50%', '70%'],
-            avoidLabelOverlap: false,
-            label: {
-              emphasis: {
-                show: true,
-                textStyle: {
-                  fontSize: '20',
-                  fontWeight: 'bold'
+      if ( this.caseLevelData.length != 0 ){
+        let myChartBox = document.getElementById('myChartThree')
+        myChartBox.removeAttribute('_echarts_instance_');
+        myChartBox.style.width = window.innerWidth - 30  + 'px'
+        myChartBox.style.height = window.innerWidth/2 +50  + 'px'
+        this.myChartThree = echarts.init(myChartBox)
+        this.myChartThree.setOption({
+          series: [
+            {
+              name: '访问来源',
+              type: 'pie',
+              radius: ['50%', '70%'],
+              avoidLabelOverlap: false,
+              label: {
+                emphasis: {
+                  show: true,
+                  textStyle: {
+                    fontSize: '20',
+                    fontWeight: 'bold'
+                  }
+                }
+              },
+              labelLine: {
+                normal: {
+                  show: true
+                }
+              },
+              data: this.caseLevelData,
+              itemStyle: {
+                normal:{
+                  label:{
+                    show:true,
+                    formatter: '{b} : {c} \n ({d}%)'
+                  },
+                  labelLine:{
+                    show:true
+                  },
+                  position: 'top'
                 }
               }
-            },
-            labelLine: {
-              normal: {
-                show: true
-              }
-            },
-            data: this.caseLevelData,
-            itemStyle: {
-              normal:{
-                label:{
-                  show:true,
-                  formatter: '{b} : {c} \n ({d}%)'
-                },
-                labelLine:{
-                  show:true
-                },
-                position: 'top'
-              }
             }
-          }
-        ]
-      })
+          ]
+        })
+      }
+      else {
+        let myChartBox = document.getElementById('myChartThree')
+        myChartBox.innerText = "当前时间段内无项目记录"
+        myChartBox.style.cssText = "width: '100%', height: '0.5rem'"
+      }
     },
     drawLineSix () {
-      let myChartBox = document.getElementById('myChartSix')
-      myChartBox.style.width = window.innerWidth - 30  + 'px'
-      this.myChartSix = echarts.init(myChartBox)
-      this.myChartSix.setOption({
-        color: ['red'],
-        grid: {
-          top: '5%',
-          left: '0',
-          right: '0',
-          bottom: '2%',
-          containLabel: true
-        },
-        xAxis: [
-          {
-            type: 'category',
-            data: this.sixDataX,
-            axisTick: {
-              alignWithLabel: true
-            }
-          }
-        ],
-        yAxis: [
-          {
-            type: 'value'
-          }
-        ],
-        series: [
-          {
-            name: '直接访问',
-            type: 'bar',
-            barWidth: '50%',
-            data: this.sixData,
-            label: {
-              normal: {
-                show: true,
-                position: 'inside'
+      if ( this.sixData.length != 0 ) {
+        let myChartBox = document.getElementById('myChartSix')
+        myChartBox.removeAttribute('_echarts_instance_');
+        myChartBox.style.width = window.innerWidth - 30  + 'px'
+        myChartBox.style.height = window.innerWidth/2 +50  + 'px'
+        this.myChartSix = echarts.init(myChartBox)
+        this.myChartSix.setOption({
+          color: ['red'],
+          grid: {
+            top: '5%',
+            left: '0',
+            right: '0',
+            bottom: '2%',
+            containLabel: true
+          },
+          xAxis: [
+            {
+              type: 'category',
+              data: this.sixDataX,
+              axisTick: {
+                alignWithLabel: true
               }
             }
-          }
-        ]
-      })
+          ],
+          yAxis: [
+            {
+              type: 'value',
+              boundaryGap: [1,4]
+            }
+          ],
+          series: [
+            {
+              name: '直接访问',
+              type: 'bar',
+              barWidth: '50%',
+              data: this.sixData,
+              label: {
+                normal: {
+                  show: true,
+                  position: 'inside'
+                }
+              }
+            }
+          ]
+        })
+      }
+      else {
+        let myChartBox = document.getElementById('myChartSix')
+        myChartBox.innerText = "当前时间段内无项目记录"
+        myChartBox.style.cssText = "width: '100%', height: '0.5rem'"
+      }
     },
     drawLine () {
       //this.drawLineOne()

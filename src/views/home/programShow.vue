@@ -30,14 +30,15 @@
       </div>
       <div class="programTable">
         <el-tabs v-model="activeName"  @tab-click="chtab" >
+          <el-tab-pane label="相关报修" name="prorepair"><pro-repair @emitbusy="getEmitPage" 
+          @repairpagechange="repairPageChange"  :onchange='needpage.promachine.onchange' 
+           :prorepairpage="needpage.prorepair.page" lazy ></pro-repair></el-tab-pane> 
+          <el-tab-pane label="巡检计划" name="proplan" lazy><pro-plan ></pro-plan></el-tab-pane>
+          <el-tab-pane label="分析报表" name="proreport" lazy><pro-report></pro-report></el-tab-pane>
           <el-tab-pane label="设备清单" name="promachine"><pro-machine @emitbusy="getEmitPage"  
           @emitparams='getEmitparams' 
           :promachinepage="needpage.promachine.page" :onchange='needpage.promachine.onchange'></pro-machine></el-tab-pane>
-          <el-tab-pane label="巡检计划" name="proplan" lazy><pro-plan ></pro-plan></el-tab-pane>
-          <el-tab-pane label="相关报修" name="prorepair"><pro-repair @emitbusy="getEmitPage" 
-          @repairpagechange="repairPageChange"  :onchange='needpage.promachine.onchange' 
-           :prorepairpage="needpage.prorepair.page" lazy ></pro-repair></el-tab-pane>
-          <el-tab-pane label="分析报表" name="proreport" lazy><pro-report></pro-report></el-tab-pane>
+          
           <el-tab-pane label="文档下载" name="profiledown" lazy><pro-file-down></pro-file-down></el-tab-pane>
           <el-tab-pane label="满意度" name="prosatisfy" lazy><pro-satisfy></pro-satisfy></el-tab-pane>
           <el-tab-pane label="意见反馈" name="profeedback" lazy><pro-feedback></pro-feedback></el-tab-pane>
@@ -81,7 +82,7 @@ export default {
         }
       ],
       projectInfo:{},
-      activeName: 'promachine',
+      activeName: 'prorepair',
       page:1,
       pageSize:10,
       busy:false,
