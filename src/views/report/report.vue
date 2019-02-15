@@ -6,6 +6,7 @@
                 <el-button slot="append" icon="el-icon-search"></el-button>
             </el-input>
         </div> -->
+        <div style="height:0.45rem"></div>
         <div class="echartsView">
             <div class="chartOne">
                 <div class="BtmTit">{{chartOneTit}}</div>
