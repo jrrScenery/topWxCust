@@ -12,7 +12,7 @@
       </div>
       <div class="delivercon" v-if="isdetail">
         <dl class="uldetailtree">
-          <dd v-for="item in detailDeliver" :key="item.context">
+          <dd v-for="item in detailDeliver" :key="item.id">
             {{item.time}}：{{item.context}}
           </dd>
         </dl>

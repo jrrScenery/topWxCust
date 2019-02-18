@@ -1,7 +1,7 @@
 <!--进展情况-->
 <template>
   <div class="eventProgressView">
-    <el-collapse v-model="activeName" v-for="items in eventProgressObj" :key="items.name">
+    <el-collapse v-model="activeName" v-for="items in eventProgressObj" :key="items.CASE_ID">
       <el-collapse-item :name="items.inx">
         <template slot="title">
           <img class="titleImg" :src="items.imgSrc" alt="">{{items.title}}

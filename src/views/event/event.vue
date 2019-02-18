@@ -8,21 +8,21 @@
         <template v-for="(item) in opinionTab">
           <el-tab-pane :label="item.label+'('+totalData[item.numname]+')'" :name="item.name" :key="item.id">
             <div style="overflow:auto">
-            <div class="eventCell" v-for="info in item.caseListArr" :key="info.id">
+            <div class="eventCell" v-for="info in item.caseListArr" :key="info.CASE_ID">
               <router-link :to="{name:'casedetail',query:{caseId:info.CASE_ID,projectId:info.PROJECT_ID,ifClose:info.IF_CLOSE,ifEvaluate:info.IF_EVALUATE}}">
               <div class="cellTop">
                 <el-row>
                   <el-col :span="1">
                     <span class="spheathcolor" :class="'spheathcolor'+info.CASE_HEALTH" ></span>
                   </el-col>
-                  <el-col :span="13">
+                  <el-col :span="12">
                     <div class="cellTopNum">
                       {{info.CASE_NO}}
                       <span class="speventlevel" :class="'speventlevelcolor'" >{{info.CASE_LEVEL}}</span>
                     </div>
                   </el-col>
                   
-                  <el-col :span="10">
+                  <el-col :span="11">
                     <div class="cellTopTime"><span>{{info.CREATE_DATE}}</span></div>
                   </el-col>
                 </el-row>
@@ -41,6 +41,9 @@
                 </el-row>
                 <el-row>
                   <el-col :span="24"><span class="tit">故障说明：</span><span>{{info.PROBLEM_DETAIL}}</span></el-col>
+                </el-row>
+                <el-row>
+                  <el-col :span="24"><span class="tit" >当前状态：</span><span>{{info.DEAL_STATUS_NAME}}</span></el-col>
                 </el-row>
               </div>
               </router-link>
@@ -106,7 +109,7 @@ export default {
       tab_box: 1,
       searchData:{
         custid:  this.$route.query.custid,
-        type:this.$route.query.type? this.$route.query.type.split(','):["1","2"],
+        type:this.$route.query.type? this.$route.query.type.split(','):[],
         startTime: this.$route.query.startDate,
         endTime: this.$route.query.endDate,
       },
@@ -120,6 +123,7 @@ export default {
     
   },
   activated(){
+    console.log(this.$route.meta.isUseCache)
     if(!this.$route.meta.isUseCache){
       this.busy= false;
       this.loadall= false;
@@ -139,10 +143,11 @@ export default {
       this.opinionTab[3].caseListArr = [];
       this.searchData={
         custid:  this.$route.query.custid,
-        type:this.$route.query.type? this.$route.query.type.split(','):["1","2"],
+        type:this.$route.query.type? this.$route.query.type.split(','):[],
         startTime: this.$route.query.startDate,
         endTime: this.$route.query.endDate,
       },
+      console.log("searchData",this.searchData)
       this.loadMore();
     }
     this.$route.meta.isUseCache = false;
@@ -185,7 +190,7 @@ export default {
       var flag = this.objpages[this.activeName]["page"]>1;
       let objnowpage = this.objpages[this.activeName];     
       let strurl = "?action=GetCaseList";
-      let params = {CASE_TYPEID:"1,2",PAGE_NUM: objnowpage.page, PAGE_TOTAL: this.pageSize, IF_CLOSE: objnowpage.IF_CLOSE,IF_EVALUATE:objnowpage.IF_EVALUATE}
+      let params = {PAGE_NUM: objnowpage.page, PAGE_TOTAL: this.pageSize, IF_CLOSE: objnowpage.IF_CLOSE,IF_EVALUATE:objnowpage.IF_EVALUATE}
       if(this.isSearch){
         if(this.searchData.custid){params.CUST_ID = this.searchData.custid;}
         params.CASE_TYPEID = this.searchData["type"].join(",");
@@ -197,6 +202,7 @@ export default {
       }
       console.log(params);
       fetch.get(strurl,params).then(res => {
+        console.log("11111");
           console.log("res:",res);
         if('0'== res.STATUSCODE){
           
@@ -245,7 +251,26 @@ export default {
       this.objpages["third"]["loadall"]=false
       this.opinionTab[2].caseListArr = [];
     }
-  }
+  },
+  //在页面离开时记录滚动位置
+  beforeRouteLeave (to, from, next) {
+    if (to.name == 'casedetail') {
+      this.scrollTop = document.querySelector('.content').scrollTop;
+      console.log("scrollTop:",this.scrollTop)
+    }   
+    if (to.name == 'home') {
+        to.meta.isUseCache = true;    
+    } 
+    next();
+  },
+  //进入该页面时，用之前保存的滚动位置赋值
+  beforeRouteEnter (to, from, next) {
+    console.log("next:",next);
+    next(vm => {
+      console.log("vmvmvm",vm.scrollTop);
+      document.querySelector('.content').scrollTop = vm.scrollTop
+    })
+  },
 }
 </script>
 
@@ -259,13 +284,13 @@ export default {
   .content >>> .el-tabs__nav .el-tabs__item{width: 25%; text-align: center; padding: 0; color: #999999}
   .content >>> .el-tabs__nav .el-tabs__item.is-active{color: #2698d6}
   .eventCell{padding: 0 0.2rem 0.1rem; background: #ffffff; margin-bottom: 0.05rem;}
-  .eventCell .cellTop{border-bottom: 0.01rem solid #dbdbdb; line-height: 0.37rem;}
-  .eventCell .cellTop .cellTopNum{font-size: 0.14rem; color: #2698d6;}
+  .eventCell .cellTop{border-bottom: 0.01rem solid #dbdbdb; line-height: 0.2rem;}
+  .eventCell .cellTop .cellTopNum{font-size: 0.13rem; color: #2698d6;}
   /* .eventCell .cellTop .cellTopNum span{display: inline-block; height: 0.19rem; width: 0.19rem; border-radius: 50%; vertical-align: text-top; margin-right: 0.08rem; color: #ffffff; text-align: center; line-height: 0.2rem;} */
-  .eventCell .cellTop .cellTopNum span{display: inline-block;  height: 0.19rem; vertical-align: text-top; margin-left: 0.05rem;  text-align: center; line-height: 0.2rem; color: #666;}
+  .eventCell .cellTop .cellTopNum span{font-size: 0.13rem;display: inline-block;  height: 0.19rem; vertical-align: text-top; margin-left: 0.05rem;  text-align: center; line-height: 0.2rem; color: #666;}
   .eventCell .cellTop .cellTopColor{width: 0.15rem; height: 0.08rem; border-radius: 0.04rem; margin: 0.15rem 0; text-align: right}
-  .eventCell .cellTop .cellTopTime{text-align: right; color: #999999;}
-  .eventCell .cellContent .el-col{line-height: 0.25rem; color: #333333;}
+  .eventCell .cellTop .cellTopTime{text-align: right; color: #999999;font-size: 0.13rem}
+  .eventCell .cellContent .el-col{line-height: 0.25rem; color: #333333;font-size: 0.13rem}
   .eventCell .cellContent .el-col .tit{line-height: 0.25rem; color: #999999;}
   .speventlevel{}
   .speventlevelcolor1{ background:#ff0000; }

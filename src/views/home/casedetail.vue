@@ -5,8 +5,10 @@
         <div style="height: 0.45rem;"></div>
         <div class="casedetailTabs">
             <el-tabs v-model="activeName">
-                <el-tab-pane label="事件信息" name="first"><case-base-info></case-base-info></el-tab-pane>
-                <el-tab-pane label="进展情况" name="second"><case-progress></case-progress></el-tab-pane>
+                <el-tab-pane label="事件信息" name="first"><event-base-info></event-base-info></el-tab-pane>
+                <el-tab-pane label="进展情况" name="second"><event-progress></event-progress></el-tab-pane>
+                <el-tab-pane label="人员地图"  name="third" lazy><event-people></event-people></el-tab-pane>
+                <el-tab-pane label="备件地图"  name="fourth" lazy><event-parts></event-parts></el-tab-pane>
             </el-tabs>
         </div>
         <div class="caseShowFooter">
@@ -59,15 +61,19 @@
 </template>
 <script>
 import headerLast from '../header/headerLast'
-import caseBaseInfo from '../../components/case/caseBaseInfo'
-import caseProgress from '../../components/case/caseProgress'
+import eventBaseInfo from '../../components/event/eventBaseInfo'
+import eventProgress from '../../components/event/eventProgress'
+import eventPeople from '../../components/event/eventPeople'
+import eventParts from '../../components/event/eventParts'
 import fetch from '../../utils/ajax'
 export default {
     name:'casedetail',
     components:{
         headerLast,
-        caseBaseInfo,
-        caseProgress
+        eventBaseInfo,
+        eventProgress,
+        eventPeople,
+        eventParts
     },
     data(){
         return{
@@ -98,7 +104,13 @@ export default {
                 customClass: 'msgdefine'
             });
         },
-    }
+    },
+    beforeRouteLeave( to, from,next){
+    if (to.name == 'event') {
+        to.meta.isUseCache = true;    
+    }        
+    next();
+  }
 }
 </script>
 <style scoped>
@@ -107,7 +119,7 @@ export default {
 .casedetailTabs >>> .el-tabs__item.is-active{color: #2698d6;}
 .casedetailTabs >>> .el-tabs__active-bar{background: #2698d6;}
 .casedetailTabs >>> .el-tabs__nav{width: 100%; text-align: center;}
-.casedetailTabs >>> .el-tabs__item{width: 50%; padding: 0; font-size: 0.14rem; color: #666666;}
+.casedetailTabs >>> .el-tabs__item{width: 25%; padding: 0; font-size: 0.14rem; color: #666666;}
 
 .caseShowFooter{position: absolute; left: 0; right: 0; bottom: 0; height: 0.5rem; background: #ffffff;}
 .caseShowFooter .el-row{}
