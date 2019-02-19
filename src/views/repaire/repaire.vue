@@ -193,6 +193,7 @@ export default {
             fetch.get("?action=/system/queryPartsModelAuto&MODELNAME="+this.formData.modelName,'').then(res=>{
                 this.deviceArray = res.datas;
                 let deviceArray = [];
+                console.log(res.datas);
                 for(let i=0;i<res.datas.length;i++){
                    deviceArray.push({'modelId':res.datas[i].modelId,'factoryNm':res.datas[i].factoryNm,'value':res.datas[i].modelName})
                 }
@@ -233,6 +234,7 @@ export default {
                                 message:'提交成功',
                                 type: 'success',
                                 center: true,
+                                duration:1000,
                                 customClass: 'msgdefine'
                             });
                             // this.$router.push({name: 'home',query: { rancode: (new Date()).valueOf() }});
@@ -251,6 +253,7 @@ export default {
                                 message:res.MESSAGE+"发生错误",
                                 type: 'error',
                                 center: true,
+                                duration:1000,
                                 customClass: 'msgdefine'
                             });
                         }

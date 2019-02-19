@@ -11,14 +11,18 @@
                 </ul>
             </div>
         </div>
+        <footer-home></footer-home>
     </div>
 </template>
 <script>
 import headerBaseInfo from '../header/headerBaseInfo'
+import fetch from '../../utils/ajax'
+import footerHome from '../footer/footerHome'
 export default {
     name:'baseInfo',
     components:{
-        headerBaseInfo
+        headerBaseInfo,
+        footerHome
     },
     data(){
         return{
@@ -36,7 +40,22 @@ export default {
         }
     },
     created(){
-            
+        fetch.get("?action=/system/getUserinfo",{}).then(res=>{
+            console.log(res);
+            if(res.STATUSCODE=="1"){
+                console.log("success");
+                if(res.user.length!=0){
+                    this.baseInfoObj[0].rightCon = res.user[0].REALNAME;
+                    this.baseInfoObj[1].rightCon = res.user[0].USERID;
+                    this.baseInfoObj[2].rightCon = res.user[0].MOBILENO;
+                    this.baseInfoObj[3].rightCon = res.user[0].OEMAIL;
+                    this.baseInfoObj[4].rightCon = res.user[0].ORGNAME;
+                    this.baseInfoObj[5].rightCon = res.user[0].DEPTNAME;
+                    this.baseInfoObj[6].rightCon = res.user[0].INDATE;
+                    this.baseInfoObj[7].rightCon = res.user[0].EMP_POSITION_NM;
+                }
+            }
+        })
     }
 }
 </script>

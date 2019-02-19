@@ -43,7 +43,8 @@
                   <el-col :span="24"><span class="tit">故障说明：</span><span>{{info.PROBLEM_DETAIL}}</span></el-col>
                 </el-row>
                 <el-row>
-                  <el-col :span="24"><span class="tit" >当前状态：</span><span>{{info.DEAL_STATUS_NAME}}</span></el-col>
+                  <el-col :span="1"><span class="tit" style="display: inline-block; width: 0.08rem; height: 0.08rem; border-radius: 50%;background: #ff0000;margin-right:0.05rem"></span></el-col>
+                  <el-col :span="23"><span class="tit">当前状态：</span><span>{{info.DEAL_STATUS_NAME}}</span></el-col>
                 </el-row>
               </div>
               </router-link>
@@ -276,7 +277,7 @@ export default {
 
 <style scoped>
   .workBenchMyEventView{width: 100%;}
-  .content{width: 100%; position: absolute; top: 0.45rem; bottom: 0;overflow: scroll;}
+  .content{width: 100%; position: absolute; top: 0.45rem; bottom: 0.45rem;overflow: scroll;}
   .content >>> .el-tabs{ }
   .content >>> .el-tabs__header{margin-bottom: 0.45rem; background: #ffffff}
   .content >>> .el-tabs__nav{width: 100%;position: fixed;background:#ffffff; top: 0.45rem;}

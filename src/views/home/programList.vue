@@ -31,6 +31,7 @@
       </div>
       <loadingtmp :busy="busy" :loadall="loadall"></loadingtmp>
     </div>
+    <footer-home></footer-home>
   </div>
 </template>
 
@@ -39,12 +40,14 @@ import global_ from '../../components/Global'
 import headerLast from '../header/headerLast'
 import loadingtmp from '@/components/load/loading'
 import fetch from '../../utils/ajax'
+import footerHome from '../footer/footerHome'
 export default {
   name: 'programList',
 
   components: {
     headerLast,
-    loadingtmp
+    loadingtmp,
+    footerHome
   },
 
   data () {
@@ -125,7 +128,7 @@ export default {
 </script>
 
 <style scoped>
-  .content{ width: 100%; position: absolute; top: 0.45rem; bottom: 0;overflow: scroll;}
+  .content{ width: 100%; position: absolute; top: 0.45rem; bottom: 0.45rem;overflow: scroll;}
   .programCell{padding: 0 0.2rem 0.1rem; background: #ffffff; margin-top: 0.05rem;}
   .programCell .cellTop{border-bottom: 0.01rem solid #dbdbdb; line-height: 0.37rem;}
   .programCell .cellTop .cellTopNum{font-size: 0.14rem; color: #2698d6;}

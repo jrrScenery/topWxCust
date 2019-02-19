@@ -33,15 +33,19 @@
             <div class="BtmTit">{{chartSixTit}}</div>
             <div id="myChartSix" :style="{width: '100%', height: '2rem'}"></div>
         </div>
+        <div style="height:0.45rem"></div>
+        <footer-home></footer-home>
     </div>
 </template>
 <script>
 import headerReport from '../header/headerReport'
 import fetch from '../../utils/ajax'
+import footerHome from '../footer/footerHome'
 export default {
     name:'report',
     components:{
-        headerReport
+        headerReport,
+        footerHome
     },
     data(){
         return{

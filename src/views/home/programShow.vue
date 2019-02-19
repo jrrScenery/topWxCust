@@ -45,6 +45,8 @@
         </el-tabs>
       </div>
     </div>
+    <div style="height:0.45rem"></div>
+    <footer-home></footer-home>
   </div>
 </template>
 
@@ -59,6 +61,7 @@ import proFileDown from '../../components/program/proFileDown'
 import proSatisfy from '../../components/program/proSatisfy'
 import proFeedback from '../../components/program/proFeedback'
 import fetch from '../../utils/ajax'
+import footerHome from '../footer/footerHome'
 export default {
   name: 'programShow',
 
@@ -70,7 +73,8 @@ export default {
     proReport,
     proFileDown,
     proSatisfy,
-    proFeedback
+    proFeedback,
+    footerHome
   },
 
   data () {
