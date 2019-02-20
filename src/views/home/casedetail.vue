@@ -28,7 +28,7 @@
                             <span>服务评价</span>
                         </div>
                     </router-link>
-                    <router-link v-if="this.ifClose=='Y' && this.ifEvaluate=='Y'" :to="{name:'caseEvaluateList',query:{caseId:this.caseId}}">
+                    <router-link v-else-if="this.ifClose=='Y' && this.ifEvaluate=='Y'" :to="{name:'caseEvaluateList',query:{caseId:this.caseId}}">
                         <div>
                             <img src="../../assets/images/eventBaseInfo_3.png" style="width: 0.15rem; height: 0.135rem;" alt="">
                             <span>服务评价</span>
