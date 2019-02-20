@@ -3,9 +3,9 @@
   <div class="homeView">
 
     <div class="swiper">
-      <el-carousel arrow="never" width="100%" height="1.2rem" :autoplay="false" ref="carousel">
-        <el-carousel-item v-for="(item,index) in imgObj" :key="item.index" name="index">
-          <img :src="item.imgSrc" alt="" @click="setActiveItem(index)">
+      <el-carousel arrow="always" width="100%" height="1.2rem">
+        <el-carousel-item v-for="item in imgObj" :key="item.id">
+          <img :src="item.imgSrc" alt="">
         </el-carousel-item>
       </el-carousel>
     </div>
@@ -40,11 +40,11 @@ export default {
   data () {
     return { 
       imgObj: [
-        {index:0,imgSrc: require('@/assets/images/swiper_1.jpg')},
-        {index:1,imgSrc: require('@/assets/images/swiper_2.jpg')},
-        {index:2,imgSrc: require('@/assets/images/swiper_3.jpg')},
-        {index:3,imgSrc: require('@/assets/images/swiper_4.jpg')},
-        {index:4,imgSrc: require('@/assets/images/swiper_5.jpg')}
+        {imgSrc: require('@/assets/images/swiper_1.jpg')},
+        {imgSrc: require('@/assets/images/swiper_2.jpg')},
+        {imgSrc: require('@/assets/images/swiper_3.jpg')},
+        {imgSrc: require('@/assets/images/swiper_4.jpg')},
+        {imgSrc: require('@/assets/images/swiper_5.jpg')}
       ],
       workBenchObj: [
         {arr: [{imgSrc: require('@/assets/images/my_1.png'), text: '一键报修', href: 'onceRepaire'},{imgSrc: require('@/assets/images/my_2.png'), text: '我的项目', href: 'programList'},{imgSrc: require('@/assets/images/my_3.png'), text: '报表统计', href: 'report'}]},
@@ -54,10 +54,7 @@ export default {
   },
 
   methods:{
-    setActiveItem:function(index){
-      console.log(index)
-        this.$refs.carousel.setActiveItem(index)
-    }
+
   },
   beforeCreate:function(){
     this.$router.replace(location);

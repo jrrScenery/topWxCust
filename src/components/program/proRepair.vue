@@ -141,8 +141,8 @@ export default {
   .eventCell .cellContent .el-col .tit{line-height: 0.25rem; color: #999999;}
   .speventlevel{}
   .speventlevelcolor1{ color:#ffffff; }
-  .speventlevelcolor2{ color:#1ca2a5; }
-  .speventlevelcolor3{ color:#ffff00; }
+  .speventlevelcolor2{ color:#1ca2a5; } 
+  .speventlevelcolor3{ color:#009900; }
   .speventlevelcolor4{ color:#ff9900; }
   .speventlevelcolor5{ color:#ff0000; }
   .eventCell .cellTop .spheathcolor{display: inline-block; width: 0.14rem; height: 0.07rem; border-radius: 0.035rem;}

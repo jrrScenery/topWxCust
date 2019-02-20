@@ -60,7 +60,7 @@ export default {
                 if (valid) {
                     if(!vm.check(loading)) return;
                     let params = "&EMP_NAME="+ localStorage.getItem("empId") +"&CONTENT="+window.encodeURI(this.formData.article);
-                    fetch.get("?action=/case/insertSuggest"+params,"").then(res=>{
+                    fetch.get("?action=/system/insertSuggest"+params,"").then(res=>{
                         console.log("res",res);
                         loading.close();
                         if(res.STATUSCODE=="0"){

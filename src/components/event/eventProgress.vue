@@ -1,7 +1,7 @@
 <!--进展情况-->
 <template>
-  <div class="eventProgressView">
-    <el-collapse v-model="activeName" v-for="items in eventProgressObj" :key="items.name">
+  <div class="eventProgressView" v-if="eventProgressObj.length!=0">
+    <el-collapse v-model="activeName" v-for="items in eventProgressObj" :key="items.CASE_ID">
       <el-collapse-item :name="items.inx">
         <template slot="title">
           <img class="titleImg" :src="items.imgSrc" alt="">{{items.title}}
@@ -19,6 +19,7 @@
       </el-collapse-item>
     </el-collapse>
   </div>
+  <div v-else style="text-align:center;padding-bottom:0.1rem">暂无进展信息</div>
 </template>
 
 <script>
@@ -52,6 +53,7 @@ export default {
   mounted(){
     let url = "?action=GetCaseLogList&CASE_ID="+this.$route.query.caseId;
     fetch.get(url,"").then(res=>{
+      console.log("22222");
       console.log(res.data)
       let logData = res.data;
       let temparr= [] ;

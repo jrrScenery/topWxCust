@@ -38,7 +38,7 @@
         </el-steps>
         <p>状态：{{status.state}}</p>
       </div>
-      <div class="peopleInfo">
+      <!-- <div class="peopleInfo">
         <div v-for="(item,i) in peopleInfo" :key="'peo'+i" style="display: flex; justify-content: center; width: 50%">
           <img v-if="item.imgSrc" :src="item.imgSrc" alt="">
           <img v-else src="../../assets/images/photo.png" alt="">
@@ -49,7 +49,7 @@
             </p>
             <span style="font-size: 0.1rem; color: #999999">{{item.position}}</span></div>
         </div>
-      </div>
+      </div> -->
       <ul class="eventBaseInfoCell">
         <li v-for="(item,i) in baseInfoArr" :key="'inf'+i"><span>{{item.tit}}</span>{{item.desc}}
           <a  @click="sendCall(item.phone)" v-bind:href="'tel:'+item.phone"  style="color: #2698d6;"> {{item.phone}} </a>
