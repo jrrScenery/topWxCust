@@ -8,15 +8,9 @@
           :options="options"
           :ref="events"
           :events="events"
+          @changeMonth="changeMonth"
           @eventClick="emitEventClick">
         </full-calendar>
-        <div id="calendarId" class="pop" v-show="eventCaseShow" @click="showClose">  
-        </div>
-        <!-- @drop="handleDropIn" -->
-        <!-- :resources="resources" -->
-        <!-- @changeMonth="changeMonth"   
-          @dayClick="dayClick"       
-          @moreClick="moreClick" -->
     </div>
   </div>
 </template>
@@ -35,6 +29,13 @@ export default {
     return {
       calendarTit: "报修日历",
       eventCaseShow: false,
+      titles: {"caseDatas": "事件", "deliveryDatas": "项目交付", "proStartDatas": "项目起始", "proEndDatas": "项目终止", "inspectStartDatas": "巡检起始", "inspectEndDatas": "巡检终止", "communicateDatas": "例行沟通"},
+      caselist: [],
+      deliverylist: [],
+      projectlist: [],
+      inspectlist: [],
+      communicatelist: [], 
+      listall: [],
       options: {
         locale: 'zh',
         editable: true,
@@ -43,174 +44,224 @@ export default {
         defaultView: 'agendaDay',
         eventResourceField: 'room'
       },
-      // resources: [{
-      //   id: 1,
-      //   title: 'Room A'
+      events: [],
+      // events: [{
+      //   // id: 1,
+      //   // room: 1,
+      //   title: '巡检：某某某巡检公告',
+      //   projectName: "TTTTTTEEEE",
+      //   start: '2019-02-17 12:00',
       // }, {
       //   id: 2,
-      //   title: 'Room B'
-      // }],
-      events: [{
-        id: 1,
-        room: 1,
-        title: '巡检：某某某巡检公告',
-        start: '2019-01-28 10:00'
-      }, {
-        id: 2,
-        room: 2,
-        title: '测试：某某某测试公告',
-        start: '2019-01-28 12:00',
-        end: '2019-01-29 08:00' 
-      }, {
-        id: 3,
-        room: 3,
-        title: 'one测试',
-        start: '2019-01-28 12:00',
-        end: '2019-01-29 08:00' 
-      },{
-        id: 5,
-        room: 5,
-        title: 'five测试',
-        start: '2019-01-28 12:00',
-        end: '2019-01-29 08:00' 
-      },{
-        id: 4,
-        room: 4,
-        title: 'three测试',
-        start: '2019-01-28 12:00',
-        end: '2019-01-29 08:00' 
-      },{
-        id: 6,
-        room: 6,
-        title: 'six测试',
-        start: '2019-01-28 12:00',
-        end: '2019-01-29 08:00' 
-      },{
-        id: 7,
-        room: 7,
-        title: 'seven测试',
-        start: '2019-02-02 12:00',
-        end: '2019-02-02 08:00' 
-      },{
-        id: 8,
-        room: 8,
-        title: 'seven测试',
-        start: '2019-02-20 12:00',
-        end: '2019-02-20 08:00' 
-      },{
-        id: 9,
-        room: 9,
-        title: 'seven测试',
-        start: '2019-02-20 12:00',
-        end: '2019-02-23 08:00' 
-      }]
+      //   room: 2,
+      //   title: '测试：某某某测试公告',
+      //   start: '2019-02-17 12:00',
+      // }, {
+      //   id: 3,
+      //   room: 3,
+      //   title: 'one测试',
+      //   start: '2019-01-19 12:00',
+      // },{
+      //   id: 5,
+      //   room: 5,
+      //   title: 'five测试',
+      //   start: '2019-03-05 12:00',
+      // },{
+      //   id: 4,
+      //   room: 4,
+      //   title: 'three测试',
+      //   start: '2019-03-02 12:00',
+      // },{
+      //   id: 6,
+      //   room: 6,
+      //   title: 'six测试',
+      //   start: '2019-02-28 12:00',
+      // },{
+      //   id: 7,
+      //   room: 7,
+      //   title: 'seven测试',
+      //   start: '2019-02-02 12:00',
+      // },{
+      //   id: 8,
+      //   room: 8,
+      //   title: 'seven测试',
+      //   start: '2019-02-09 12:00',
+      // },{
+      //   id: 9,
+      //   room: 9,
+      //   title: 'seven测试',
+      //   start: '2019-02-20 12:00',
+      // },{
+      //   // id: 10,
+      //   // room: 10,
+      //   title: '测试：某某某测试公告',
+      //   start: '2019-02-17 12:00',
+      // },{
+      //   id: 11,
+      //   room: 11,
+      //   title: '测试：某某某测试公告',
+      //   start: '2019-02-17 12:00',
+      // }]
     }
   },
   created: function () {
+    let timeAroud = this.currentTimeAround()
+    let currentT = timeAroud[0]
+    let currentTMonth = timeAroud[1]
+    console.log(currentT, currentTMonth)
+    fetch.get("?action=/case/QueryCustomerCase&startTime="+ currentT + " 00:00:00" + "&endTime=" + currentTMonth + " 00:00:00",{}).then(res=>{
+      console.log(res)
+      if (res.STATUSCODE=="1") {
+        var datas = res;
+        console.log(datas)
+        this.listall = []
+        for (var key in datas){
+          if (key == "caseDatas") {
+            for (var item in datas[key]) {
+              let cases = {}
+              cases.caseCd = datas[key][item]["caseCd"]
+              cases.projectName = datas[key][item]["projectName"]
+              cases.start = datas[key][item]["faultTime"]
+              cases.caseId = datas[key][item]["caseId"]
+              cases.custId = datas[key][item]["custId"]
+              cases.caseLevel = datas[key][item]["caseLevel"]
+              cases.title = this.titles[key]
+              this.listall.push(cases)
+            }
+          // }
+          // else if (key == "communicateDatas") {
+          //   for (var item in datas[key]) {
+          //     let communitcates = {}
+          //     communitcates.itemName = datas[key][item]["itemName"]
+          //     communitcates.projectName = datas[key][item]["projectName"]
+          //     communitcates.start = datas[key][item]["planStartDate"]
+          //     communitcates.title = this.titles[key]
+          //     this.listall.push(communitcates)
+          //   }
+          // }
+          // else if (key == "deliveryDatas") {
+          //   for (var item in datas[key]) {
+          //     let deliverys = {}
+          //     deliverys.projectName = datas[key][item]["projectName"]
+          //     deliverys.start = datas[key][item]["projectStartDate"]
+          //     deliverys.projectCode = datas[key][item]["projectCode"]
+          //     deliverys.title = this.titles[key]
+          //     this.listall.push(deliverys)
+          //   }
+          // }
+          // else if (key == "inspectStartDatas") {
+          //   for (var item in datas[key]) {
+          //     let inspects = {}
+          //     inspects.start = datas[key][item]["planStartDate"]
+          //     inspects.projectName = datas[key][item]["projectName"]
+          //     inspects.projectCode = datas[key][item]["projectCode"]
+          //     inspects.title = this.titles[key]
+          //     this.listall.push(inspects)
+          //   }
+          // }
+          // else if (key == "inspectEndDatas") {
+          //   for (var item in datas[key]) {
+          //     let inspects = {}
+          //     inspects.start = datas[key][item]["planEndDate"]
+          //     inspects.projectName = datas[key][item]["projectName"]
+          //     inspects.projectCode = datas[key][item]["projectCode"]
+          //     inspects.title = this.titles[key]
+          //     this.listall.push(inspects)
+          //   }
+          // }
+          // else if (key == "proStartDatas") {
+          //   for (var item in datas[key]) {
+          //     let projects = {}
+          //     projects.start = datas[key][item]["projectStartDate"]
+          //     projects.projectCode = datas[key][item]["projectCode"]
+          //     projects.projectName = datas[key][item]["projectName"]
+          //     projects.title = this.titles[key]
+          //     this.listall.push(projects)
+          //   }
+          // }
+          // else if (key == "proEndDatas") {
+          //   for (var item in datas[key]) {
+          //     let projects = {}
+          //     projects.start = datas[key][item]["projectEndDate"]
+          //     projects.projectCode = datas[key][item]["projectCode"]
+          //     projects.projectName = datas[key][item]["projectName"]
+          //     projects.title = this.titles[key]
+          //     this.listall.push(projects)
+          //   }
+          }
+        }
+        this.events = this.listall
+        console.log("AAASSDDD", this.listall)
+        // console.log("A", this.caselist)
+        // console.log("B", this.communicatelist)
+        // console.log("C", this.deliverylist)
+        // console.log("D", this.inspectlist)
+        // console.log("E", this.projectlist)
+        // this.listall.concat(this.caselist)
+        // console.log("AAA", this.listall)
+        // this.listall.concat(this.communicatelist)
+        // this.listall.concat(this.deliverylist)
+        // this.listall.concat(this.inspectlist)
+        // this.listall.concat(this.projectlist)
+        // console.log("1111111111111", this.listall)
+        // console.log(datas.get("caseDatas"))
+        
+      }
+    });
   },
   watch: {
   },
   methods: {
-    // updateOptions () {
-    //   this.options = {
-    //     locale: 'zh-cn',
-    //     editable: true,
-    //     selectable: false,
-    //     droppable: true,
-    //     handleWindowResize: true,
-    //     slotEventOverlap: false,
-    //     slotLabelFormat: 'HH:mm',
-    //     header: false
-    //   }
-    // },
-    // changeResources () {
-    //   this.resources = [{
-    //     id: 1,
-    //     title: 'Room A'
-    //   }, {
-    //     id: 2,
-    //     title: 'Room B'
-    //   }, {
-    //     id: 3,
-    //     title: 'Room C'
-    //   }, {
-    //     id: 4,
-    //     title: 'Room D'
-    //   }]
-    // },
-    // changeEvents () {
-    //   this.events = [{
-    //     id: 1,
-    //     room: 1,
-    //     title: 'Meeting',
-    //     start: '2018-06-28 10:00'
-    //   }, {
-    //     id: 2,
-    //     room: 2,
-    //     title: '测试',
-    //     start: '2018-06-28 12:00'
-    //   }, {
-    //     id: 3,
-    //     room: 3,
-    //     title: '测试',
-    //     start: '2018-06-28 08:00',
-    //   }]
-    // },
-    // handleDropIn (date, jsEvent, ui, resourceId) {
-    //   console.log(date)
-    //   console.log(jsEvent)
-    //   console.log(ui)
-    //   console.log(resourceId)
-    // },
-    showClose (){
-      this.eventCaseShow = false
+    currentTimeAround (time){
+      let date = new Date();
+      let currentTime = date.getFullYear() + '-' + (date.getMonth() + 1) + '-' + "1";
+      let year = date.getFullYear()
+      let month = date.getMonth() + 2
+     if (month > 12) {
+        year = year + 1
+        month = 1
+      }
+      let currentTimeNextMonth = year + '-' + month + '-' + "1";
+      return [currentTime, currentTimeNextMonth];
     },
     emitEventClick (event, jsEvent, pos) {
-    //   this.$emit('eventClick', event, jsEvent, pos)
-	    // console.log("22222222222222", this, "3333", this.events[0].title)
-      // console.log("11111111111111111111111", event)
-      // console.log(jsEvent)
-      // console.log(pos)
-      window.screenWidth = document.body.clientWidth
-      let eventCase = document.getElementById('calendarId')
-      eventCase.style.left = jsEvent.clientX + 'px'
-      eventCase.style.top = jsEvent.clientY + 'px'
-      eventCase.style.zIndex = 3000
-      this.eventCaseShow = true
-      if (window.screenWidth*0.4 + jsEvent.clientX > window.screenWidth) {
-        eventCase.style.left = jsEvent.clientX-window.screenWidth*0.4 + 'px'
+      this.$router.push({name: 'casedetail', query: {caseId: event.caseId, calendar: 'projectCalendar'}})
+      // ,projectId:info.PROJECT_ID,ifClose:info.IF_CLOSE,ifEvaluate:info.IF_EVALUATE}})
+      console.log("111111111111111111", event, jsEvent, pos)
+    },
+    changeMonth (start, end, currentStart, current) {
+      let splitDate = currentStart.split("-")
+      let year = parseInt(splitDate[0])
+      let month = parseInt(splitDate[1]) + 1
+      if (month > 12) {
+        year = year + 1
+        month = 1
       }
-      // eventCase.style.width = window.innerWidth - 10  + 'px'
-
-      // eventCase.style.cssText = "width: '100%', height: '0.5rem'"
-      // eventCase.
-      eventCase.innerHTML = event.title + "<br>" + event.start + "<br>" + event.end
-      }
-
-      // this.$alert('这是一段内容', '标题名称', {
-      //   confirmButtonText: '确定',
-        // center: true,
-        // callback: action => {
-        //   this.$message({
-        //     type: 'info',
-        //     message: `action: ${ action }`
-          // });
-        // }
-        
-      // });
-      // this.$message({
-      //   showClose: true,
-      //   message: this.events[0].start + "\t                " + this.events[0].title + "\n\n              " + this.events[0].end,
-      //   center: true,
-      //   duration:5000,
-      //   customClass: 'msgdefine'
-      // });
-      // this.$notify({
-      //   title: this.events[0].title,
-      //   message: this.events[0].start + "\t" + this.events[0].title + "\n\n" + this.events[0].end,
-      //   position: 'bottom-left'
-      // });
-    // }
+      let currentTNextMonth = year + "-" + month + "-" + splitDate[2]
+      fetch.get("?action=/case/QueryCustomerCase&startTime="+ currentStart + " 00:00:00" + "&endTime=" + currentTNextMonth + " 00:00:00",{}).then(res=>{
+        if (res.STATUSCODE=="1") {
+          var datas = res;
+          this.listall = []
+          for (var key in datas){
+            if (key == "caseDatas") {
+              for (var item in datas[key]) {
+                let cases = {}
+                cases.caseCd = datas[key][item]["caseCd"]
+                cases.projectName = datas[key][item]["projectName"]
+                cases.start = datas[key][item]["faultTime"]
+                cases.caseId = datas[key][item]["caseId"]
+                cases.custId = datas[key][item]["custId"]
+                cases.caseLevel = datas[key][item]["caseLevel"]
+                cases.title = this.titles[key]
+                this.listall.push(cases)
+              }
+            }
+          }
+          this.events = this.listall
+          console.log("AAASSDDD", this.listall)
+        }
+      })
+    },
   }
 }
 </script>
@@ -238,7 +289,14 @@ export default {
 
 .CalendarView{width: 100%;overflow: scroll;}
 .ContextView{ width: 100%; margin: 0 auto;}
-.ContextView .full-calendar-body .dates .week-row .day-cell{ height: 1rem;}
+.ContextView >>> .comp-full-calendar {padding: 12px 1px;}
+.ContextView >>> .full-calendar-body .dates .dates-events .events-week .events-day .event-box .event-item.is-start {margin-left: 1px;}
+.ContextView >>> .full-calendar-body .dates .dates-events .events-week .events-day .event-box .event-item.is-end {margin-right: 1px;}
+.ContextView >>> .full-calendar-body .dates .week-row {height: 70px;}
+.ContextView >>> .full-calendar-body .dates .week-row .day-cell {min-height: 1px;}
+.ContextView >>> .full-calendar-body .dates .dates-events .events-week .events-day {min-height: 70px;}
+.ContextView >>> .full-calendar-body .dates .dates-events .events-week .events-day .event-box .event-item {font-size: 10px;height: 10px;line-height: 10px;}
+.ContextView >>> .full-calendar-body .dates .dates-events .events-week .events-day .event-box .more-link {font-size: 5px; padding-left: 5px;}
 /* .el-message-box {width: 300px;} */
 
 .ContextView .pop {
