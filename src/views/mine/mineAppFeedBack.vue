@@ -63,7 +63,7 @@ export default {
                     fetch.get("?action=/system/insertSuggest"+params,"").then(res=>{
                         console.log("res",res);
                         loading.close();
-                        if(res.STATUSCODE=="0"){
+                        if(res.STATUSCODE=="1"){
                             this.$message({
                                 message:'提交成功',
                                 type: 'success',

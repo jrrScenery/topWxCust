@@ -11,7 +11,7 @@
                 <el-tab-pane label="备件地图"  name="fourth" lazy><event-parts></event-parts></el-tab-pane>
             </el-tabs>
         </div>
-        <div class="caseShowFooter">
+        <div class="caseShowFooter" v-if="activeName!='third'&& activeName!='fourth'">
             <el-row> 
                 <el-col :span="6">
                     <router-link :to="{name:'eventReplenish',query:{caseId:this.caseId}}">

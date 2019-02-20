@@ -51,15 +51,17 @@
                     </el-col>
                 </el-form-item>
                 <el-form-item label="职务：" style="border-top: 0.01rem solid #e5e5e5; margin: 0;">
-                    <el-autocomplete class="el-input"
-                              size="mini"
-                              v-model="formData.empPositionNm" 
-                              :value="formData.empPositionNm"
-                              :fetch-suggestions="querySearch"
-                              placeholder="请输入职务" 
-                              :trigger-on-focus="false"
-                              @select="getEmpPositionNm">
-                    </el-autocomplete>
+                    <el-col :span="20">
+                        <el-autocomplete class="el-input"
+                                size="mini"
+                                v-model="formData.empPositionNm" 
+                                :value="formData.empPositionNm"
+                                :fetch-suggestions="querySearch"
+                                placeholder="请输入职务" 
+                                :trigger-on-focus="false"
+                                @select="getEmpPositionNm">
+                        </el-autocomplete>
+                    </el-col>
                 </el-form-item>
                 <el-form-item class="submitBtn">
                     <el-button @click="submitForm('formData')">保存</el-button>
@@ -110,17 +112,10 @@ export default {
                     this.formData.departNameId = res.user[0].ORGID;
                     this.formData.inDate = res.user[0].INDATE;
                     this.formData.empPositionNm = res.user[0].EMP_POSITION_NM;
+                    this.formData.empPositionId = res.user[0].EMP_POSITION_ID;
                 }
             }
         })
-        // fetch.get("?action=/system/queryEmpPosition&name="+this.formData.empPositionNm,'').then(res=>{
-        //     this.positionArray = res.map;
-        //     console.log(this.positionArray);
-        // })
-        // fetch.get("?action=/system/queryEmpOrg&name="+this.formData.departName,'').then(res=>{
-        //     this.empOrgArray = res.data;
-        //     console.log(this.empOrgArray);
-        // })
     },
     methods:{
         queryOrgNameSearch(queryString, cb){

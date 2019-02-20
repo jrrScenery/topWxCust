@@ -3,13 +3,14 @@
         <header-base-Info :title="baseInfoTit" backUrl='mine'></header-base-Info>
         <div style="height: 0.45rem;"></div>
         <div class="baseInfoContent">
-            <div class="cell">
+            <div class="cell" v-if="flag">
                 <ul>
                     <li v-for="item in baseInfoObj" :key="item.id">
                         <p>{{item.leftTit}}</p><p v-html="item.rightCon"></p>
                     </li>
                 </ul>
             </div>
+            <div style="text-align:center;font-size:0.13rem;padding:0.15rem 0" v-else>暂无基本信息</div>
         </div>
         <footer-home></footer-home>
     </div>
@@ -36,15 +37,16 @@ export default {
                 {leftTit: '部门名称：', rightCon: ''},
                 {leftTit: '注册时间：', rightCon: ''},
                 {leftTit: '职务：', rightCon: ''}
-            ]
+            ],
+            flag:false
         }
     },
     created(){
         fetch.get("?action=/system/getUserinfo",{}).then(res=>{
             console.log(res);
             if(res.STATUSCODE=="1"){
-                console.log("success");
                 if(res.user.length!=0){
+                    this.flag = true
                     this.baseInfoObj[0].rightCon = res.user[0].REALNAME;
                     this.baseInfoObj[1].rightCon = res.user[0].USERID;
                     this.baseInfoObj[2].rightCon = res.user[0].MOBILENO;
@@ -54,6 +56,14 @@ export default {
                     this.baseInfoObj[6].rightCon = res.user[0].INDATE;
                     this.baseInfoObj[7].rightCon = res.user[0].EMP_POSITION_NM;
                 }
+            }else{
+                this.$message({
+                    message:res.MESSAGE+"发生错误",
+                    type: 'error',
+                    center: true,
+                    duration:1000,
+                    customClass: 'msgdefine'
+                });
             }
         })
     }

@@ -77,9 +77,9 @@ export default {
   methods: {
     loadpoint(){
       var vm=this;
-      fetch.get("?action=GetMapEngineer&EMPID="+global_.empId,{CASE_ID:+this.$route.query.caseId}).then(res=>{
+      fetch.get("?action=/case/GetMapEngineer&EMPID="+global_.empId,{CASE_ID:+this.$route.query.caseId}).then(res=>{
         console.log("wwwwwwwwww",res);
-        if("0"== res.STATUSCODE){
+        if("1"== res.STATUSCODE){
           this.detailData = res.detailData;
           var workerArr = res.workerData;
           this.workerData = workerArr.filter(function(item){

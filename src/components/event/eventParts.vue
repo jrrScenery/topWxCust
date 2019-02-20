@@ -82,7 +82,7 @@ export default {
   },
   methods: {
     loadparts(){
-      fetch.get("?action=GetMapPart",{CASE_ID: this.caseId}).then(res=>{
+      fetch.get("?action=/case/GetMapPart",{CASE_ID: this.caseId}).then(res=>{
         console.log(res);
         if('0' == res.STATUSCODE){
           this.detailData = res.detailData
@@ -206,8 +206,9 @@ export default {
       console.log(this.detailFromMarker.getLabel());
       this.bmap.zoomTo(6);
       
-      fetch.get("?action=GetPartsTransports",{SEND_NO: nowpart.SEND_NO,SUPPLIER_TRANSPORT_CODE:nowpart.SUPPLIER_TRANSPORT_CD}).then(res=>{
-        if('0' == res.STATUSCODE){
+      fetch.get("?action=/case/GetPartsTransports",{SEND_NO: nowpart.SEND_NO,SUPPLIER_TRANSPORT_CODE:nowpart.SUPPLIER_TRANSPORT_CD}).then(res=>{
+       console.log('111111111',res);
+       if('0' == res.STATUSCODE){
 
           this.detailDeliver = JSON.parse(res.data);
         }
@@ -232,10 +233,7 @@ export default {
             this.bmap.centerAndZoom(this.nowcenter, 12)
           }
         }
-      } 
-
-      
-      
+      }         
     }
     
   },

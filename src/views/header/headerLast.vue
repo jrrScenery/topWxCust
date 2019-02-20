@@ -25,24 +25,24 @@ export default {
   },
 
   methods: {
-    back: function (event) {
-      console.log("backUrl",this.backUrl)
-      if(this.backUrl&&this.backUrl.length>0){
-        if(this.backUrl == 'casedetail'){
-          this.$router.push({name:this.backUrl,query:{caseId:this.date1}});   
-        }else if(this.backUrl == 'caseEvaluateList'){
-          this.$router.push({name:this.backUrl,query:{caseId:this.date1}}); 
-        }else{
-          this.$router.push({name:this.backUrl});   
-        }
-      }else{
-        this.$router.back(-1);
-      }
-    }
     // back: function (event) {
-    //   console.log("event:",event)
-    //   this.$router.back(-1)
+    //   console.log("backUrl",this.backUrl)
+    //   if(this.backUrl&&this.backUrl.length>0){
+    //     if(this.backUrl == 'casedetail'){
+    //       this.$router.push({name:this.backUrl,query:{caseId:this.date1}});   
+    //     }else if(this.backUrl == 'caseEvaluateList'){
+    //       this.$router.push({name:this.backUrl,query:{caseId:this.date1}}); 
+    //     }else{
+    //       this.$router.push({name:this.backUrl});   
+    //     }
+    //   }else{
+    //     this.$router.back(-1);
+    //   }
     // }
+    back: function (event) {
+      console.log("event:",event)
+      this.$router.back(-1)
+    }
   }
 }
 </script>
