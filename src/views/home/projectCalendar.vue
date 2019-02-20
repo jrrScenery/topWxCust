@@ -225,7 +225,7 @@ export default {
       return [currentTime, currentTimeNextMonth];
     },
     emitEventClick (event, jsEvent, pos) {
-      this.$router.push({name: 'casedetail', query: {caseId: event.caseId, calendar: 'projectCalendar'}})
+      this.$router.push({name: 'casedetail', query: {caseId: event.caseId}})
       // ,projectId:info.PROJECT_ID,ifClose:info.IF_CLOSE,ifEvaluate:info.IF_EVALUATE}})
       console.log("111111111111111111", event, jsEvent, pos)
     },
