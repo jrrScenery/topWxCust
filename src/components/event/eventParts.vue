@@ -268,17 +268,17 @@ export default {
   .searchBox >>> .el-button{padding: 0;}
   #partsAllMap{}
 
-  .partsinfo{position: absolute;   left: 0; right: 0; bottom:0;  height: 0.3rem; overflow: hidden;  background: #fff; transition: all 0.3s;}
-  .infoon{ min-height:2.1rem; }
+  .partsinfo{position: absolute;   left: 0; right: 0; bottom:0;  max-height: 0.45rem; overflow: hidden;  background: #fff; transition: all 0.3s;}
+  .infoon{ min-height:3rem; }
   .partsinfo  strong{font-weight: bold;}
-  .partsinfo .infoh{ line-height: 0.3rem;text-align: center;background: #2698d6; color: #fff; position: relative; }
+  .partsinfo .infoh{ line-height: 0.45rem;text-align: center;background: #2698d6; color: #fff; position: relative; }
   .partsinfo  .infoh i { position: absolute;  content: " "; background: url(../../assets/images/rightarrwhite.png) no-repeat; 
   width: 0.29rem; height: 0.29rem; vertical-align: top; background-position: center; background-size: 16px; transition: all 0.3s;}
   .partsinfo  .infoh b{ left: 0.1rem;;  position: absolute;}
    .partsinfo  .infoh i{position: relative;display: inline-block; }
   .infoon .infoh i{ transform: rotate(90deg);}
-  .partsinfo ul{max-height: 1.9rem; overflow: scroll;}
-  .ashowcpoint{ position: absolute; right:0.1rem; bottom: 0; line-height: 0.3rem;color: #fff;}
+  .partsinfo ul{max-height: 2.6rem; overflow: scroll;}
+  .ashowcpoint{ position: absolute; right:0.1rem; bottom: 0; line-height: 0.45rem;color: #fff;}
   .ulparts{  }
   .ulparts li{ overflow: hidden; padding:0.1rem 0 0.1rem; color: #666; line-height: 0.18rem;border-bottom: 1px dashed #e2e2e2;}
   .ulparts li .imgbox{ width: 0.6rem; float: right; position: relative;}
@@ -290,7 +290,7 @@ export default {
   .ulparts li .txtbox .workstatus{ position: absolute; right: 0.1rem; top: 0.0rem; }
   .ulparts li .txtbox .workerstatus{ position: absolute; right: 0.1rem; top: 0.18rem; }
   .ulparts li .txtbox .orderid{ color: #2698d6; }
-  .delivercon{ padding: 0.1rem 0.1rem 0.2rem; max-height: 1.6rem; overflow: scroll;}
+  .delivercon{ padding: 0.1rem 0.1rem 0.2rem; max-height: 2.5rem; overflow: scroll;}
   .uldetailtree{ position: relative; padding-left: 0.1rem; }
   .uldetailtree:before{ position: absolute;content:" "; width: 0.02rem; top: 0; bottom: 0; left: 0; background: #aaa;}
   .uldetailtree dd{ position: relative; margin-bottom: 0.1rem;}
