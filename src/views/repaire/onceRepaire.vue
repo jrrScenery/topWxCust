@@ -27,7 +27,7 @@
                         </el-form-item>
                         <el-form-item class="submit">
                             <el-button @click="telDialogVisible = false">取消</el-button>
-                            <el-button type="primary" class="onsubmit" @click="telRepaire()">确定</el-button>
+                            <el-button type="primary" class="onsubmit"><a @click="sendCall(telephone)" v-bind:href="'tel:'+telephone" style="color: #ffffff">确定</a></el-button>
                         </el-form-item>
                     </el-dialog>
                 </div> 
@@ -39,6 +39,7 @@
 <script>
 import headerLast from '../header/headerLast'
 import footerHome from '../footer/footerHome'
+import fetch from '../../utils/ajax'
 export default {
     name:'onceRepaire',
     components:{
@@ -54,10 +55,29 @@ export default {
             isShow:true
         }
     },
+    created(){
+        // fetch.get("?action=/case/GetEquipInfoBySn&SN=FDO1607Y2DS",'').then(res=>{
+        //     console.log(res);
+        //     if(res.STATUSCODE=='1'){
+                
+        //     }
+        //     // if(res.STATUSCODE != 0){
+        //     //     this.$router.push({name: 'login',query: { rancode: (new Date()).valueOf() }});
+        //     // }
+        // })
+    },
     methods:{
         //开始扫描
         scanRepaire(){
-            this.$router.push({name:'scanRepaire',params:{}});
+            let ua = navigator.userAgent.toLowerCase();
+            if (/(iPhone|iPad|iPod|iOS)/i.test(ua)) {
+                var info={action:"scan",scantype:'declare'}
+                window.webkit.messageHandlers.ioshandle.postMessage({body: info});
+            }else if(/(Android)/i.test(ua)){
+                var value = "{action:scan,scantype:declare}";
+                android.getClient(value);
+            }
+            // this.$router.push({name:'scanRepaire',params:{}});
         },
         telRepaire(){
             window.location.href = 'tel:${this.telephone}'           
@@ -65,7 +85,59 @@ export default {
         onlineRepaire(){
             this.$router.push({name:'repaire',params:{}});
         }
-    }
+    },
+    beforeCreate:function(){
+
+        window.scanResult = (res) =>{
+            let objtmp={};
+            let strscan = res;
+            let ar= []
+            ar = strscan.split("|");
+            console.log(ar);
+            alert(ar);
+            if(ar.length){
+                ar.forEach(element => {
+                    if(element.length){
+                        // let arsub = element.split("：")
+                        // if('厂商'==arsub[0] ){
+                        // objtmp.factory = arsub.length>1? arsub[1]:''
+                        // }
+                        // if('型号'== arsub[0]){
+                        // objtmp.model = arsub.length>1? arsub[1]:''
+                        // }
+                        if('SN'== arsub[0]){
+                            objtmp.sn = arsub.length>1? arsub[1]:''
+                        }
+                        // if('城市'== arsub[0]){
+                        // objtmp.city = arsub.length>1? arsub[1]:''
+                        // }
+                        
+                    }
+                });
+            }
+            fetch.get("?action=case/GetEquipInfoBySn&SN="+objtmp.sn,'').then(res=>{
+                if(res.STATUSCODE=='1'){
+                    let city = [];
+                    city[0] = res.data.PROVINCE;
+                    city[1] = res.data.AREA;
+                    this.$router.push({name:"repaire" , query:{num:res.data.SN,modelName:res.data.MODEL_NAME, factoryNm:res.data.FACTORY_SN, city:city,address:res.address[0].addressInfo }})
+                }else{
+                    this.$message({
+                        message:res.MESSAGE+"发生错误",
+                        type: 'error',
+                        center: true,
+                        duration:1000,
+                        customClass: 'msgdefine'
+                    });
+                }
+                // if(res.STATUSCODE != 0){
+                //     this.$router.push({name: 'login',query: { rancode: (new Date()).valueOf() }});
+                // }
+            })
+            // this.$router.push({name:"repaire" , query:{num:objtmp.sn,modelName:objtmp.model, factoryNm:objtmp.factoryNm, city:objtmp.city,address:objtmp.address }})
+
+        }
+    },
 }
 </script>
 <style scoped>

@@ -99,6 +99,7 @@ export default {
 
 
       fetch.get("?action=UpdateProcessInfo&CASE_ID="+this.caseid+"&REMARK="+this.form.desc,"").then(res=>{
+        console.log("qqqqqq",res);
         if(res.STATUSCODE=="0"){
           this.$message({
             message:'提交成功',

@@ -1,7 +1,7 @@
 <!--首页- case详情-->
 <template>
     <div class="casedetailView">
-        <header-last :title="casedetailTit" backUrl='event'></header-last>
+        <header-last :title="casedetailTit" :backUrl=route></header-last>
         <div style="height: 0.45rem;"></div>
         <div class="casedetailTabs">
             <el-tabs v-model="activeName">
@@ -83,7 +83,8 @@ export default {
             projectId: this.$route.query.projectId,
             ifEvaluate: this.$route.query.ifEvaluate,
             ifClose: this.$route.query.ifClose,
-            messageId:this.$route.query.messageId
+            messageId:this.$route.query.messageId,
+            route:this.$route.query.route
         }
     },
     created(){
@@ -106,11 +107,11 @@ export default {
         },
     },
     beforeRouteLeave( to, from,next){
-    if (to.name == 'event') {
-        to.meta.isUseCache = true;    
-    }        
-    next();
-  }
+        if (to.name == 'event') {
+            to.meta.isUseCache = true;    
+        }        
+        next();
+    },
 }
 </script>
 <style scoped>

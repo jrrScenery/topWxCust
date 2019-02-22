@@ -1,6 +1,6 @@
 <template>
     <div class="baseInfoView">
-        <header-last :title="baseInfoTit" backUrl='baseInfo'></header-last>
+        <header-base-info-edit :title="baseInfoTit" backUrl='baseInfo'></header-base-info-edit>
         <div style="height: 0.45rem;"></div>
         <div class="baseInfoContent">
             <el-form :model="formData" label-width="0.9rem" ref="formData">
@@ -30,9 +30,10 @@
                     </el-col>
                 </el-form-item>
                 <el-form-item label="部门名称：" label-width="0.9rem">
-                    <el-col :span="20">
+                    <!-- <el-col :span="20">
                         <el-autocomplete class="el-input"
                                 size="mini"
+                                disabled="true"
                                 v-model="formData.departName" 
                                 :value="formData.departName"
                                 :fetch-suggestions="queryOrgNameSearch"
@@ -40,10 +41,10 @@
                                 :trigger-on-focus="false"
                                 @select="getOrgName">
                         </el-autocomplete>
-                    </el-col>
-                    <!-- <el-col :span="20">
-                        <el-input size="mini" v-model="formData.departName"></el-input>
                     </el-col> -->
+                    <el-col :span="20">
+                        <el-input size="mini" v-model="formData.departName" disabled></el-input>
+                    </el-col>
                 </el-form-item>
                 <el-form-item label="注册时间：" label-width="0.9rem">
                     <el-col :span="20">
@@ -51,9 +52,10 @@
                     </el-col>
                 </el-form-item>
                 <el-form-item label="职务：" style="border-top: 0.01rem solid #e5e5e5; margin: 0;">
-                    <el-col :span="20">
+                    <!-- <el-col :span="20">
                         <el-autocomplete class="el-input"
                                 size="mini"
+                                disabled="true"
                                 v-model="formData.empPositionNm" 
                                 :value="formData.empPositionNm"
                                 :fetch-suggestions="querySearch"
@@ -61,6 +63,9 @@
                                 :trigger-on-focus="false"
                                 @select="getEmpPositionNm">
                         </el-autocomplete>
+                    </el-col> -->
+                    <el-col :span="20">
+                        <el-input size="mini" v-model="formData.empPositionNm" disabled></el-input>
                     </el-col>
                 </el-form-item>
                 <el-form-item class="submitBtn">
@@ -71,12 +76,12 @@
     </div>
 </template>
 <script>
-import headerLast from '../header/headerLast'
+import headerBaseInfoEdit from '../header/headerBaseInfoEdit'
 import fetch from '../../utils/ajax'
 export default {
     name:'baseInfo',
     components:{
-        headerLast
+        headerBaseInfoEdit
     },
     data(){
         return{
@@ -112,7 +117,7 @@ export default {
                     this.formData.departNameId = res.user[0].ORGID;
                     this.formData.inDate = res.user[0].INDATE;
                     this.formData.empPositionNm = res.user[0].EMP_POSITION_NM;
-                    this.formData.empPositionId = res.user[0].EMP_POSITION_ID;
+                    // this.formData.empPositionId = res.user[0].EMP_POSITION_ID;
                 }
             }
         })
@@ -152,7 +157,7 @@ export default {
                 this.positionArray = res.map;
                 let positionArray = [];
                 for(let i=0;i<this.positionArray.length;i++){
-                   positionArray.push({'empPositionId':this.positionArray[i].empPositionId,'value':this.positionArray[i].empPositionNm})
+                   positionArray.push({'value':this.positionArray[i].empPositionNm})
                 }
                 var results = queryString ? positionArray.filter(this.createFilter(queryString)) : positionArray;
                 console.log("results",results);
@@ -168,7 +173,7 @@ export default {
                 for(let i=0;i<this.positionArray.length;i++){
                     if(this.positionArray[i].empPositionNm == this.formData.empPositionNm){
                         this.formData.empPositionNm = this.positionArray[i].empPositionNm;
-                        this.formData.empPositionId = this.positionArray[i].empPositionId;
+                        // this.formData.empPositionId = this.positionArray[i].empPositionId;
                     }
                 } 
             }
@@ -185,8 +190,15 @@ export default {
                     let REALNAME = this.formData.realName;
                     let MOBILENO = this.formData.mobile;
                     let OEMAIL = this.formData.email;
-                    let ORGNAME = this.formData.departNameId;
-                    let POSITION = this.formData.empPositionId;
+                    let ORGNAME = this.formData.departNameId?this.formData.departNameId:'';
+                    // if(this.formData.departNameId!=null){
+                    //     ORGNAME = this.formData.departNameId;
+                    // }
+                    // let POSITION = this.formData.empPositionId?this.formData.empPositionId:'';
+                    // if(this.formData.empPositionId!=null){
+                    //     POSITION = this.formData.empPositionId;
+                    // }
+                    let POSITION = this.formData.empPositionNm?this.formData.empPositionNm:'';
                     let params = "&NAME="+REALNAME+"&MOBILE="+MOBILENO+"&EMAIL="+OEMAIL+"&ORG="+ORGNAME+"&POSITION="+POSITION;
                     console.log(params);
                     fetch.get("?action=/system/updateUserinfo"+params,"").then(res=>{

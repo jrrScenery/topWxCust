@@ -9,7 +9,7 @@
           <el-tab-pane :label="item.label+'('+totalData[item.numname]+')'" :name="item.name" :key="item.id">
             <div style="overflow:auto">
             <div class="eventCell" v-for="info in item.caseListArr" :key="info.CASE_ID">
-              <router-link :to="{name:'casedetail',query:{caseId:info.CASE_ID,projectId:info.PROJECT_ID,ifClose:info.IF_CLOSE,ifEvaluate:info.IF_EVALUATE}}">
+              <router-link :to="{name:'casedetail',query:{caseId:info.CASE_ID,projectId:info.PROJECT_ID,ifClose:info.IF_CLOSE,ifEvaluate:info.IF_EVALUATE,route:'event'}}">
               <div class="cellTop">
                 <el-row>
                   <el-col :span="1">

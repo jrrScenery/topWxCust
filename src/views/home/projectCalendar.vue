@@ -1,8 +1,8 @@
 <template>
   <div class="CalendarView">
-    <header-last :title="calendarTit"></header-last>
-	<div style="height: 0.45rem;"></div>
-	<div class="ContextView">
+    <header-last :title="calendarTit" backUrl='home'></header-last>
+	  <div style="height: 0.45rem;"></div>
+	  <div class="ContextView">
         <full-calendar
           class="calendar"
           :options="options"
@@ -12,6 +12,7 @@
           @eventClick="emitEventClick">
         </full-calendar>
     </div>
+    <footer-home></footer-home>
   </div>
 </template>
 
@@ -19,11 +20,13 @@
 import headerLast from '../header/headerLast'
 import { FullCalendar } from 'vue-fullcalendar'
 import fetch from '../../utils/ajax'
+import footerHome from '../footer/footerHome'
 export default {
   name: 'projectCalendar',
   components: {
     'full-calendar': require('vue-fullcalendar'),
-	headerLast
+    headerLast,
+    footerHome
   },
   data () {
     return {
@@ -225,7 +228,7 @@ export default {
       return [currentTime, currentTimeNextMonth];
     },
     emitEventClick (event, jsEvent, pos) {
-      this.$router.push({name: 'casedetail', query: {caseId: event.caseId}})
+      this.$router.push({name: 'casedetail', query: {caseId: event.caseId,route:'projectCalendar'}})
       // ,projectId:info.PROJECT_ID,ifClose:info.IF_CLOSE,ifEvaluate:info.IF_EVALUATE}})
       console.log("111111111111111111", event, jsEvent, pos)
     },
@@ -288,7 +291,7 @@ export default {
 } */
 
 .CalendarView{width: 100%;overflow: scroll;}
-.ContextView{ width: 100%; margin: 0 auto;}
+.ContextView{ width: 100%; margin: 0 auto; bottom: 0.45rem}
 .ContextView >>> .comp-full-calendar {padding: 12px 1px;}
 .ContextView >>> .full-calendar-body .dates .dates-events .events-week .events-day .event-box .event-item.is-start {margin-left: 1px;}
 .ContextView >>> .full-calendar-body .dates .dates-events .events-week .events-day .event-box .event-item.is-end {margin-right: 1px;}
