@@ -98,11 +98,11 @@ export default {
         return{
             repaireTit:'在线报修',
             formData:{
-                num:'',
-                modelName:'',
-                factoryNm:'',
+                num:this.$route.query.num,
+                modelName:this.$route.query.modelName,
+                factoryNm:this.$route.query.factoryNm,
                 city:[],
-                address:'',
+                address:this.$route.query.address,
                 degree:'',
                 range:'',
                 desc:''
@@ -130,6 +130,7 @@ export default {
         }
     },
     created(){
+        this.city = this.$route.query.city
         fetch.get("?action=checkSession",{}).then(res=>{
             if(res.STATUSCODE != 0){
                 this.$router.push({name: 'login',query: { rancode: (new Date()).valueOf() }});
@@ -151,6 +152,7 @@ export default {
         },
         getModelName(){
             if(this.formData.num){
+                console.log("this.snArray",this.snArray);
                 for(let i=0;i<this.snArray.length;i++){
                     if(this.snArray[i].SN_ID == this.formData.num){
                         this.formData.factoryNm = this.snArray[i].FACTORY_SN;
@@ -162,10 +164,11 @@ export default {
                     }
                 } 
             }
+            console.log(this.formData)
         },
         querySearchSn(queryString, cb){
             fetch.get("?action=/system/QueryModelBySN&SN="+this.formData.num,'').then(res=>{
-                console.log(res);
+                console.log("QueryModelBySN:",res);
                 this.snArray = res.data;
                 if(res.data.length==0){
                     this.formData.city=[];

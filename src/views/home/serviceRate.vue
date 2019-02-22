@@ -95,7 +95,8 @@ export default {
         }
         let vm= this;    
         var reqParams = {PAGE_NUM:1,PAGE_TOTAL:3}; 
-        fetch.get("?action=/case/ServiceEvaluate&CASE_ID="+this.caseId,reqParams).then(res=>{
+        console.log();
+        fetch.get("?action=/case/ServiceEvaluate&CASE_ID="+this.$route.query.caseId,reqParams).then(res=>{
             console.log("res:",res);
             if(res.STATUSCODE==0){
                 this.data = res.data;
@@ -247,8 +248,8 @@ export default {
                         console.log(res);
                         loading.close();
                         if(res.STATUSCODE=="0"){
-                            let nowcaseId = vm.caseId;
-                            setTimeout(function(){vm.$router.push({name: 'casedetail',query:{caseId:nowcaseId}})},500);
+                            let nowcaseId = vm.caseId; 
+                            setTimeout(function(){vm.$router.push({name: 'casedetail',query:{caseId:nowcaseId}})},1000);
                         }else{
                             this.$message({
                                 message:res.MESSAGE+"发生错误",
