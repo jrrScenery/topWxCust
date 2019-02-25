@@ -27,6 +27,7 @@ export default {
   methods: {
     back: function (event) {
       console.log("backUrl",this.backUrl)
+      console.log(this.backUrl==null)
       if(this.backUrl&&this.backUrl.length>0){
         if(this.backUrl == 'casedetail'){
           this.$router.push({name:this.backUrl,query:{caseId:this.date1}});   

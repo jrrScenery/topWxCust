@@ -1,7 +1,12 @@
 <!--首页- case详情-->
 <template>
     <div class="casedetailView">
-        <header-last :title="casedetailTit" :backUrl=route></header-last>
+        <div v-if="route=='event'">
+            <header-last :title="casedetailTit" backUrl='event'></header-last>
+        </div>
+        <div v-else>
+            <header-last :title="casedetailTit" backUrl='projectCalendar'></header-last>
+        </div>
         <div style="height: 0.45rem;"></div>
         <div class="casedetailTabs">
             <el-tabs v-model="activeName">
@@ -88,6 +93,15 @@ export default {
         }
     },
     created(){
+        if(this.$route.query.route!=null){
+            localStorage.setItem("route",this.$route.query.route);   
+        }
+        if(this.route==null){
+            this.route = localStorage.getItem("route");
+        }
+        console.log("aaaaaaaaaaa");
+        console.log(localStorage.getItem("route"));
+        console.log("caseId:"+this.caseId);
         let url = "?action=GetCaseInfo&CASE_ID="+this.$route.query.caseId;
         fetch.get(url,"").then(res=>{
             console.log("res:",res);
@@ -95,7 +109,7 @@ export default {
             this.ifEvaluate = res.data.IF_EVALUATE;
         })
     },
-    methods:{
+    methods:{ 
         clickService(){
             console.log(this.ifEvaluate);
             this.$message({
@@ -107,7 +121,7 @@ export default {
         },
     },
     beforeRouteLeave( to, from,next){
-        if (to.name == 'event') {
+        if (to.name == 'event'||to.name == 'projectCalendar') {
             to.meta.isUseCache = true;    
         }        
         next();
