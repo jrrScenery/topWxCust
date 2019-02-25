@@ -197,7 +197,7 @@ export default {
 </script>
 
 <style scoped>
-  .ashowcpoint{ position: absolute; right:0.1rem; bottom: 0; line-height: 0.3rem;color: #fff;}
+  .ashowcpoint{ position: absolute; right:0.1rem; bottom: 0; line-height: 0.45rem;color: #fff;}
   .eventPeopleView{padding: 0 0.15rem;}
   .searchBox{width: 100%; height: 0.5rem; background: #175a91}
   .searchBox >>> .el-form-item{margin: 0 -0.01rem; display: inline-block}
@@ -208,14 +208,14 @@ export default {
   .searchBox >>> .el-button{padding: 0; background: #169ad6}
   #peopleAllMap{}
 
-  .peopleinfo{position: absolute;   left: 0; right: 0; bottom:0;  max-height: 0.3rem; overflow: hidden;  background: #fff; transition: all 0.3s;}
-  .infoon{ min-height:2.1rem; }
+  .peopleinfo{position: absolute;   left: 0; right: 0; bottom:0;  max-height: 0.45rem; overflow: hidden;  background: #fff; transition: all 0.3s;}
+  .infoon{ min-height:3rem; }
   .peopleinfo  strong{font-weight: bold;}
-  .peopleinfo .infoh{ line-height: 0.3rem;text-align: center;background: #2698d6; color: #fff; position: relative; }
+  .peopleinfo .infoh{ line-height: 0.45rem;text-align: center;background: #2698d6; color: #fff; position: relative; }
   .peopleinfo  .infoh i{ position: relative; display: inline-block; content: " "; background: url(../../assets/images/rightarrwhite.png) no-repeat;
   width: 0.29rem; height: 0.29rem; vertical-align: top; background-position: center; background-size: 16px; transition: all 0.3s;}
   .infoon .infoh i{ transform: rotate(90deg);}
-  .peopleinfo ul{max-height: 1.9rem; overflow: scroll;}
+  .peopleinfo ul{max-height: 2.6rem; overflow: scroll;}
   .ulpeoinfo{  }
   .ulpeoinfo li{ overflow: hidden; padding:0.1rem 0 0.1rem; color: #666; line-height: 0.18rem;border-bottom: 1px solid #e2e2e2;}
   .ulpeoinfo li .imgbox{ width: 0.6rem; float: left; position: relative;}
