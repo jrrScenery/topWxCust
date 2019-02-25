@@ -298,7 +298,7 @@ export default {
 .ContextView >>> .full-calendar-body .dates .week-row {height: 70px;}
 .ContextView >>> .full-calendar-body .dates .week-row .day-cell {min-height: 1px;}
 .ContextView >>> .full-calendar-body .dates .dates-events .events-week .events-day {min-height: 70px;}
-.ContextView >>> .full-calendar-body .dates .dates-events .events-week .events-day .event-box .event-item {font-size: 11px;height: 11px;line-height: 11px;}
+.ContextView >>> .full-calendar-body .dates .dates-events .events-week .events-day .event-box .event-item {font-size: 13px;height: 13px;line-height: 13px;}
 .ContextView >>> .full-calendar-body .dates .dates-events .events-week .events-day .event-box .more-link {font-size: 5px; padding-left: 5px;}
 /* .el-message-box {width: 300px;} */
 
