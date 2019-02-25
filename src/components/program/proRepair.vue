@@ -6,7 +6,7 @@
   </el-input>
     <div class="content" >
       <div class="eventCell" v-for="info in proRepairObj" :key="info.CASE_ID">
-        <router-link :to="{name:'casedetail',query: {caseId:info.CASE_ID}}">
+        <router-link :to="{name:'casedetail',query: {caseId:info.CASE_ID,route:'programShow'}}">
         <div class="cellTop">
           <el-row> 
             <el-col :span="13">
@@ -68,6 +68,12 @@ export default {
   },
   created () {
     console.log("prorepairpage:"+this.prorepairpage);
+    if(this.$route.query.projectId!=null){
+      localStorage.setItem("projectId",this.$route.query.projectId);  
+    }
+    if(this.projectId==null){
+      this.projectId = localStorage.getItem("projectId");
+    }
   }, 
   methods: {
 

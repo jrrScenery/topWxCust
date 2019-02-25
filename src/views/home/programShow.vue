@@ -1,7 +1,7 @@
 <!--首页-项目详情-->
 <template>
   <div class="programShowView"  v-infinite-scroll="loadMore" infinite-scroll-disabled="busy" infinite-scroll-distance="10">
-    <header-last :title="programShowTit"></header-last>
+    <header-last :title="programShowTit" backUrl='programList'></header-last>
     <div style="height: 0.45rem;"></div>
     <div class="content" >
       <div class="programCell" v-for="item in programListArr" :key="item.PROJECT_CODE">
@@ -94,8 +94,8 @@ export default {
       needpage:{
         promachine:{page:0,loadall: false,onchange:false,searchData:{}}, 
         prorepair:{page:0,loadall: false,onchange:false,searchData:{}}
-      }
-
+      },
+      projectId:this.$route.query.projectId
     }
   },
   created () {
@@ -103,6 +103,13 @@ export default {
   },
 
   mounted () {
+    if(this.$route.query.projectId!=null){
+      localStorage.setItem("projectId",this.$route.query.projectId);  
+    }
+    if(this.projectId==null){
+      this.projectId = localStorage.getItem("projectId");
+    }
+    console.log();
     this.getProgramInfo();
     window.addEventListener('scroll', this.handleScroll,true)
   },
@@ -123,7 +130,7 @@ export default {
       this.needpage[this.activeName]["loadall"]=false
     },
     getProgramInfo(){
-      fetch.get("?action=/project/GetProjectInfo&EMPID="+global_.empId+"&PROJECT_ID="+this.$route.query.projectId,{}).then(res=>{
+      fetch.get("?action=/project/GetProjectInfo&EMPID="+global_.empId+"&PROJECT_ID="+this.projectId,{}).then(res=>{
           console.log(res);
           let baseInfo = res.data;
           this.projectInfo = baseInfo;

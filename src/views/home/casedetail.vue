@@ -4,8 +4,11 @@
         <div v-if="route=='event'">
             <header-last :title="casedetailTit" backUrl='event'></header-last>
         </div>
-        <div v-else>
+        <div v-else-if="route=='projectCalendar'">
             <header-last :title="casedetailTit" backUrl='projectCalendar'></header-last>
+        </div>
+        <div v-else>
+            <header-last :title="casedetailTit" backUrl='programShow'></header-last>
         </div>
         <div style="height: 0.45rem;"></div>
         <div class="casedetailTabs">

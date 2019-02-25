@@ -1,7 +1,7 @@
 <!--首页-我的项目-->
 <template>
   <div class="programListView">
-    <header-last :title="programListTit+'('+totalData+')'"></header-last>
+    <header-last :title="programListTit+'('+totalData+')'" backUrl="home"></header-last>
     <div style="height: 0.45rem;"></div>
     <div class="content" v-infinite-scroll="loadMore" infinite-scroll-disabled="busy" infinite-scroll-distance="10">
       <div class="programCell" v-for="item in programListArr" :key="item.id">
