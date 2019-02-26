@@ -108,13 +108,27 @@ export default {
     }
   },
   created: function () {
+    const loading = this.$loading({
+      lock: true,
+      text: '加载中',
+      spinner: 'el-icon-loading',
+      background: 'rgba(0, 0, 0, 0.3)'
+    });
     let timeAroud = this.currentTimeAround()
     let currentT = timeAroud[0]
     let currentTMonth = timeAroud[1]
     console.log(currentT, currentTMonth)
-    fetch.get("?action=/case/QueryCustomerCase&startTime="+ currentT + " 00:00:00" + "&endTime=" + currentTMonth + " 00:00:00",{}).then(res=>{
+    fetch.get("?action=/case/QueryCustomerCase&startTime=" + "&endTime=",{}).then(res=>{
       console.log(res)
       if (res.STATUSCODE=="1") {
+        loading.close()
+        this.$message({
+          message: "加载成功",
+          type: 'success',
+          center: true,
+          duration: 500,
+          customClass: 'msgdefine'
+        });
         var datas = res;
         console.log(datas)
         this.listall = []
@@ -232,39 +246,56 @@ export default {
       // ,projectId:info.PROJECT_ID,ifClose:info.IF_CLOSE,ifEvaluate:info.IF_EVALUATE}})
       console.log("111111111111111111", event, jsEvent, pos)
     },
-    changeMonth (start, end, currentStart, current) {
-      this.listall = []
-      let splitDate = currentStart.split("-")
-      let year = parseInt(splitDate[0])
-      let month = parseInt(splitDate[1]) + 1
-      if (month > 12) {
-        year = year + 1
-        month = 1
-      }
-      let currentTNextMonth = year + "-" + month + "-" + splitDate[2]
-      fetch.get("?action=/case/QueryCustomerCase&startTime="+ currentStart + " 00:00:00" + "&endTime=" + currentTNextMonth + " 00:00:00",{}).then(res=>{
-        if (res.STATUSCODE=="1") {
-          var datas = res;
-          for (var key in datas){
-            if (key == "caseDatas") {
-              for (var item in datas[key]) {
-                let cases = {}
-                cases.caseCd = datas[key][item]["caseCd"]
-                cases.projectName = datas[key][item]["projectName"]
-                cases.start = datas[key][item]["faultTime"]
-                cases.caseId = datas[key][item]["caseId"]
-                cases.custId = datas[key][item]["custId"]
-                cases.caseLevel = datas[key][item]["caseLevel"]
-                cases.title = this.titles[key]
-                this.listall.push(cases)
-              }
-            }
-          }
-          this.events = this.listall
-          console.log("AAASSDDD", this.listall)
-        }
-      })
-    },
+    // changeMonth (start, end, currentStart, current) {
+    //   this.listall = []
+    //   console.log("AAAAAAAAAAA", this.listall)
+    //   if (this.listall.length){
+    //     alert("11111")
+    //   }
+    //   const loading = this.$loading({
+    //     lock: true,
+    //     text: '加载中',
+    //     spinner: 'el-icon-loading',
+    //     background: 'rgba(0, 0, 0, 0.3)'
+    //   });
+    //   let splitDate = currentStart.split("-")
+    //   let year = parseInt(splitDate[0])
+    //   let month = parseInt(splitDate[1]) + 1
+    //   if (month > 12) {
+    //     year = year + 1
+    //     month = 1
+    //   }
+    //   let currentTNextMonth = year + "-" + month + "-" + splitDate[2]
+    //   fetch.get("?action=/case/QueryCustomerCase&startTime="+ currentStart + " 00:00:00" + "&endTime=" + currentTNextMonth + " 00:00:00",{}).then(res=>{
+    //     if (res.STATUSCODE=="1") {
+    //       loading.close()
+    //       this.$message({
+    //         message: "加载成功",
+    //         type: 'success',
+    //         center: true,
+    //         duration: 500,
+    //         customClass: 'msgdefine'
+    //       });
+    //       var datas = res;
+    //       for (var key in datas){
+    //         if (key == "caseDatas") {
+    //           for (var item in datas[key]) {
+    //             let cases = {}
+    //             cases.caseCd = datas[key][item]["caseCd"]
+    //             cases.projectName = datas[key][item]["projectName"]
+    //             cases.start = datas[key][item]["faultTime"]
+    //             cases.caseId = datas[key][item]["caseId"]
+    //             cases.custId = datas[key][item]["custId"]
+    //             cases.caseLevel = datas[key][item]["caseLevel"]
+    //             cases.title = this.titles[key]
+    //             this.listall.push(cases)
+    //           }
+    //         }
+    //       }
+    //       this.events = this.listall
+    //     }
+    //   })
+    // },
   }
 }
 </script>
