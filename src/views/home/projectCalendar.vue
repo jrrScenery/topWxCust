@@ -233,6 +233,7 @@ export default {
       console.log("111111111111111111", event, jsEvent, pos)
     },
     changeMonth (start, end, currentStart, current) {
+      this.listall = []
       let splitDate = currentStart.split("-")
       let year = parseInt(splitDate[0])
       let month = parseInt(splitDate[1]) + 1
@@ -244,7 +245,6 @@ export default {
       fetch.get("?action=/case/QueryCustomerCase&startTime="+ currentStart + " 00:00:00" + "&endTime=" + currentTNextMonth + " 00:00:00",{}).then(res=>{
         if (res.STATUSCODE=="1") {
           var datas = res;
-          this.listall = []
           for (var key in datas){
             if (key == "caseDatas") {
               for (var item in datas[key]) {
