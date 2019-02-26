@@ -115,6 +115,7 @@ export default {
             message:res.MESSAGE,
             type: 'error',
             center: true,
+            duration:1000,
             customClass:'msgdefine'
           });
         }
@@ -124,7 +125,8 @@ export default {
           message:res.MESSAGE,
           type: 'error',
           center: true,
-            customClass:'msgdefine'
+          duration:1000,
+          customClass:'msgdefine'
         });
       }) ;
     },

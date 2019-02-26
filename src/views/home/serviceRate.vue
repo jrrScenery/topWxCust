@@ -191,6 +191,7 @@ export default {
                                     message:'请给相关项打分',
                                     type: 'warning',
                                     center: true,
+                                    duration:1000,
                                     customClass:'msgdefine'
                                 });
                                 loading.close();
@@ -227,6 +228,7 @@ export default {
                             message:'请签名',
                             type: 'warning',
                             center: true,
+                            duration:1000,
                             customClass:'msgdefine'
                         });
                         loading.close();
@@ -255,6 +257,7 @@ export default {
                                 message:res.MESSAGE+"发生错误",
                                 type: 'error',
                                 center: true,
+                                duration:1000,
                                 customClass: 'msgdefine'
                             });
                         }                       
