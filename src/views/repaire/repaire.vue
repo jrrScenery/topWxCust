@@ -100,7 +100,9 @@ export default {
             formData:{
                 num:this.$route.query.num,
                 modelName:this.$route.query.modelName,
+                devId:this.$route.query.modelId,
                 factoryNm:this.$route.query.factoryNm,
+                factoryId:this.$route.query.factoryId,
                 city:this.$route.query.city?this.$route.query.city:[],
                 address:this.$route.query.address,
                 degree:'',
@@ -139,7 +141,6 @@ export default {
     methods:{
         getDevName(){
             if(this.formData.modelName){
-                console.log("deviceArray",this.deviceArray);
                 for(let i=0;i<this.deviceArray.length;i++){
                     if(this.deviceArray[i].modelName == this.formData.modelName){
                         this.formData.factoryNm = this.deviceArray[i].factoryNm;

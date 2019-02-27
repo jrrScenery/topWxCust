@@ -97,27 +97,37 @@ export default {
                     needResult: 1, // 默认为0，扫描结果由微信处理，1则直接返回扫描结果，
                     scanType: ["qrCode","barCode"], // 可以指定扫二维码还是一维码，默认二者都有
                     success: function (res) {
-                        // alert(res);
                         let objtmp={};
-                        var result = res.resultStr; // 当needResult 为 1 时，扫码返回的结果
-                        let arsub = result.split("：")
-                        objtmp.sn = arsub.length>1? arsub[1]:'';
-                        // vm.$router.push({name:"repaire"})
+                        let ar= []
+                        var result =JSON.parse(res.resultStr) ; // 当needResult 为 1 时，扫码返回的结果 
                         const loading = vm.$loading({
                             lock: true,
                             text: '加载中...',
                             spinner: 'el-icon-loading',
                             background: 'rgba(255, 255, 255, 0.3)'
                         });
-                        fetch.get("?action=/case/GetEquipInfoBySn&SN="+objtmp.sn,'').then(res=>{
-                            // alert(res);
+                        fetch.get("?action=/case/GetEquipInfoBySn&SN="+result.SN+"&PROJECT_CODE="+result.prjCode,'').then(res=>{
                             console.log(res);
                             loading.close();
                             if(res.STATUSCODE=='1'){
                                 let city = [];
-                                city[0] = (String)(res.data.PROVINCE);
-                                city[1] = (String)(res.data.AREA);
-                                vm.$router.push({name:"repaire" , query:{num:res.data.SN,modelName:res.data.MODEL_NAME, factoryNm:res.data.FACTORY_SN, city:city,address:res.address[0].addressInfo }})
+                                let address = '';
+                                if(res.address.length!=0){
+                                    address = res.address[0].addressInfo
+                                }
+                                if(res.data!=null){
+                                    city[0] = (String)(res.data.PROVINCE);
+                                    city[1] = (String)(res.data.AREA);
+                                    vm.$router.push({name:"repaire" , query:{num:res.data.SN,modelName:res.data.MODEL_NAME,modelId:res.data.MODEL_ID, factoryNm:res.data.FACTORY_SN,factoryId:res.data.FACTORY_ID, city:city,address: address}})
+                                }else{
+                                    vm.$message({
+                                        message:"没有对应的序列号",
+                                        type: 'warning',
+                                        center: true,
+                                        duration:2000,
+                                        customClass: 'msgdefine'
+                                    });
+                                }
                             }else{
                                 vm.$message({
                                     message:res.MESSAGE+"发生错误",
