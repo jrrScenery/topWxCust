@@ -137,11 +137,6 @@ export default new Router({
       component: resolve => require(['@/views/repaire/onceRepaire'], resolve)
     },
     {
-      path: '/repaire/scanRepaire',
-      name: 'scanRepaire',
-      component: resolve => require(['@/views/repaire/scanRepaire'], resolve)
-    },
-    {
       path: '/repaire/repaire',
       name: 'repaire',
       component: resolve => require(['@/views/repaire/repaire'], resolve)

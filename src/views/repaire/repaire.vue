@@ -101,7 +101,7 @@ export default {
                 num:this.$route.query.num,
                 modelName:this.$route.query.modelName,
                 factoryNm:this.$route.query.factoryNm,
-                city:[],
+                city:this.$route.query.city?this.$route.query.city:[],
                 address:this.$route.query.address,
                 degree:'',
                 range:'',
@@ -130,7 +130,6 @@ export default {
         }
     },
     created(){
-        this.city = this.$route.query.city
         fetch.get("?action=checkSession",{}).then(res=>{
             if(res.STATUSCODE != 0){
                 this.$router.push({name: 'login',query: { rancode: (new Date()).valueOf() }});
@@ -140,6 +139,7 @@ export default {
     methods:{
         getDevName(){
             if(this.formData.modelName){
+                console.log("deviceArray",this.deviceArray);
                 for(let i=0;i<this.deviceArray.length;i++){
                     if(this.deviceArray[i].modelName == this.formData.modelName){
                         this.formData.factoryNm = this.deviceArray[i].factoryNm;
@@ -164,7 +164,6 @@ export default {
                     }
                 } 
             }
-            console.log(this.formData)
         },
         querySearchSn(queryString, cb){
             fetch.get("?action=/system/QueryModelBySN&SN="+this.formData.num,'').then(res=>{
@@ -196,13 +195,12 @@ export default {
             fetch.get("?action=/system/queryPartsModelAuto&MODELNAME="+this.formData.modelName,'').then(res=>{
                 this.deviceArray = res.datas;
                 let deviceArray = [];
-                console.log(res.datas);
+                console.log("queryPartsModelAuto",res.datas);
                 for(let i=0;i<res.datas.length;i++){
                    deviceArray.push({'modelId':res.datas[i].modelId,'factoryNm':res.datas[i].factoryNm,'value':res.datas[i].modelName})
                 }
                 
                 let results = queryString ? deviceArray.filter(this.createStateFilter(queryString)) : deviceArray;
-                console.log(results);
                 clearTimeout(this.timeout);
                 this.timeout = setTimeout(() => {
                     cb(results);
@@ -228,9 +226,7 @@ export default {
                     vm.getCaseLevel();
                     if(!vm.check(loading)) return;
                     let params ="&SN_ID="+vm.formData.num+"&SERVICE_SITE="+vm.formData.city[vm.formData.city.length - 1]+"&ADDRESS="+vm.formData.address+"&CASE_LEVEL="+vm.caseLevel+"&FACTORY_NAME="+vm.formData.factoryNm+"&FACTORY_ID="+vm.formData.factoryId+"&MODEL_NAME="+vm.formData.modelName+"&MODEL_ID="+vm.formData.devId+"&IMPACT_DEGREE="+vm.formData.degree+"&IMPACT_SPHERE="+vm.formData.range+"&REMARK="+window.encodeURI(this.formData.desc);
-                    console.log(params);
                     fetch.get("?action=DeclareCase"+params,"").then(res=>{
-                        console.log(res);
                         loading.close();
                         if(res.STATUSCODE == "0"){
                             this.$message({

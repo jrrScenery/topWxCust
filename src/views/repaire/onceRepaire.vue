@@ -61,20 +61,13 @@ export default {
     },
     methods:{
         scanRepaire(){
-            // this.$router.push({name:'scanRepaire',params:{}});
-            alert(location.href.split('#')[0]);
-            fetch.get("?action=weixinParam&url="+encodeURIComponent(location.href.split('#')[0])).then(res=>{
+            let vm= this;
+            fetch.get("?action=weixinParam&url="+location.href).then(res=>{
                 console.log(res)
-                // this.$message({
-                //     message:res,
-                //     type: 'info',
-                //     center: true,
-                //     customClass:'msgdefine'
-                // });
                 if(res.STATUSCODE=='0'){
                     wx.config({
                         // 开启调试模式,调用的所有api的返回值会在客户端alert出来，若要查看传入的参数，可以在pc端打开，参数信息会通过log打出，仅在pc端时才会打印。
-                        debug: true,
+                        debug: false,
                         // 必填，公众号的唯一标识
                         appId: res.data.appId,
                         // 必填，生成签名的时间戳
@@ -89,7 +82,7 @@ export default {
                 }
             });
             wx.error(function (res) {
-                alert("出错了：" + res.errMsg);//这个地方的好处就是wx.config配置错误，会弹出窗口哪里错误，然后根据微信文档查询即可。
+                // alert("出错了：" + res.errMsg);//这个地方的好处就是wx.config配置错误，会弹出窗口哪里错误，然后根据微信文档查询即可。
             });
  
             wx.ready(function () {
@@ -104,77 +97,58 @@ export default {
                     needResult: 1, // 默认为0，扫描结果由微信处理，1则直接返回扫描结果，
                     scanType: ["qrCode","barCode"], // 可以指定扫二维码还是一维码，默认二者都有
                     success: function (res) {
-                        fetch.get("?action=/case/GetEquipInfoBySn&SN="+res.resultStr,'').then(res=>{
-                            console.log(res);
-                        })
+                        // alert(res);
+                        let objtmp={};
                         var result = res.resultStr; // 当needResult 为 1 时，扫码返回的结果
-                        alert("扫描结果："+result);
+                        let arsub = result.split("：")
+                        objtmp.sn = arsub.length>1? arsub[1]:'';
+                        // vm.$router.push({name:"repaire"})
+                        const loading = vm.$loading({
+                            lock: true,
+                            text: '加载中...',
+                            spinner: 'el-icon-loading',
+                            background: 'rgba(255, 255, 255, 0.3)'
+                        });
+                        fetch.get("?action=/case/GetEquipInfoBySn&SN="+objtmp.sn,'').then(res=>{
+                            // alert(res);
+                            console.log(res);
+                            loading.close();
+                            if(res.STATUSCODE=='1'){
+                                let city = [];
+                                city[0] = (String)(res.data.PROVINCE);
+                                city[1] = (String)(res.data.AREA);
+                                vm.$router.push({name:"repaire" , query:{num:res.data.SN,modelName:res.data.MODEL_NAME, factoryNm:res.data.FACTORY_SN, city:city,address:res.address[0].addressInfo }})
+                            }else{
+                                vm.$message({
+                                    message:res.MESSAGE+"发生错误",
+                                    type: 'error',
+                                    center: true,
+                                    duration:1000,
+                                    customClass: 'msgdefine'
+                                });
+                            }
+                        })
                         // window.location.href = result;//因为我这边是扫描后有个链接，然后跳转到该页面
                     }
                 });
     
             });
         },
-        //开始扫描
-        // scanRepaire(){
-        //     let ua = navigator.userAgent.toLowerCase();
-        //     if (/(iPhone|iPad|iPod|iOS)/i.test(ua)) {
-        //         var info={action:"scan",scantype:'declare'}
-        //         window.webkit.messageHandlers.ioshandle.postMessage({body: info});
-        //     }else if(/(Android)/i.test(ua)){
-        //         var value = "{action:scan,scantype:declare}";
-        //         android.getClient(value);
-        //     }
-        //     // this.$router.push({name:'scanRepaire',params:{}});
-        // },
-        // telRepaire(){
-        //     window.location.href = 'tel:${this.telephone}'           
-        // },
         onlineRepaire(){
             this.$router.push({name:'repaire',params:{}});
         }
     },
-    // beforeCreate:function(){
-
-    //     window.scanResult = (res) =>{
-    //         let objtmp={};
-    //         let strscan = res;
-    //         let ar= []
-    //         ar = strscan.split("|");
-    //         console.log(ar);
-    //         alert(ar);
-    //         if(ar.length){
-    //             ar.forEach(element => {
-    //                 if(element.length){
-    //                     if('SN'== arsub[0]){
-    //                         objtmp.sn = arsub.length>1? arsub[1]:''
-    //                     }
-    //                 }
-    //             });
-    //         }
-    //         fetch.get("?action=case/GetEquipInfoBySn&SN="+objtmp.sn,'').then(res=>{
-    //             if(res.STATUSCODE=='1'){
-    //                 let city = [];
-    //                 city[0] = res.data.PROVINCE;
-    //                 city[1] = res.data.AREA;
-    //                 this.$router.push({name:"repaire" , query:{num:res.data.SN,modelName:res.data.MODEL_NAME, factoryNm:res.data.FACTORY_SN, city:city,address:res.address[0].addressInfo }})
-    //             }else{
-    //                 this.$message({
-    //                     message:res.MESSAGE+"发生错误",
-    //                     type: 'error',
-    //                     center: true,
-    //                     duration:1000,
-    //                     customClass: 'msgdefine'
-    //                 });
-    //             }
-    //             // if(res.STATUSCODE != 0){
-    //             //     this.$router.push({name: 'login',query: { rancode: (new Date()).valueOf() }});
-    //             // }
-    //         })
-    //         // this.$router.push({name:"repaire" , query:{num:objtmp.sn,modelName:objtmp.model, factoryNm:objtmp.factoryNm, city:objtmp.city,address:objtmp.address }})
-
-    //     }
-    // },
+    beforeRouteEnter (to, from, next) {
+        var u = navigator.userAgent;
+        var isiOS = !!u.match(/\(i[^;]+;( U;)? CPU.+Mac OS X/); //ios终端
+        // XXX: 修复iOS版微信HTML5 History兼容性问题
+        if (isiOS && to.path !== location.pathname) {
+            // 此处不可使用location.replace
+            location.assign(to.fullPath)
+        } else {
+            next()
+        }
+    }
 }
 </script>
 <style scoped>
