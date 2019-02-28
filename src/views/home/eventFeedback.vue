@@ -96,6 +96,7 @@ export default {
       let vm= this;
       this.$refs[formName].validate((valid) => {
         if (valid) {
+          console.log(this.$route.query.projectId);
           let params = "&PROJECT_ID="+ this.$route.query.projectId +"&TYPE="+this.value4 + "&NAME="+this.formData.name + "&PHONE="+this.formData.phone+"&EMAIL="+this.formData.email+"&CONTENT="+window.encodeURI(this.formData.article);
           fetch.get("?action=UpdateSuggest&CASE_ID="+this.$route.query.caseId+params,"").then(res=>{
               console.log(res);
@@ -105,11 +106,13 @@ export default {
                   message:'提交成功',
                   type: 'success',
                   center: true,
+                  duration:1000,
                   customClass: 'msgdefine'
                 });
 
                   let nowcaseid = vm.caseId;
-                  setTimeout(function(){vm.$router.push({ name: 'casedetail',query:{caseId:nowcaseid}})},1000);
+                  let nowprojectId = vm.projectId;
+                  setTimeout(function(){vm.$router.push({ name: 'casedetail',query:{caseId:nowcaseid,projectId:nowprojectId}})},1000);
               }
               else{
                 this.$message({

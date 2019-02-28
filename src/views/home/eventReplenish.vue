@@ -97,7 +97,8 @@ export default {
         this.opinionTab[0].data = res.data;
       });
 
-
+      console.log(this.caseid);
+      console.log(this.form.desc);
       fetch.get("?action=UpdateProcessInfo&CASE_ID="+this.caseid+"&REMARK="+this.form.desc,"").then(res=>{
         console.log("qqqqqq",res);
         if(res.STATUSCODE=="0"){
@@ -105,6 +106,7 @@ export default {
             message:'提交成功',
             type: 'success',
             center: true,
+            duration:1000,
             customClass:'msgdefine'
           });
           var nowcaseid = vm.caseid;        
