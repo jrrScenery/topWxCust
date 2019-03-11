@@ -64,7 +64,7 @@ export default {
           prop: 'PROJECT_NAME',
           label: '项目名称',
           fixed: true,
-          width: '45%'
+          width: '40%'
         },
         {
           prop: 'TOTAL_SCORE',
@@ -76,13 +76,13 @@ export default {
           prop: 'EVALUATE_FROM_NAME',
           label: '评价人',
           fixed: true,
-          width: '18%'
+          width: '20%'
         },
         {
           prop: 'EVALUATE_TIME',
           label: '评价时间',
           fixed: true,
-          width: '22%' 
+          width: '25%' 
         }
       ],
 
