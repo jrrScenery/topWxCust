@@ -75,7 +75,7 @@
         <el-form-item class="loginButton">
           <el-button @click="submitForm('ruleForm')">登录</el-button>
         </el-form-item>
-        <p v-if="loginErr" style="position:absolute; text-align: center; top: 0.91rem; width: 100%; color: #ff0000">{{errMeg}}</p>
+        <!-- <p v-if="loginErr" style="position:absolute; text-align: center; top: 0.91rem; width: 100%; color: #ff0000">{{errMeg}}</p> -->
       </el-form>
     </div>
   </div>
@@ -96,11 +96,11 @@ export default {
         mobileNo:'',
         checkNum:''
       },
-      loginErr: false,
+      // loginErr: false,
       dialogVisible:false,
       dialogVisible1:false,
-      chekNumFlag:false,
-      errMeg: ''
+      chekNumFlag:false
+      // errMeg: ''
     }
   },
   created () {
@@ -160,6 +160,7 @@ export default {
                         message:res.data.MESSAGE,
                         type: 'success',
                         center: true,
+                        duration:1000,
                         customClass: 'msgdefine'
                     });
                   }else{
@@ -167,6 +168,7 @@ export default {
                           message:res.data.MESSAGE,
                           type: 'error',
                           center: true,
+                          duration:1000,
                           customClass: 'msgdefine'
                       });
                   }
@@ -215,6 +217,7 @@ export default {
                       message:res.data.MESSAGE,
                       type: 'error',
                       center: true,
+                      duration:1000,
                       customClass: 'msgdefine'
                   });
               }
@@ -264,6 +267,7 @@ export default {
                   message:res.data.MESSAGE,
                   type: 'error',
                   center: true,
+                  duration:1000,
                   customClass: 'msgdefine'
               });
             }
@@ -277,6 +281,7 @@ export default {
             message:'请输入手机号!',
             type: 'warning',
             center: true,
+            duration:1000,
             customClass:'msgdefine'
         });
         loading.close();
@@ -287,6 +292,7 @@ export default {
             message:'请输入验证码!',
             type: 'warning',
             center: true,
+            duration:1000,
             customClass:'msgdefine'
         });
         loading.close();
@@ -300,6 +306,7 @@ export default {
             message:'请输入手机号!',
             type: 'warning',
             center: true,
+            duration:1000,
             customClass:'msgdefine'
         });
         loading.close();
@@ -368,10 +375,17 @@ export default {
               let userPermission = res.data.userPermission;
               this.updateUserPermission(userPermission);
 
-              this.loginErr = false
+              // this.loginErr = false
             }else{
-              this.loginErr = true
-              this.errMeg = res.data.MESSAGE
+              this.$message({
+                message:'密码错误',
+                type: 'warning',
+                center: true,
+                duration:3000,
+                customClass:'msgdefine'
+              });
+              // this.loginErr = true
+              // this.errMeg = res.data.MESSAGE;
               // console.log(res.data);
               // alert(res.data.mESSAGE);
             }

@@ -102,7 +102,7 @@ export default {
                         var result =JSON.parse(res.resultStr) ; // 当needResult 为 1 时，扫码返回的结果 
                         const loading = vm.$loading({
                             lock: true,
-                            text: '加载中...',
+                            text: '扫描中...',
                             spinner: 'el-icon-loading',
                             background: 'rgba(255, 255, 255, 0.3)'
                         });
@@ -163,7 +163,7 @@ export default {
 </script>
 <style scoped>
 .onceRepaireView{width: 100%}
-.onceRepaireContent{width: 100%; position: absolute;text-align: center; top: 20%; bottom: 0.45rem;overflow: scroll;}
+.onceRepaireContent{width: 100%; position: absolute;text-align: center; top: 20%;overflow: scroll;}
 .submitBtn >>> .el-form-item__content{margin: 0!important;}
 .submitBtn >>> .el-form-item__content .el-button{width: 50%; border: 0.01rem solid #2698d6; background: #2698d6; border-radius: 0; font-size: 0.16rem; color: #ffffff; height: 0.5rem; bottom: 0;}
 

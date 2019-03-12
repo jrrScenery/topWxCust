@@ -126,6 +126,7 @@ export default {
               cases.projectName = datas[key][item]["projectName"]
               cases.start = datas[key][item]["faultTime"]
               cases.caseId = datas[key][item]["caseId"]
+              cases.projectId = datas[key][item]["projectId"]
               cases.custId = datas[key][item]["custId"]
               cases.caseLevel = datas[key][item]["caseLevel"]
               cases.title = this.titles[key]
@@ -228,7 +229,7 @@ export default {
       return [currentTime, currentTimeNextMonth];
     },
     emitEventClick (event, jsEvent, pos) {
-      this.$router.push({name: 'casedetail', query: {caseId: event.caseId,route:'projectCalendar'}})
+      this.$router.push({name: 'casedetail', query: {caseId: event.caseId,projectId:event.projectId,route:'projectCalendar'}})
       // ,projectId:info.PROJECT_ID,ifClose:info.IF_CLOSE,ifEvaluate:info.IF_EVALUATE}})
       console.log("111111111111111111", event, jsEvent, pos)
     },
@@ -249,13 +250,13 @@ export default {
       }
       let currentTNextMonth = year + "-" + month + "-" + splitDate[2]
       fetch.get("?action=/case/QueryCustomerCase&startTime="+ currentStart + " 00:00:00" + "&endTime=" + currentTNextMonth + " 00:00:00",{}).then(res=>{
+        loading.close()
         if (res.STATUSCODE=="1") {
-          loading.close()
           this.$message({
             message: "加载成功",
             type: 'success',
             center: true,
-            duration: 500,
+            duration: 1000,
             customClass: 'msgdefine'
           });
           var datas = res;
@@ -267,6 +268,7 @@ export default {
                 cases.projectName = datas[key][item]["projectName"]
                 cases.start = datas[key][item]["faultTime"]
                 cases.caseId = datas[key][item]["caseId"]
+                cases.projectId = datas[key][item]["projectId"]
                 cases.custId = datas[key][item]["custId"]
                 cases.caseLevel = datas[key][item]["caseLevel"]
                 cases.title = this.titles[key]

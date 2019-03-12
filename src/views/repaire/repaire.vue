@@ -75,12 +75,15 @@
                 <el-form-item class="repaireText textborder" label="故障现象：">
                     <el-input type="textarea" v-model="formData.desc" placeholder="请输入故障现象"></el-input>
                 </el-form-item>
-                <el-form-item class="repaireSubmitBtn">
-                    <el-button @click="submitForm('formData')">提交</el-button>
-                </el-form-item>
+                <div class="repaireSubmitBtn">
+                    <el-form-item>
+                        <el-button @click="submitForm('formData')">提交</el-button>
+                    </el-form-item>
+                </div>
             </el-form>
         </div>
-        <footer-home></footer-home>
+        <!-- <div style="height:0.45rem"></div>
+        <footer-home></footer-home> -->
     </div>
 </template>
 <script>
@@ -217,7 +220,7 @@ export default {
         submitForm(formName){
             const loading = this.$loading({
                 lock: true,
-                text: '提交中...',
+                text: '报修信息正在核对中，请耐心等待',
                 spinner: 'el-icon-loading',
                 background: 'rgba(255, 255, 255, 0.3)'
             });
@@ -227,7 +230,9 @@ export default {
                     vm.getCaseLevel();
                     if(!vm.check(loading)) return;
                     let params ="&SN_ID="+vm.formData.num+"&SERVICE_SITE="+vm.formData.city[vm.formData.city.length - 1]+"&ADDRESS="+vm.formData.address+"&CASE_LEVEL="+vm.caseLevel+"&FACTORY_NAME="+vm.formData.factoryNm+"&FACTORY_ID="+vm.formData.factoryId+"&MODEL_NAME="+vm.formData.modelName+"&MODEL_ID="+vm.formData.devId+"&IMPACT_DEGREE="+vm.formData.degree+"&IMPACT_SPHERE="+vm.formData.range+"&REMARK="+window.encodeURI(this.formData.desc);
+                    console.log(params);
                     fetch.get("?action=DeclareCase"+params,"").then(res=>{
+                        console.log("DeclareCase",res);
                         loading.close();
                         if(res.STATUSCODE == "0"){
                             this.$message({
@@ -369,9 +374,9 @@ export default {
 }
 </script>
 <style scoped>
-.repaireView{width: 100%;}
-.repaireContent{background: #ffffff; position: relative; margin-bottom: 0.45rem;}
-.attention{color: red;padding: 0.1rem;}
+.repaireView{width: 100%;position: relative;background: #ffffff;}
+.attention{color: red;padding: 0.1rem;overflow: auto;-webkit-overflow-scrolling: touch;}
+.repaireContent{-webkit-overflow-scrolling: touch;}
 .repaireContent >>> .el-form-item{border-bottom: 0.01rem solid #e5e5e5; margin: 0;}
 .repaireContent >>> .el-form-item__label{font-size: 0.13rem; color: #acacac; padding: 0 0 0 0.25rem; text-align: left}
 .repaireContent >>> .el-input__inner{border: none; color: #333333;}
@@ -380,15 +385,15 @@ export default {
 .repaireContent >>> .el-cascader{width: 85%;}
 /* .repaireContent >>> .el-cascader-menu{min-width: 80px;} */
 .repaireContent >>> .el-select{width: 85%;}
-.repaireText{margin: 0!important;}
+.repaireText{margin: 0!important;margin-bottom: 1rem}
 .repaireText >>> .el-form-item__content{margin: 0!important; line-height: 0.3rem;}
-.repaireText >>> .el-textarea{border: 0.01rem solid #e5e5e5;width: 90%; margin:0 5%;}
+.repaireText >>> .el-textarea{border: 0.01rem solid #e5e5e5;width: 90%; margin:0 5%}
 .repaireText >>> .el-textarea__inner{border: none; padding: 0 0.25rem; line-height: 0.3rem; min-height: 1.5rem!important; color: #333333;}
 .repaireText >>> .el-textarea__inner::placeholder{font-size: 0.13rem; color: #acacac;}
-.repaireContent>>>.textborder{border-bottom: 0rem solid #e5e5e5}
-.repaireSubmitBtn>>>.el-button{margin-top: 0.2rem}
+.repaireContent>>>.textborder{border-bottom: 0rem solid #e5e5e5;}
+.repaireContent >>>.repaireSubmitBtn{margin-top: 0.2rem}
 .repaireSubmitBtn >>> .el-form-item__content{margin: 0!important;}
-.repaireSubmitBtn >>> .el-form-item__content .el-button{width: 100%; border: 0.01rem solid #2698d6; background: #2698d6; border-radius: 0; font-size: 0.16rem; color: #ffffff; height: 0.5rem; position: relative; bottom: 0;}
+.repaireSubmitBtn >>> .el-form-item__content .el-button{width: 100%; border: 0.01rem solid #2698d6; background: #2698d6; border-radius: 0; font-size: 0.16rem; color: #ffffff; height: 0.5rem; bottom: 0;}
 </style>
 <style>
 .el-cascader-menu{min-width: 110px;}
