@@ -48,7 +48,7 @@ export default {
       ],
       workBenchObj: [
         {arr: [{imgSrc: require('@/assets/images/my_1.png'), text: '一键报修', href: 'onceRepaire'},{imgSrc: require('@/assets/images/my_2.png'), text: '我的项目', href: 'programList'},{imgSrc: require('@/assets/images/my_3.png'), text: '报表统计', href: 'report'}]},
-        {arr: [{imgSrc: require('@/assets/images/my_4.png'), text: '项目日历', href: 'projectCalendar'},{imgSrc: require('@/assets/images/my_5.png'), text: '产品中心', href: 'serviceProduct'}]}
+        {arr: [{imgSrc: require('@/assets/images/my_4.png'), text: '项目日历', href: 'projectCalendar'},{imgSrc: require('@/assets/images/my_5.png'), text: '产品中心', href: 'serviceProduct'}]}//,{imgSrc: require('@/assets/images/my_5.png'), text: '客户评价', href: 'homeRate'}
       ]
     }
   },

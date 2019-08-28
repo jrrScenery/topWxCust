@@ -36,7 +36,7 @@
                             <span>服务评价</span>
                         </div>
                     </router-link>
-                    <router-link v-else-if="this.ifClose=='Y' && this.ifEvaluate=='Y'" :to="{name:'caseEvaluateList',query:{caseId:this.caseId}}">
+                    <router-link v-else-if="this.ifClose=='Y' && this.ifEvaluate=='Y'" :to="{name:'caseEvaluateList',query:{caseId:this.caseCd,route:'casedetail'}}">
                         <div>
                             <img src="../../assets/images/eventBaseInfo_3.png" style="width: 0.15rem; height: 0.135rem;" alt="">
                             <span>服务评价</span>
@@ -88,6 +88,7 @@ export default {
             casedetailTit:'报修详情',
             activeName: 'first',
             caseId: this.$route.query.caseId,
+            caseCd:'',
             projectId: this.$route.query.projectId,
             ifEvaluate: this.$route.query.ifEvaluate,
             ifClose: this.$route.query.ifClose,
@@ -108,6 +109,7 @@ export default {
         let url = "?action=GetCaseInfo&CASE_ID="+this.$route.query.caseId;
         fetch.get(url,"").then(res=>{
             console.log("res:",res);
+            this.caseCd = res.data.CASE_NO;
             this.ifClose = res.data.IF_CLOSE;
             this.ifEvaluate = res.data.IF_EVALUATE;
         })

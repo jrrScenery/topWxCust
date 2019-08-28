@@ -32,6 +32,12 @@ export default {
         if(this.backUrl == 'casedetail'){
           this.$router.push({name:this.backUrl,query:{caseId:this.date1}});   
         }else if(this.backUrl == 'caseEvaluateList'){
+          if(this.date2 == 'homeRate'){
+            this.$router.push({name:this.backUrl,query:{caseId:this.date1,route:this.date2}});
+          }else{
+            this.$router.push({name:this.backUrl,query:{caseId:this.date1}}); 
+          }
+        }else if(this.backUrl == 'homeRate'){
           this.$router.push({name:this.backUrl,query:{caseId:this.date1}}); 
         }else{
           this.$router.push({name:this.backUrl});   

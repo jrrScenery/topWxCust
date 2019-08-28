@@ -132,6 +132,16 @@ export default new Router({
       component: resolve => require(['@/views/home/opinion'], resolve)
     },
     {
+      path: '/home/homeRate',
+      name: 'homeRate',
+      component: resolve => require(['@/views/home/homeRate'], resolve)
+    },   
+    {
+      path: '/home/customerRate',
+      name: 'customerRate',
+      component: resolve => require(['@/views/home/customerRate'], resolve)
+    },
+    {
       path: '/repaire/onceRepaire',
       name: 'onceRepaire',
       component: resolve => require(['@/views/repaire/onceRepaire'], resolve)

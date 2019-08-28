@@ -1,11 +1,7 @@
+<!--首页-事件详情-服务评价编辑-->
 <template>
     <div class="serviceRateView">  
-        <div v-if="route=='homeRate'">
-            <header-last :title="serviceRateTit" backUrl='caseEvaluateList' :date1="this.$route.query.caseId"></header-last>
-        </div>
-        <div v-else>
-            <header-last :title="serviceRateTit" backUrl='casedetail' :date1="this.$route.query.caseId"></header-last>
-        </div>
+        <header-last :title="serviceRateTit" backUrl='caseEvaluateList' :date1='this.$route.query.caseId' :date2='this.$route.query.route'></header-last>
         <div style="height: 0.45rem;"></div>  
         <div class="serviceInfoCell">
             <div class="serviceContent">
@@ -49,6 +45,18 @@
                     <el-form-item class="serviceSubmitBtn">
                         <el-button @click="submitForm('formData')">提交</el-button>
                     </el-form-item>
+                    <!-- <ul class="signature">
+                        <li class="lisign">
+                            <span>客户签字</span>
+                            <div class="sign">
+                                <img :src="imgStr">
+                            </div>
+                        </li>
+                        <li>
+                            <span>工程师</span>
+                            <div>{{engineername}}</div>
+                        </li>
+                    </ul>                   -->
                 </el-form>
                 
             </div>
@@ -61,7 +69,7 @@ import headerLast from '../header/headerLast'
 import fetch from '../../utils/ajax'
 import addSignature from '../../components/addSignature'
 export default {
-    name:'serviceRate',
+    name:'customerRate',
     components:{
         headerLast,
         addSignature
@@ -71,6 +79,7 @@ export default {
             serviceRateTit:'服务评价',
             addSignatureTit:'添加签名',
             searchData:[],
+            evaluateval:[],
             formData:{
                 optionOption:[],
                 question:[],
@@ -80,48 +89,37 @@ export default {
                 otherResult:'',
                 engineername:''
             },
-            // data:[],
-            score:[],
-            evaluateval:[],
-            scoreOption:[],
-            signImg:"",
+            imgStr:"",
+            engineername:'',
             workId:this.$route.query.workId,
             caseId:this.$route.query.caseId,
-            serviceId:this.$route.query.serviceId,
-            taskId:this.$route.query.taskId,
-            route:this.$route.query.route,
-            evaluateId:'',
-            messageId:'',
+            evaluateId:this.$route.query.evaluateid,
+            route:this.$route.query.route
         }
     },
     created:function(){
-        console.log(this.$route.query.route);
-        if(this.$route.query.messageId!=undefined){
-            this.messageId = this.$route.query.messageId
-        }
+      console.log("evaluateId",this.$route.query.evaluateid);
         let vm= this;    
-        var reqParams = {PAGE_NUM:1,PAGE_TOTAL:3}; 
-        console.log("caseId:",this.$route.query.caseId);
-        fetch.get("?action=/case/ServiceEvaluate&CASE_CD="+this.$route.query.caseId,reqParams).then(res=>{
-            console.log("res:",res);
+        fetch.get("?action=GetCaseEvaluateInfo&EVALUATE_ID=" + this.evaluateId).then(res=>{
+            console.log(res);
+            if(res.imgObject!=null){
+                this.imgStr = res.imgObject.imgStr;
+            }
             if(res.STATUSCODE==0){
-                this.data = res.data;
-                this.evaluateId = res.evaluateId;
-                this.scoreOption = res.scoreOption;
                 this.scoreOption = res.scoreOption;
                 let jsonres= res;
                 let tmpjsonval =[];
                 jsonres.question.forEach(function(v,i,ar){
-                let tmpobj = {};
-                tmpobj.question= v;
-                tmpobj.options = jsonres.optionOption.filter(function(item){return v.questionId == item.questionId})
-                tmpobj.chkedopts = tmpobj.options.filter(function(item){return item.checkFlg})
-                tmpobj.aroptschked = tmpobj.chkedopts.map(function(v,i,ar){ return v.optionId});
-                tmpobj.scoreval = vm.getScore(jsonres.scoreOption,v.questionId);
-                tmpjsonval.push(tmpobj);
+                  let tmpobj = {};
+                  tmpobj.question= v;
+                  tmpobj.options = jsonres.optionOption.filter(function(item){return v.questionId == item.questionId})
+                  tmpobj.chkedopts = tmpobj.options.filter(function(item){return item.checkFlg})
+                  tmpobj.aroptschked = tmpobj.chkedopts.map(function(v,i,ar){ return v.optionId});
+                  tmpobj.scoreval = vm.getScore(jsonres.scoreOption,v.questionId);
+                  tmpjsonval.push(tmpobj);
                 })
                 this.evaluateval = tmpjsonval;
-                console.log(this.evaluateval);         
+                console.log(this.evaluateval);
             }else{
                 this.$message({
                 message:res.MESSAGE+"发生错误",
@@ -132,7 +130,7 @@ export default {
             }
         })         
     },
-    methods:{           
+    methods:{    
         signature(imgStr){
             this.formData.imgStr = imgStr;
         },
@@ -146,7 +144,6 @@ export default {
                     }
                 }
             })
-            console.log("score:"+score);
             return score;
         },
         getScoreOpinionId(scoreOption,questionId,scoreval){
@@ -178,8 +175,7 @@ export default {
                     var countScore = 0;
                     var returnFlg = 0;
                     vm.evaluateval.forEach(function(v,i,ar){
-                        let options = v.options;
-                        
+                        let options = v.options;                        
                         if(v.question.questionComment2){
                             if(v.scoreval>0){
                                 totalScore+=v.scoreval;
@@ -257,7 +253,8 @@ export default {
                         loading.close();
                         if(res.STATUSCODE=="0"){
                             let nowcaseId = vm.caseId; 
-                            setTimeout(function(){vm.$router.push({name: 'casedetail',query:{caseId:nowcaseId}})},1000);
+                            let route = vm.route;
+                            setTimeout(function(){vm.$router.push({name: 'caseEvaluateList',query:{caseId:nowcaseId,route:route}})},1000);
                         }else{
                             this.$message({
                                 message:res.MESSAGE+"发生错误",
@@ -288,10 +285,12 @@ export default {
 .improveCell span{ color: #666;word-wrap: break-word}
 .el-checkbox__input.is-disabled+span.el-checkbox__label{color: #666!important;}
 
-.signature .el-form-item{overflow: hidden;zoom:1; margin: 0; color: #2698d6; border-top: 0.01rem solid #e1e1e1;border-bottom: 0.01rem solid #e1e1e1}
-.signature .el-form-item div{color: #333333; margin-left: 0.6rem;}
-.signature .el-form-item .sign{}
-.signature .el-form-item .sign img{width: 100%; display: block; flex-grow: 1;}
+.signature li{overflow: hidden;zoom:1; margin: 0; padding: 0.1rem 0;  color: #999999; border-bottom: 0.01rem solid #e1e1e1}
+.signature li span{ width: 0.6rem; float: left;}
+.signature li div{color: #333333; margin-left: 0.6rem;}
+.signature li .sign{ }
+.signature li .sign img{width: 100%; display: block; flex-grow: 1;}
+
 .serviceSubmitBtn >>> .el-form-item__content{margin: 0!important;}
 .serviceSubmitBtn >>> .el-form-item__content .el-button{width: 100%; border: 0.01rem solid #2698d6; background: #2698d6; border-radius: 0; font-size: 0.16rem; color: #ffffff; height: 0.5rem; position: absolute; bottom: 0;}
 </style>
@@ -300,5 +299,4 @@ export default {
   .improveCell .el-checkbox__input.is-disabled+span.el-checkbox__label{color: #888}
   .improveCell .el-checkbox__input.is-disabled.is-checked .el-checkbox__inner::after{border-color: #666}
 </style>
-
 

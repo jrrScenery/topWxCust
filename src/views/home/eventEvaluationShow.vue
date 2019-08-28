@@ -1,11 +1,11 @@
 <!--首页-事件详情-服务评价编辑-->
 <template>
     <div class="serviceRateView">  
-        <header-last :title="serviceRateTit" backUrl='caseEvaluateList' :date1='this.$route.query.caseId'></header-last>
+        <header-last :title="serviceRateTit" backUrl='caseEvaluateList' :date1='this.$route.query.caseId' :date2='this.$route.query.route'></header-last>
         <div style="height: 0.45rem;"></div>  
         <div class="serviceInfoCell">
             <div class="serviceContent">
-                <el-form :model="formData" ref="formData">
+                <el-form>
                     <div class="editorView" v-for="(item,i) in evaluateval" :key="i">
                         <el-form-item>
                             <div class="star">
@@ -64,7 +64,8 @@ export default {
             engineername:'',
             workId:this.$route.query.workId,
             caseId:this.$route.query.caseId,
-            evaluateId:this.$route.query.evaluateid
+            evaluateId:this.$route.query.evaluateid,
+            route:this.$route.query.route
         }
     },
     created:function(){

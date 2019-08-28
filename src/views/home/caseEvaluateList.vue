@@ -1,7 +1,12 @@
 <!--项目评价-->
 <template>
   <div class="eventEvaluationView">
-    <header-last :title="eventEvaluationTit" backUrl='casedetail' :date1="this.$route.query.caseId"></header-last>
+    <div v-if="route=='homeRate'">
+            <header-last :title="eventEvaluationTit" backUrl='home' :date1="this.$route.query.caseId"></header-last>
+    </div>
+    <div v-else>
+      <header-last :title="eventEvaluationTit" backUrl='casedetail' :date1="this.$route.query.caseId"></header-last>
+    </div>
     <div style="height: 0.45rem;"></div> 
     <div class="content">
       <div class="proPlanCell">
@@ -90,11 +95,13 @@ export default {
       pageSize: 15,
       busy: false,
       loadall: false,
-      tableHeight:400
+      tableHeight:400,
+      route:this.$route.query.route
     }
   },
   created () {
-    this.getEventList()
+    this.getEventList();
+    console.log(this.$route.query.route);
   },
   mounted(){
     this.$nextTick(() => {
@@ -117,8 +124,9 @@ export default {
     },
     getEventList () {
       var flag = this.page>1;
+      console.log("caseId",this.$route.query.caseId);
       var reqParams = {PAGE_NUM:this.page,PAGE_TOTAL:this.pageSize};
-      fetch.get("?action=/case/ServiceEvaluate&CASE_ID="+this.$route.query.caseId,reqParams).then(res=>{
+      fetch.get("?action=/case/ServiceEvaluate&CASE_CD="+this.$route.query.caseId,reqParams).then(res=>{
         console.log("00000000000");
         console.log(res)
         if(flag){
@@ -146,7 +154,12 @@ export default {
     },
     rowClick (row) {
       console.log(row);
-      this.$router.push({name: 'eventEvaluationShow', query: {evaluateid: row.EVALUATE_ID,caseId:row.CASE_ID}})
+      if(this.route == 'homeRate'){
+        this.$router.push({name: 'customerRate', query: {evaluateid: row.EVALUATE_ID,caseId:row.CASE_CD,route:this.route}})
+      }else{
+        this.$router.push({name: 'eventEvaluationShow', query: {evaluateid: row.EVALUATE_ID,caseId:row.CASE_CD,route:this.route}})
+      }
+      // this.$router.push({name: 'eventEvaluationShow', query: {evaluateid: row.EVALUATE_ID,caseId:row.CASE_ID}})
     },
   }
 }
