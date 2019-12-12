@@ -48,7 +48,7 @@ export default {
       ],
       workBenchObj: [
         {arr: [{imgSrc: require('@/assets/images/my_1.png'), text: '一键报修', href: 'onceRepaire'},{imgSrc: require('@/assets/images/my_2.png'), text: '我的项目', href: 'programList'},{imgSrc: require('@/assets/images/my_3.png'), text: '报表统计', href: 'report'}]},
-        {arr: [{imgSrc: require('@/assets/images/my_4.png'), text: '项目日历', href: 'projectCalendar'},{imgSrc: require('@/assets/images/my_5.png'), text: '产品中心', href: 'serviceProduct'}]}//,{imgSrc: require('@/assets/images/my_5.png'), text: '客户评价', href: 'homeRate'}
+        {arr: [{imgSrc: require('@/assets/images/my_4.png'), text: '项目日历', href: 'projectCalendar'},{imgSrc: require('@/assets/images/my_5.png'), text: '产品中心', href: 'serviceProduct'},{imgSrc: require('@/assets/images/my_5.png'), text: '客户评价', href: 'onsiteServiceInfo',params:{CASE_ID:'105191',SERVICE_ID:'1063836',SERVICE_TYPE:'1',serviceType:'1',evaluateId:'1406385',workId:'1188464',empid:"1078511"}}]}//{imgSrc: require('@/assets/images/my_5.png'), text: '客户评价', href: 'onsiteServiceInfo',params:{caseId:'111635',serviceId:'1080888',serviceType:'2',evaluateId:'1352058'}}
       ]
     }
   },

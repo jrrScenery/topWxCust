@@ -1,8 +1,10 @@
 <template>
   <div class="helloView">
 <!--touchstart,touchmove,touchend,touchcancel 这-->
-    <el-form ref="form" :model="form" label-width="65px" >
-        <canvas id="canvas" style="width:100%; border:1px solid black">Canvas画板</canvas>
+    <el-form ref="form" :model="form" style="height:100%">
+        <div ref="elememt" style="width:100%;height:100%;text-align:center">
+            <canvas id="canvas" width="250" height="400">Canvas画板</canvas>
+        </div>
         <el-form-item class="searchBtn">
             <el-button @click="clear">取消</el-button>
             <el-button class="searchBtnCell" @click="save">保存</el-button>
@@ -29,7 +31,8 @@ class Draw {
     }
     init(btn) {
         var that = this; 
-        
+        // this.height= this.$refs.elememt.offsetHeight;  //100
+        // this.width = this.$refs.
         this.canvas.addEventListener('touchstart', function(event) {
             document.addEventListener('touchstart', preHandler, false); 
             that.drawBegin(event)
@@ -124,7 +127,7 @@ export default {
 
 } } </script> 
 <style scoped> 
-  .helloView{width: 80%; background: #ffffff; padding: 0.1rem 0.2rem 0.45rem; position: relative;}
+  .helloView{width: 80%;background: #ffffff; padding: 0.1rem 0.2rem 0.45rem; position: relative;}
   .helloView >>> .el-form-item{margin-bottom: 0.05rem;}
   .helloView >>> .searchBtn{position: absolute; bottom: -0.05rem; left: 0; right: 0; height: 0.4rem;}
   .helloView >>> .searchBtn .el-button{width: 50%; border: none; padding: 0; margin: 0; height: 0.4rem; border-radius: 0; color: #999999; font-size: 0.13rem;}
@@ -136,7 +139,7 @@ export default {
     ul { list-style-type: none; padding: 0; } 
     li { display: inline-block; margin: 0 10px; } 
     a { color: #42b983; } 
-    #canvas { background: #ffffff; cursor: default; margin-right:0} 
+    #canvas { background: #ffffff; cursor: default; margin-right:0;border:1px solid #666} 
     #keyword-box { margin: 10px 0; } 
     *{touch-action: none;}
 </style>

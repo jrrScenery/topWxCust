@@ -132,30 +132,31 @@ export default {
             content:"工作内容",
             result:"工作结果",
             activeName:'second',
-            workId:this.$route.query.workId,
-            caseId:this.$route.query.caseId,
-            taskId:this.$route.query.taskId,
-            serviceId:this.$route.query.serviceId,
-            serviceType:this.$route.query.serviceType
+            caseId:this.$route.query.CASE_ID,
+            serviceId:this.$route.query.SERVICE_ID,
+            serviceType:this.$route.query.serviceType,
+            empId:this.$route.query.empid
         }
     },
     created:function(){
         if(this.serviceType==2){
-            fetch.get("?action=/work/GetOnsiteServiceFormInfo&CASE_ID="+this.$route.query.caseId+"&SERVICE_ID="+this.$route.query.serviceId).then(res=>{
-                console.log(res);
+            fetch.get("?action=/evaluate/GetOnsiteServiceFormInfo&CASE_ID="+this.$route.query.CASE_ID+
+            "&SERVICE_ID="+this.$route.query.SERVICE_ID+"&EMPID="+this.$route.query.empid).then(res=>{
+                console.log("GetOnsiteServiceFormInfo",res);
                 this.formData.userAndPrjItem = res.DATA[0];
                 this.workResultInfo = res.DATA[0].workResult;
             })
-            fetch.get("?action=/system/getDict2&DICT_TYPE=NT_SERVICE_TYPE","").then(res=>{
-                console.log(res);
+            fetch.get("?action=/system/getDict2&DICT_TYPE=NT_SERVICE_TYPE"+"&EMPID="+this.$route.query.empid,"").then(res=>{
+                console.log("getDict",res);
                 this.serviceTypeArr = res.data;
             })
-            fetch.get("?action=/system/getDict2&DICT_TYPE=NT_CASE_WORK_RESULT","").then(res=>{
-                console.log(res);
+            fetch.get("?action=/system/getDict2&DICT_TYPE=NT_CASE_WORK_RESULT"+"&EMPID="+this.$route.query.empid,"").then(res=>{
+                console.log("getDict2",res);
                 this.workResultArr = res.data;
             })
         }else{
-            fetch.get("?action=/work/GetCaseroubleShootingServiceFormInfo&CASE_ID="+this.$route.query.caseId+"&SERVICE_ID="+this.$route.query.serviceId).then(res=>{
+            fetch.get("?action=/evaluate/GetCaseroubleShootingServiceFormInfo&CASE_ID="+this.$route.query.CASE_ID+
+                "&SERVICE_ID="+this.$route.query.SERVICE_ID+"&EMPID="+this.$route.query.empid).then(res=>{
                 console.log(res);
                 this.formData.userAndPrjItem = res.DATA[0];
                 this.workResultInfo = res.DATA[0].implementResult;
@@ -313,21 +314,19 @@ export default {
                     console.log(temp);
                     data.append('data',JSON.stringify(temp));
                     console.log(data);
-                    let nowWorkId = vm.workId;
                     let nowCaseId = vm.caseId;
-                    let nowtaskId = vm.taskId;
                     if(vm.serviceType==2){
-                        fetch.post("?action=/work/UpdateSceneServiceFormInfo",data).then(res=>{
+                        fetch.post("?action=/evaluate/UpdateSceneServiceFormInfo",data).then(res=>{
                             console.log(res);    
                             loading.close();
                             if(res.STATUSCODE=="0"){
                                 this.$message({
-                                message:'提交成功',
-                                type: 'success',
-                                center: true,
-                                customClass: 'msgdefine'
+                                    message:'提交成功',
+                                    type: 'success',
+                                    center: true,
+                                    customClass: 'msgdefine'
                                 });
-                                setTimeout(function(){vm.$router.push({ name: 'serviceList',query:{caseId:nowCaseId,workId:nowWorkId,taskId:nowtaskId}})},1000);
+                                // setTimeout(function(){vm.$router.push({ name: 'serviceList',query:{caseId:nowCaseId,workId:nowWorkId,taskId:nowtaskId}})},1000);
                             }else{
                                 this.$message({
                                 message:res.MESSAGE+"发生错误",
@@ -338,7 +337,7 @@ export default {
                             }
                         })
                     }else{
-                        fetch.post("?action=/work/UpdateCaseTroubleShootingServiceFormInfo",data).then(res=>{
+                        fetch.post("?action=/evaluate/UpdateCaseTroubleShootingServiceFormInfo",data).then(res=>{
                             console.log(res);    
                             loading.close();
                             if(res.STATUSCODE=="0"){
@@ -348,7 +347,7 @@ export default {
                                 center: true,
                                 customClass: 'msgdefine'
                                 });
-                                setTimeout(function(){vm.$router.push({ name: 'serviceList',query:{caseId:nowCaseId,workId:nowWorkId,taskId:nowtaskId}})},1000);
+                                // setTimeout(function(){vm.$router.push({ name: 'serviceList',query:{caseId:nowCaseId,workId:nowWorkId,taskId:nowtaskId}})},1000);
                             }else{
                                 this.$message({
                                 message:res.MESSAGE+"发生错误",

@@ -163,7 +163,7 @@
                     </el-col>
                 </el-form-item>  
                 <div style="height: 0.6rem;"></div>
-                <el-form-item class="serviceSubmitBtn" v-if="!imgStrQuestion">
+                <el-form-item class="serviceSubmitBtn" v-if="serviceStatus=='1'">
                     <el-button @click="submitForm('formData')">提交</el-button>
                 </el-form-item>
             </el-form>
@@ -190,12 +190,13 @@ export default {
             },
             imgStrQuestion:'',
             searchData:[],
-            caseId:this.$route.query.caseId,
-            workId:this.$route.query.workId,
-            serviceId:this.$route.query.serviceId,
+            caseId:this.$route.query.CASE_ID,
+            // workId:this.$route.query.workId,
+            serviceId:this.$route.query.SERVICE_ID,
             serviceType:this.$route.query.serviceType,
-            taskId:this.$route.query.taskId,
-            // popBg: false,
+            empId:this.$route.query.empid,
+            serviceStatus:'',
+            // taskId:this.$route.query.taskId,
             checked:[
                 {ifY1:false,ifF1:false},
                 {ifY2:false,ifF2:false},
@@ -207,14 +208,18 @@ export default {
         }
     },
     created:function(){
-        fetch.get("?action=/work/getCaseServiceQuestion&CASE_ID="+this.caseId+"&SERVICE_ID="+this.serviceId+"&SERVICE_TYPE="+this.serviceType).then(res=>{
-            console.log(res)
+        fetch.get("?action=/evaluate/getCaseServiceQuestion&CASE_ID="+this.$route.query.CASE_ID+
+                "&SERVICE_ID="+this.$route.query.SERVICE_ID+"&SERVICE_TYPE="+this.$route.query.serviceType+
+                "&EMPID="+this.$route.query.empid).then(res=>{
+            console.log("getCaseServiceQuestion",res)
             if(this.serviceType==2){
                 this.formData.caseServiceQuestion = res.dataService[0];
-                this.imgStrQuestion = res.dataService[0].imgStrQuestion;           
+                this.imgStrQuestion = res.dataService[0].imgStrQuestion;      
+                this.serviceStatus = res.dataService[0].serviceStatus;  
             }else{
                 this.formData.caseServiceQuestion = res.dataDealService[0];
                 this.imgStrQuestion = res.dataDealService[0].imgStrQuestion;
+                this.serviceStatus = res.dataDealService[0].serviceStatus; 
             }
             if(this.formData.caseServiceQuestion.serviceTime == null){
                 this.formData.caseServiceQuestion.serviceTime = new Date();
@@ -493,7 +498,7 @@ export default {
                     }
                    data.append('data',JSON.stringify(temp));
                    console.log(data);
-                    fetch.post("?action=/work/submitServiceQuestion",data).then(res=>{
+                    fetch.post("?action=/evaluate/submitServiceQuestion",data).then(res=>{
                         loading.close();
                         if(res.STATUSCODE=="0"){
                             this.$message({
@@ -503,9 +508,9 @@ export default {
                             customClass: 'msgdefine'
                             });
 
-                            let nowWorkId = vm.workId;
-                            let nowCaseId = vm.caseId;
-                            setTimeout(function(){vm.$router.push({ name: 'serviceList',query:{caseId:nowCaseId,workId:nowWorkId}})},1000);
+                            // let nowWorkId = vm.workId;
+                            // let nowCaseId = vm.caseId;
+                            // setTimeout(function(){vm.$router.push({ name: 'serviceList',query:{caseId:nowCaseId,workId:nowWorkId}})},1000);
                         }else{
                             this.$message({
                             message:res.MESSAGE+"发生错误",

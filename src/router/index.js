@@ -47,16 +47,6 @@ export default new Router({
       name: 'login',
       component: resolve => require(['@/views/login/login'], resolve)
     },   
-    // {
-    //   path: '/forgetPass/forgetPass',
-    //   name: 'forgetPass',
-    //   component: resolve => require(['@/views/forgetPass/forgetPass'], resolve)
-    // },    
-    // {
-    //   path: '/forgetPass/checkNumLogin',
-    //   name: 'checkNumLogin',
-    //   component: resolve => require(['@/views/forgetPass/checkNumLogin'], resolve)
-    // }, 
     {
       path: '/home/casedetail',
       name: 'casedetail',
@@ -66,6 +56,12 @@ export default new Router({
       path: '/home/serviceRate',
       name: 'serviceRate',
       component: resolve => require(['@/views//home/serviceRate'], resolve)
+    },
+    //任务列表（首页我的任务->任务列表->任务->服务单一览表->现场服务单/故障处理服务单）
+    {
+      path: '/home/onsiteServiceInfo',
+      name: 'onsiteServiceInfo',
+      component: resolve => require(['@/views/home/onsiteServiceInfo'], resolve)
     },
     {
       path: '/home/eventFeedback',

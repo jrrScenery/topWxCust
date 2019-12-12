@@ -45,18 +45,6 @@
                     <el-form-item class="serviceSubmitBtn">
                         <el-button @click="submitForm('formData')">提交</el-button>
                     </el-form-item>
-                    <!-- <ul class="signature">
-                        <li class="lisign">
-                            <span>客户签字</span>
-                            <div class="sign">
-                                <img :src="imgStr">
-                            </div>
-                        </li>
-                        <li>
-                            <span>工程师</span>
-                            <div>{{engineername}}</div>
-                        </li>
-                    </ul>                   -->
                 </el-form>
                 
             </div>

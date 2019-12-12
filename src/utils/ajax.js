@@ -124,7 +124,29 @@ export default {
             reject(err)
           })
         })
-      }
+      },
+      questionPost(url, params) {
+        return new Promise((resolve, reject) => {
+          var token = localStorage.getItem("token");
+          axios.post(baseURL+url,qs.stringify(params), {
+            headers: {
+              'Content-Type': 'application/x-www-form-urlencoded',
+              "token":token,
+            },            
+          }
+          ).then(res => {
+            if(res.data.STATUSCODE=='-1'){
+                // console.log(res.data+"------------------")
+                router.push({name: 'login'});
+                return;
+            }else{
+                resolve(res.data)
+            }
+          }).catch(err => {
+            reject(err)
+          })
+        })
+      },
 
       /*    get(url, params) {
         return instance.get(url, params).then(function (data) {

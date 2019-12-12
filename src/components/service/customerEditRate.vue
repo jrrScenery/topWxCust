@@ -74,18 +74,23 @@ export default {
             signImg:"",
             activeName:'third',
             workId:this.$route.query.workId,
-            caseId:this.$route.query.caseId,
+            caseId:this.$route.query.CASE_ID,
             evaluateId:this.$route.query.evaluateId,
             serviceType:this.$route.query.serviceType,
-            serviceId:this.$route.query.serviceId,
-            taskId:this.$route.query.taskId
+            serviceId:this.$route.query.SERVICE_ID,
+            empId:this.$route.query.empid
+            // taskId:this.$route.query.taskId
         }
     },
     created:function(){
         let vm= this;
-        console.log(this.evaluateId);
-        fetch.get("?action=/work/GetClientReview&evaluateId="+this.evaluateId+"&serviceType="+this.serviceType).then(res=>{
-            console.log(res);
+        console.log("caseId",this.caseId);
+        console.log("evaluateId",this.evaluateId);
+        console.log("serviceType",this.serviceType);
+        console.log("serviceId",this.serviceId);
+        fetch.get("?action=/evaluate/GetClientReview&evaluateId="+this.evaluateId+
+            "&serviceType="+this.serviceType+"&EMPID="+this.$route.query.empid).then(res=>{
+            console.log("GetClientReview",res);
             console.log("aaaaa");
             if("0" == res.STATUSCODE){
                 this.scoreOption = res.scoreOption;
@@ -99,14 +104,10 @@ export default {
                 tmpobj.options = jsonres.optionOption.filter(function(item){return v.questionId == item.questionId})
                 tmpobj.chkedopts = tmpobj.options.filter(function(item){return item.checkFlg})
                 tmpobj.aroptschked = tmpobj.chkedopts.map(function(v,i,ar){ return v.optionId});
-                // tmpobj.scores = jsonres.scoreOption.filter(function(item){return v.questionId == item.questionId});
-                // tmpobj.scoreval = vm.getScore(tmpobj.scores);
                 tmpobj.scoreval = vm.getScore(jsonres.scoreOption,v.questionId);
                 tmpjsonval.push(tmpobj);
                 })
                 this.evaluateval = tmpjsonval;
-                console.log("1111111");
-                console.log(this.evaluateval);
             }
         })
     },
@@ -163,16 +164,11 @@ export default {
                                 countScore += 1;
                                 if(v.scoreval<3) failFlg = 1;
                                 var scoreOptionId = vm.getScoreOpinionId(vm.scoreOption,v.question.questionId,v.scoreval);
-                                // scores.forEach(function(item,i,ar){
-                                    var temp1 = {};
-                                    // if(item.optionScore = v.scoreval){
-                                        // let scoreOptionId = item.optionId;       
+                                    var temp1 = {};      
                                         temp1.evaluateId=vm.evaluateId;
                                         temp1.questionId=v.question.questionId;
                                         temp1.optionId=scoreOptionId;   
                                         detailArray.push(temp1);
-                                    // }
-                                // })   
                             }else{
                                 returnFlg = 1;
                                 vm.$message({
@@ -221,17 +217,17 @@ export default {
                         return;
                     }
                     let avgScore = totalScore/countScore;
-                    let postData = new URLSearchParams;
-                    postData.append('workId',vm.workId);
-                    postData.append('evaluateStatus',2);
-                    postData.append('evaluateId',vm.evaluateId);
-                    postData.append('totalScore',avgScore);
-                    postData.append('EvaluateResult',JSON.stringify(detailArray));
-                    postData.append('failFlg',failFlg);
-                    postData.append('workId',vm.workId);
-                    fetch.post("?action=/work/SubmitClientReview",postData).then(res=>{
+                    let postData = {}
+                    postData.workId = vm.workId;
+                    postData.evaluateStatus = 2;
+                    postData.evaluateId = vm.evaluateId;
+                    postData.totalScore = avgScore;
+                    postData.EvaluateResult = JSON.stringify(detailArray);
+                    postData.failFlg = failFlg;
+                    postData.workId = vm.workId;
+                    postData.EMPID = vm.empId;
+                    fetch.questionPost("?action=/evaluate/SubmitClientReview",postData).then(res=>{
                         console.log(res);
-                        loading.close();
                         if(res.STATUSCODE=="0"){
                             vm.updateServiceWithSignature(loading);
                         }else{
@@ -249,9 +245,10 @@ export default {
         },
         updateServiceWithSignature(loading){
             let vm= this;
-            var data = new URLSearchParams;
-            data.append('opFlg',5);
-            data.append('customerId',this.formData.data.customerId);
+            let data = {};
+            data.opFlg = 5;
+            data.customerId = this.formData.data.customerId;
+            data.EMPID = vm.empId;
             let temp = {};
             temp.serviceId = this.formData.data.serviceId;
             temp.caseId=this.caseId;
@@ -271,12 +268,12 @@ export default {
             temp.leaveTime = this.formData.data.leaveTime;
             temp.imgStr=this.formData.data.imgStr;
             temp.engineer = localStorage.getItem('empId');
-            data.append('data',JSON.stringify(temp));
+            
+            data.data = JSON.stringify(temp);
             let nowWorkId = this.workId;
             let nowCaseId = this.caseId;
-            let nowtaskId = this.taskId;
             if(this.serviceType==2){
-                fetch.post("?action=/work/UpdateSceneServiceFormInfo",data).then(res=>{
+                fetch.questionPost("?action=/evaluate/UpdateSceneServiceFormInfo",data).then(res=>{
                     loading.close();
                     console.log(res);
                     if(res.STATUSCODE=="0"){
@@ -286,7 +283,6 @@ export default {
                         center: true,
                         customClass: 'msgdefine'
                         });
-                        setTimeout(function(){vm.$router.push({ name: 'serviceList',query:{caseId:nowCaseId,workId:nowWorkId,taskId:nowtaskId}})},1000);
                     }else{
                         this.$message({
                         message:res.MESSAGE+"发生错误",
@@ -297,7 +293,7 @@ export default {
                     }
                 })
             }else{
-                fetch.post("?action=/work/UpdateCaseTroubleShootingServiceFormInfo",data).then(res=>{
+                fetch.questionPost("?action=/evaluate/UpdateCaseTroubleShootingServiceFormInfo",data).then(res=>{
                     loading.close();
                     console.log(res);
                     if(res.STATUSCODE=="0"){
@@ -307,7 +303,7 @@ export default {
                         center: true,
                         customClass: 'msgdefine'
                         });
-                        setTimeout(function(){vm.$router.push({ name: 'serviceList',query:{caseId:nowCaseId,workId:nowWorkId,taskId:nowtaskId}})},1000);
+                        // setTimeout(function(){vm.$router.push({ name: 'serviceList',query:{caseId:nowCaseId,workId:nowWorkId,taskId:nowtaskId}})},1000);
                     }else{
                         this.$message({
                         message:res.MESSAGE+"发生错误",
